@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/widgets/animated_text_widget.dart';
 import 'package:hr/utils/assets/assets.dart';
 
@@ -28,8 +29,10 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController.forward();
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Future.delayed(const Duration(seconds: 1), () {
-          // Navigator.of(context).pushNamedAndRemoveUntil(AppRoutesNames.uiComponentScreen, (_) => false);
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(AppRoutesNames.companiesView, (_) => false);
         });
       }
     });
@@ -38,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.secondaryHeaderColor, // Dark blue background
+      backgroundColor: context.primaryColor, // Dark blue background
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,18 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
               ],
             ),
             const SizedBox(height: 20),
-            // Animated App Title
-            // FadeTransition(
-            //   opacity: _animation,
-            //   child: const Text(
-            //     'HR',
-            //     style: TextStyle(
-            //       fontSize: 28,
-            //       fontWeight: FontWeight.bold,
-            //       color: Colors.black,
-            //     ),
-            //   ),
-            // ),
+
             const SizedBox(height: 10),
             // Subtitle
             // FadeTransition(
@@ -85,9 +77,9 @@ class _SplashScreenState extends State<SplashScreen>
               letterAnimationDuration: Duration(milliseconds: 100),
               recombineDuration: Duration(milliseconds: 100),
               textStyle: TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
           ],

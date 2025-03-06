@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/utils/assets/assets.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class DefaultDrawer extends StatelessWidget {
   const DefaultDrawer({super.key});
@@ -7,10 +9,14 @@ class DefaultDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white.withOpacity(0.8),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [context.primaryColor, context.secondaryHeaderColor],
+            colors: [
+              context.primaryColor.withOpacity(0.4),
+              context.secondaryHeaderColor.withOpacity(0.4),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -18,16 +24,85 @@ class DefaultDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const UserAccountsDrawerHeader(
-              accountName: Text("Eslam Kamel"),
-              accountEmail: Text("eslam@gmail.com"),
-              currentAccountPicture: CircleAvatar(backgroundImage: NetworkImage("https://via.placeholder.com/150")),
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                "Welcome admin",
+                style: TextStyle(
+                  color: context.primaryColorDark,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              accountEmail: Text(
+                "admin@gmail.com",
+                style: TextStyle(color: context.primaryColorDark),
+              ),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: context.secondaryHeaderColor.withOpacity(0.1),
+                backgroundImage: AssetImage(AssetsData.logo),
+              ),
               decoration: BoxDecoration(color: Colors.transparent),
             ),
             _createDrawerItem(
               context,
-              icon: Icons.home,
-              text: 'Home',
+              icon: MdiIcons.viewDashboard,
+              text: 'Dashboard',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.domain,
+              text: 'Companies',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.accountMultiple,
+              text: 'Employees',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.fileDocument,
+              text: 'Documents',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.chartBar,
+              text: 'Reports',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.handshake,
+              text: 'Requests',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.hammerWrench,
+              text: 'Setup',
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: MdiIcons.magicStaff,
+              text: 'Generate',
               onTap: () {
                 Navigator.pop(context);
               },
@@ -40,22 +115,14 @@ class DefaultDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            _createDrawerItem(
-              context,
-              icon: Icons.contact_mail,
-              text: 'Contact Us',
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            const Divider(color: Colors.white70),
-            ListTile(
-              title: const Text('About', style: TextStyle(color: Colors.white)),
-              leading: Icon(Icons.info, color: context.secondaryHeaderColor),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+            // const Divider(color: Colors.white70),
+            // ListTile(
+            //   title: const Text('About', style: TextStyle(color: Colors.white)),
+            //   leading: Icon(Icons.info, color: context.secondaryHeaderColor),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //   },
+            // ),
           ],
         ),
       ),
@@ -69,8 +136,15 @@ class DefaultDrawer extends StatelessWidget {
     GestureTapCallback? onTap,
   }) {
     return ListTile(
-      title: Text(text, style: const TextStyle(color: Colors.white)),
-      leading: Icon(icon, color: context.secondaryHeaderColor),
+      title: Text(
+        text,
+        style: TextStyle(
+          color: context.primaryColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+      leading: Icon(icon, color: context.primaryColorDark),
       onTap: onTap,
     );
   }

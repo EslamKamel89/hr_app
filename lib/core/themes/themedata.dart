@@ -27,10 +27,10 @@ class Clr {
 }
 
 final lightClr = Clr(
-  primaryColor: Color(0xFF4169E1),
-  primaryColorLight: Color(0xFF6A91F0),
-  primaryColorDark: Color(0xFF2747A7),
-  secondaryHeaderColor: Color(0xFFE0FFFF),
+  primaryColor: Color(0xFF053650),
+  primaryColorLight: Color(0xFF185a75),
+  primaryColorDark: Color(0xFF032537),
+  secondaryHeaderColor: Color(0xFFA65428),
   scaffoldBackgroundColor: Color(0xFFF5F5F5),
   dialogBackgroundColor: Color(0xFFE0FFFF),
   cardColor: Color(0xFFFFFFFF),
@@ -105,7 +105,11 @@ final ThemeData lightTheme = ThemeData(
     foregroundColor: Colors.white, // Text and icon color
     elevation: 4,
     centerTitle: true,
-    titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
   ),
 
   // FloatingActionButton
@@ -222,7 +226,11 @@ final ThemeData darkTheme = ThemeData(
     foregroundColor: Colors.white, // Text and icon color
     elevation: 4,
     centerTitle: true,
-    titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
   ),
 
   // FloatingActionButton
