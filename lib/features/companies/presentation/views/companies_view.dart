@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/widgets/default_drawer.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/models/company_model.dart';
@@ -69,7 +70,12 @@ class _CompaniesViewState extends State<CompaniesView> {
               ),
               SizedBox(width: 12),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    AppRoutesNames.companyCreateEditView,
+                    arguments: null,
+                  );
+                },
                 icon: Icon(Icons.add),
                 label: Text('Add'),
                 style: ElevatedButton.styleFrom(

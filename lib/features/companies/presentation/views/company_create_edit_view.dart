@@ -4,14 +4,14 @@ import 'package:hr/core/extensions/context-extensions.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
-class ComapanyEditView extends StatefulWidget {
-  const ComapanyEditView({super.key, required this.company});
-  final CompanyModel company;
+class ComapanyCreateEditView extends StatefulWidget {
+  const ComapanyCreateEditView({super.key, required this.company});
+  final CompanyModel? company;
   @override
-  State<ComapanyEditView> createState() => _ComapanyEditViewState();
+  State<ComapanyCreateEditView> createState() => _ComapanyCreateEditViewState();
 }
 
-class _ComapanyEditViewState extends State<ComapanyEditView> {
+class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
   final List<String> tabs = [
     "Basic",
     "Contact",
@@ -28,7 +28,7 @@ class _ComapanyEditViewState extends State<ComapanyEditView> {
     return DefaultTabController(
       length: tabs.length,
       child: MainScaffold(
-        appBarTitle: widget.company.name,
+        appBarTitle: widget.company?.name ?? 'Create company',
         child: Column(
           children: [
             TabBar(

@@ -51,7 +51,7 @@ class _CompanyCardState extends State<CompanyCard> {
               ElevatedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pushNamed(
-                    AppRoutesNames.companyEditView,
+                    AppRoutesNames.companyCreateEditView,
                     arguments: widget.company,
                   );
                 },

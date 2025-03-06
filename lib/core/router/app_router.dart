@@ -4,7 +4,7 @@ import 'package:hr/core/router/middleware.dart';
 import 'package:hr/core/widgets/ui_components_screen.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 import 'package:hr/features/companies/presentation/views/companies_view.dart';
-import 'package:hr/features/companies/presentation/views/company_edit_view.dart';
+import 'package:hr/features/companies/presentation/views/company_create_edit_view.dart';
 import 'package:hr/features/splash_onboarding/splash_screen.dart';
 
 class AppRouter {
@@ -29,9 +29,11 @@ class AppRouter {
           builder: (context) => const CompaniesView(),
           settings: routeSettings,
         );
-      case AppRoutesNames.companyEditView:
+      case AppRoutesNames.companyCreateEditView:
         return CustomPageRoute(
-          builder: (context) => ComapanyEditView(company: args as CompanyModel),
+          builder:
+              (context) =>
+                  ComapanyCreateEditView(company: args as CompanyModel?),
           settings: routeSettings,
         );
 
