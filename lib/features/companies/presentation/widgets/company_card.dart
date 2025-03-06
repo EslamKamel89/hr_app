@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/widgets/collapsible_card.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
@@ -49,7 +50,10 @@ class _CompanyCardState extends State<CompanyCard> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  // Implement edit functionality here.
+                  Navigator.of(context).pushNamed(
+                    AppRoutesNames.companyEditView,
+                    arguments: widget.company,
+                  );
                 },
                 icon: Icon(Icons.edit, size: 18),
                 label: Text('Edit'),
