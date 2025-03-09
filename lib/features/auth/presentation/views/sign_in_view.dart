@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:hr/core/router/app_routes_names.dart';
+import 'package:hr/utils/assets/assets.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
@@ -14,12 +15,21 @@ class SignInView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                "Welcome Back!",
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+              // const Text(
+              //   "Welcome Back!",
+              //   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              //   textAlign: TextAlign.center,
+              // ),
+              // const SizedBox(height: 10),
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: Image.asset(
+                  AssetsData.logo,
+                  fit: BoxFit.fitHeight,
+                  // width: 50,
+                ),
               ),
-              const SizedBox(height: 10),
               const Text(
                 "Sign in to continue",
                 style: TextStyle(fontSize: 16, color: Colors.grey),
@@ -62,7 +72,7 @@ class SignInView extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  // Handle sign-in logic
+                  Navigator.of(context).pushNamed(AppRoutesNames.companiesView);
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -83,25 +93,25 @@ class SignInView extends StatelessWidget {
                   Expanded(child: Divider(thickness: 1)),
                 ],
               ),
-              const SizedBox(height: 20),
-              OutlinedButton.icon(
-                onPressed: () {
-                  // Handle Google sign-in
-                },
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  side: const BorderSide(color: Colors.grey),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                icon: Icon(MdiIcons.google),
-                label: const Text(
-                  "Sign in with Google",
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                ),
-              ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 5),
+              // OutlinedButton.icon(
+              //   onPressed: () {
+              //     // Handle Google sign-in
+              //   },
+              //   style: OutlinedButton.styleFrom(
+              //     padding: const EdgeInsets.symmetric(vertical: 15),
+              //     side: const BorderSide(color: Colors.grey),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10),
+              //     ),
+              //   ),
+              //   icon: Icon(MdiIcons.google),
+              //   label: const Text(
+              //     "Sign in with Google",
+              //     style: TextStyle(color: Colors.black, fontSize: 16),
+              //   ),
+              // ),
+              // const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -111,7 +121,9 @@ class SignInView extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Handle navigation to sign-up screen
+                      Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutesNames.signUpView);
                     },
                     child: const Text(
                       "Sign Up",

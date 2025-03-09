@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.of(
             context,
-          ).pushNamedAndRemoveUntil(AppRoutesNames.companiesView, (_) => false);
+          ).pushNamedAndRemoveUntil(AppRoutesNames.signInView, (_) => false);
         });
       }
     });
