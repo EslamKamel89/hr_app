@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class SignUpView extends StatelessWidget {
+  const SignUpView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               const Text(
                 "Create an Account",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
@@ -81,10 +78,7 @@ class SignUpScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text(
-                  "Sign Up",
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: const Text("Sign Up", style: TextStyle(fontSize: 16)),
               ),
               const SizedBox(height: 20),
               const Row(
@@ -92,10 +86,7 @@ class SignUpScreen extends StatelessWidget {
                   Expanded(child: Divider(thickness: 1)),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      "OR",
-                      style: TextStyle(color: Colors.grey),
-                    ),
+                    child: Text("OR", style: TextStyle(color: Colors.grey)),
                   ),
                   Expanded(child: Divider(thickness: 1)),
                 ],

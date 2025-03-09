@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/router/middleware.dart';
 import 'package:hr/core/widgets/ui_components_screen.dart';
+import 'package:hr/features/auth/presentation/views/sign_in_view.dart';
+import 'package:hr/features/auth/presentation/views/signup_view.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 import 'package:hr/features/companies/presentation/views/companies_view.dart';
 import 'package:hr/features/companies/presentation/views/company_create_edit_view.dart';
@@ -36,7 +38,16 @@ class AppRouter {
                   ComapanyCreateEditView(company: args as CompanyModel?),
           settings: routeSettings,
         );
-
+      case AppRoutesNames.signInView:
+        return CustomPageRoute(
+          builder: (context) => const SignInView(),
+          settings: routeSettings,
+        );
+      case AppRoutesNames.signUpView:
+        return CustomPageRoute(
+          builder: (context) => const SignUpView(),
+          settings: routeSettings,
+        );
       default:
         return null;
     }
