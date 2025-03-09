@@ -1,6 +1,4 @@
 class EndPoint {
-  static const String baseUrl = "http://192.168.1.6/api";
-  static String prayerTimes(String date) {
-    return "https://api.aladhan.com/v1/timings/$date";
-  }
+  static const String baseUrl = "https://hr.gaztec.org/api";
+  static const String register = "$baseUrl/register";
 }
