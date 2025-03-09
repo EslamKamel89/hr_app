@@ -47,6 +47,7 @@ class _CompaniesViewState extends State<CompaniesView> {
     return MainScaffold(
       appBarTitle: 'Companies',
       drawer: DefaultDrawer(),
+
       child: Column(
         children: [
           Row(
