@@ -14,53 +14,49 @@ class DefaultBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: currentIndex,
-        builder: (context, value, child) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, -2), // changes position of shadow
+      valueListenable: currentIndex,
+      builder: (context, value, child) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, -2), // changes position of shadow
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            currentIndex: currentIndex.value,
+            onTap: (index) {
+              currentIndex.value = index;
+              handleNavigation(index);
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined, size: value == 0 ? 30.w : 20.w),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  MdiIcons.stethoscope,
+                  size: value == 1 ? 30.w : 20.w,
                 ),
-              ],
-            ),
-            child: BottomNavigationBar(
-              currentIndex: currentIndex.value,
-              onTap: (index) {
-                currentIndex.value = index;
-                handleNavigation(
-                  index,
-                );
-              },
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home_outlined,
-                    size: value == 0 ? 30.w : 20.w,
-                  ),
-                  label: 'Home',
+                label: 'Locum Jobs',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_outline,
+                  size: value == 2 ? 30.w : 20.w,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    MdiIcons.stethoscope,
-                    size: value == 1 ? 30.w : 20.w,
-                  ),
-                  label: 'Locum Jobs',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person_outline,
-                    size: value == 2 ? 30.w : 20.w,
-                  ),
-                  label: 'Profile',
-                ),
-              ],
-            ),
-          );
-        });
+                label: 'Profile',
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -7,9 +7,6 @@ class Sizer extends StatelessWidget {
   final double? width;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width ?? 10.w,
-      height: height ?? 10.h,
-    );
+    return SizedBox(width: width ?? 10.w, height: height ?? 10.h);
   }
 }

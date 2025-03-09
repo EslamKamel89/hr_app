@@ -8,9 +8,7 @@ import 'package:hr/core/api_service/check_internet.dart';
 import 'package:hr/core/api_service/end_points.dart';
 
 class DioConsumer extends ApiConsumer {
-  final Dio dio;
-
-  DioConsumer({required this.dio}) {
+  DioConsumer({required Dio dio}) : super(dio: dio) {
     dio.options.baseUrl = EndPoint.baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 60);
     dio.options.receiveTimeout = const Duration(seconds: 60);
@@ -18,7 +16,9 @@ class DioConsumer extends ApiConsumer {
       // "Content-Type": "application/json",
       "Accept": "application/json",
     };
-    dio.interceptors.add(DioInterceptor()); // i use the interceptor to add the header
+    dio.interceptors.add(
+      DioInterceptor(),
+    ); // i use the interceptor to add the header
     dio.interceptors.add(
       LogInterceptor(
         request: true,
@@ -32,13 +32,21 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future get(String path, {Object? data, Map<String, dynamic>? queryParameter}) async {
+  Future get(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameter,
+  }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
       }
-      final response = await dio.get(path, data: data, queryParameters: queryParameter);
+      final response = await dio.get(
+        path,
+        data: data,
+        queryParameters: queryParameter,
+      );
       return response.data;
     } catch (e) {
       rethrow;
@@ -46,7 +54,12 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future delete(String path, {dynamic data, Map<String, dynamic>? queryParameter, bool isFormData = false}) async {
+  Future delete(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameter,
+    bool isFormData = false,
+  }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
 
     try {
@@ -65,7 +78,12 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future patch(String path, {dynamic data, Map<String, dynamic>? queryParameter, bool isFormData = false}) async {
+  Future patch(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameter,
+    bool isFormData = false,
+  }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
 
     try {
@@ -84,7 +102,12 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future post(String path, {dynamic data, Map<String, dynamic>? queryParameter, bool isFormData = false}) async {
+  Future post(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameter,
+    bool isFormData = false,
+  }) async {
     // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
 
     try {

@@ -10,7 +10,11 @@ class BadgeWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(spacing: 8.w, runSpacing: 8.w, children: items.map((item) => _buildBadge(context, item)).toList());
+    return Wrap(
+      spacing: 8.w,
+      runSpacing: 8.w,
+      children: items.map((item) => _buildBadge(context, item)).toList(),
+    );
   }
 
   Widget _buildBadge(BuildContext context, String item) {
@@ -22,7 +26,14 @@ class BadgeWrap extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: color),
       ),
-      child: Text(item, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: color)),
+      child: Text(
+        item,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: color,
+        ),
+      ),
     );
   }
 

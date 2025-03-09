@@ -1,0 +1,13 @@
+{
+    "message": "User registered successfully",
+    "user": {
+        "name": "Eslam1",
+        "email": "eslam1@gmail.com",
+        "level_id": 1,
+        "updated_at": "dfdfsdfsdf",
+        "created_at": "dsfdsfsdfsdfsdfsdf",
+        "id": 18
+    },
+    "access_token": "5|D1cEx5lpq38sXY6jupshJrhRzA2DrtTaqBq0b0d6d2ef6d74",
+    "token_type": "Bearer"
+}

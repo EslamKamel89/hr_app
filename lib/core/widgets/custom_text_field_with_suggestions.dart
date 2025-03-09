@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -15,10 +14,12 @@ class CustomTextFormFieldWithSuggestions extends StatefulWidget {
   final Function(String) onSelected;
   final TextEditingController controller;
   @override
-  State<CustomTextFormFieldWithSuggestions> createState() => _CustomTextFormFieldWithSuggestionsState();
+  State<CustomTextFormFieldWithSuggestions> createState() =>
+      _CustomTextFormFieldWithSuggestionsState();
 }
 
-class _CustomTextFormFieldWithSuggestionsState extends State<CustomTextFormFieldWithSuggestions> {
+class _CustomTextFormFieldWithSuggestionsState
+    extends State<CustomTextFormFieldWithSuggestions> {
   String selectedValue = '';
   @override
   void initState() {
@@ -34,9 +35,15 @@ class _CustomTextFormFieldWithSuggestionsState extends State<CustomTextFormField
       child: TypeAheadField<String>(
         controller: widget.controller,
         suggestionsCallback: (search) {
-          final result = widget.suggestions
-              .where((String suggestion) => suggestion.toLowerCase().trim().contains(search.trim().toLowerCase()))
-              .toList();
+          final result =
+              widget.suggestions
+                  .where(
+                    (String suggestion) => suggestion
+                        .toLowerCase()
+                        .trim()
+                        .contains(search.trim().toLowerCase()),
+                  )
+                  .toList();
           return result;
         },
         builder: (context, controller, focusNode) {

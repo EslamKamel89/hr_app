@@ -46,7 +46,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                         });
                       },
                       icon: Icon(
-                        showPassword ? MdiIcons.eyeOffOutline : MdiIcons.eyeOutline,
+                        showPassword
+                            ? MdiIcons.eyeOffOutline
+                            : MdiIcons.eyeOutline,
                         color: context.primaryColor,
                       ),
                     );

@@ -18,7 +18,8 @@ class SearchableDropdownWidget extends StatefulWidget {
   final String hintText;
   final bool isRequired;
   @override
-  State<SearchableDropdownWidget> createState() => _SearchableDropdownWidgetState();
+  State<SearchableDropdownWidget> createState() =>
+      _SearchableDropdownWidgetState();
 }
 
 class _SearchableDropdownWidgetState extends State<SearchableDropdownWidget> {
@@ -102,7 +103,13 @@ class _SearchDialogState extends State<SearchDialog> {
   void _filterOptions(String query) {
     setState(() {
       filteredOptions =
-          widget.options.where((option) => option.trim().toLowerCase().contains(query.trim().toLowerCase())).toList();
+          widget.options
+              .where(
+                (option) => option.trim().toLowerCase().contains(
+                  query.trim().toLowerCase(),
+                ),
+              )
+              .toList();
     });
   }
 
