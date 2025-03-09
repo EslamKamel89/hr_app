@@ -24,25 +24,55 @@ class DefaultDrawer extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(
-                "Welcome admin",
-                style: TextStyle(
-                  color: context.primaryColorDark,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+
+                children: [
+                  Image.asset(AssetsData.logo, fit: BoxFit.cover, width: 150),
+                  SizedBox(height: 10),
+                  Text(
+                    "Welcome admin",
+                    style: TextStyle(
+                      color: context.primaryColorDark,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    "admin@gmail.com",
+                    style: TextStyle(color: context.primaryColorDark),
+                  ),
+                  SizedBox(height: 20),
+                ],
               ),
-              accountEmail: Text(
-                "admin@gmail.com",
-                style: TextStyle(color: context.primaryColorDark),
-              ),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: context.secondaryHeaderColor.withOpacity(0.1),
-                backgroundImage: AssetImage(AssetsData.logo),
-              ),
-              decoration: BoxDecoration(color: Colors.transparent),
             ),
+
+            // UserAccountsDrawerHeader(
+            //   accountName: Text(
+            //     "Welcome admin",
+            //     style: TextStyle(
+            //       color: context.primaryColorDark,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 20,
+            //     ),
+            //   ),
+            //   accountEmail: Text(
+            //     "admin@gmail.com",
+            //     style: TextStyle(color: context.primaryColorDark),
+            //   ),
+            //   // currentAccountPicture: CircleAvatar(
+            //   //   backgroundColor: context.secondaryHeaderColor.withOpacity(0.1),
+            //   //   backgroundImage: AssetImage(AssetsData.logo),
+            //   // ),
+            //   currentAccountPicture: Image.asset(
+            //     AssetsData.logo,
+            //     fit: BoxFit.cover,
+            //   ),
+            //   currentAccountPictureSize: Size.square(100),
+            //   decoration: BoxDecoration(color: Colors.transparent),
+            // ),
             _createDrawerItem(
               context,
               icon: MdiIcons.viewDashboard,

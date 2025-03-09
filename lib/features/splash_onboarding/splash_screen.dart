@@ -41,8 +41,11 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.primaryColor, // Dark blue background
-      body: Center(
+      backgroundColor: Colors.white, // Dark blue background
+      body: Container(
+        color: context.primaryColor.withOpacity(0.3),
+        alignment: Alignment.center,
+        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -51,8 +54,8 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 Image.asset(
                   AssetsData.logo,
-                  width: 100,
-                  height: 100,
+                  width: 200,
+                  height: 200,
                   fit: BoxFit.cover,
                 ),
               ],
@@ -79,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen>
               textStyle: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ],
