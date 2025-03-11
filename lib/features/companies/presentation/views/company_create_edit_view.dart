@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
@@ -39,27 +40,53 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
             ),
             Expanded(
               child: TabBarView(
-                children:
-                    tabs.map((tab) {
-                      // Each tab content is centered with a text
-                      return Center(
-                        child: Text(
-                              "Content for $tab",
-                              style: TextStyle(fontSize: 20),
-                            )
-                            // Animate the content with a fade in and slight slide
-                            .animate()
-                            .fadeIn(duration: Duration(milliseconds: 500))
-                            .slide(
-                              begin: Offset(0, 0.1),
-                              duration: Duration(milliseconds: 500),
-                            ),
-                      );
-                    }).toList(),
+                children: [
+                  CompanyBasicForm(),
+                  ...tabs.where((tab) => !['Basic'].contains(tab)).map((tab) {
+                    return Center(
+                      child: Text(
+                            "Content for $tab",
+                            style: TextStyle(fontSize: 20),
+                          )
+                          .animate()
+                          .fadeIn(duration: Duration(milliseconds: 500))
+                          .slide(
+                            begin: Offset(0, 0.1),
+                            duration: Duration(milliseconds: 500),
+                          ),
+                    );
+                  }),
+                ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CompanyBasicForm extends StatefulWidget {
+  const CompanyBasicForm({super.key});
+
+  @override
+  State<CompanyBasicForm> createState() => _CompanyBasicFormState();
+}
+
+class _CompanyBasicFormState extends State<CompanyBasicForm> {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          CustomTextFormField(
+            // req: false,
+            label: 'label',
+            placeholder: 'placeholder',
+            controller: TextEditingController(),
+          ),
+        ],
       ),
     );
   }
