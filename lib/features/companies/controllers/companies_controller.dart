@@ -34,4 +34,22 @@ class CompaniesController {
       );
     }
   }
+
+  Future<ApiResponseModel> delete(int id) async {
+    final t = prt('delete - CompaniesController');
+    try {
+      final response = await api.delete('${EndPoint.companiesIndex}/$id');
+      pr(response, t);
+      return pr(ApiResponseModel(response: ResponseEnum.success), t);
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(
+        ApiResponseModel(
+          errorMessage: errorMessage,
+          response: ResponseEnum.failed,
+        ),
+        t,
+      );
+    }
+  }
 }

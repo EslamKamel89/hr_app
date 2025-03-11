@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/enums/response_type.dart';
+import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/widgets/collapsible_card.dart';
+import 'package:hr/core/widgets/show_are_you_sure_dialog.dart';
+import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
 class CompanyCard extends StatefulWidget {
@@ -42,7 +47,7 @@ class _CompanyCardState extends State<CompanyCard> {
           //   style: TextStyle(fontSize: 16, color: Colors.grey[700]),
           // ),
           Text(
-            'Created at: ${widget.company.createdAt?.split(' ')[0]}',
+            'Created at: ${widget.company.createdAt?.split('T')[0]}',
             style: TextStyle(fontSize: 16, color: Colors.grey[700]),
           ),
           SizedBox(height: 8),
@@ -65,18 +70,32 @@ class _CompanyCardState extends State<CompanyCard> {
                 ),
               ),
               SizedBox(width: 8),
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Implement delete functionality here.
+              BlocBuilder<
+                CompaniesIndexCubit,
+                ApiResponseModel<List<CompanyModel>>
+              >(
+                builder: (context, state) {
+                  final controller = context.read<CompaniesIndexCubit>();
+                  if (state.response == ResponseEnum.loading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ElevatedButton.icon(
+                    onPressed: () async {
+                      final confirm = await showAreYouSureDialog();
+                      if (confirm == true && widget.company.id != null) {
+                        controller.delete(widget.company.id!);
+                      }
+                    },
+                    icon: Icon(Icons.delete, size: 18),
+                    label: Text('Delete'),
+                    style: ElevatedButton.styleFrom(
+                      // primary: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  );
                 },
-                icon: Icon(Icons.delete, size: 18),
-                label: Text('Delete'),
-                style: ElevatedButton.styleFrom(
-                  // primary: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
               ),
             ],
           ),

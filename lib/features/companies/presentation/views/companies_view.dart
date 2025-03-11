@@ -27,16 +27,6 @@ class _CompaniesViewState extends State<CompaniesView> {
 
   @override
   Widget build(BuildContext context) {
-    // final filteredEmployees =
-    //     employees.where((e) {
-    //       return e.name.toLowerCase().contains(_searchQuery.toLowerCase());
-    //     }).toList();
-    // return MainScaffold(
-    //   appBarTitle: 'Error',
-    //   drawer: DefaultDrawer(),
-    //   child: SizedBox(),
-    // );
-    // ignore: dead_code
     return BlocProvider(
       create: (context) => CompaniesIndexCubit()..index(),
       child: BlocBuilder<
@@ -45,12 +35,9 @@ class _CompaniesViewState extends State<CompaniesView> {
       >(
         builder: (context, state) {
           final controller = context.read<CompaniesIndexCubit>();
-          // state.response = ResponseEnum.failed;
           return MainScaffold(
             appBarTitle: 'Companies',
             drawer: DefaultDrawer(),
-
-            // child: SizedBox(),
             child: Column(
               children: [
                 Row(
@@ -66,9 +53,7 @@ class _CompaniesViewState extends State<CompaniesView> {
                           ),
                         ),
                         onChanged: (value) {
-                          // setState(() {
-                          //   _searchQuery = value;
-                          // });
+                          controller.filter(value);
                         },
                       ),
                     ),
