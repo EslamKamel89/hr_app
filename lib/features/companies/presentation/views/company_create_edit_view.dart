@@ -4,6 +4,7 @@ import 'package:hr/core/extensions/context-extensions.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/models/company_model.dart';
+import 'package:hr/utils/styles/styles.dart';
 
 class ComapanyCreateEditView extends StatefulWidget {
   const ComapanyCreateEditView({super.key, required this.company});
@@ -81,11 +82,61 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
         children: [
           SizedBox(height: 20),
           CustomTextFormField(
-            // req: false,
-            label: 'label',
-            placeholder: 'placeholder',
+            label: 'Company Name',
+            placeholder: 'Enter Company Name',
+          ),
+          SizedBox(height: 10),
+          CustomTextFormField(
+            label: 'Trade License No',
+            placeholder: 'Enter Trade License No',
+          ),
+          SizedBox(height: 10),
+          CustomTextFormField(
+            label: 'Abbr',
+            placeholder: 'Enter Abbr',
+            req: false,
+          ),
+          SizedBox(height: 10),
+          CustomDateField(
+            label: 'Date of Incorporation',
+            req: false,
+            onDateSubmit: (data) {},
+            initialDate: DateTime.now(),
+            textEditingController: TextEditingController(),
+            // placeholder: 'Enter Date of Incorporation',
+          ),
+          SizedBox(height: 10),
+          CustomTextFormField(
+            label: 'Website',
+            placeholder: 'Enter Website',
+            req: false,
+          ),
+          SizedBox(height: 10),
+          DropDownWidget(
+            label: 'Parent Company',
+            options: [],
+            onSelect: () {},
+            req: false,
+            // placeholder: 'Enter Parent Company',
+          ),
+          SizedBox(height: 10),
+          CustomMultipleTextFormField(
+            label: 'Business Activities',
+            placeholder: 'Enter Business Activities',
+            req: false,
+            onSelected: (value) {},
             controller: TextEditingController(),
           ),
+          SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {},
+            child: Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              child: txt('Save', e: St.bold18),
+            ),
+          ),
+          SizedBox(height: 100),
         ],
       ),
     );

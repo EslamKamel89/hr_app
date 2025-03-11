@@ -150,6 +150,7 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     this.onChanged,
     this.req = true,
+    this.onSaveCallback,
   });
   final String? placeholder;
   final String? label;
@@ -159,7 +160,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final bool req;
-
+  final VoidCallback? onSaveCallback;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -214,6 +215,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                           ),
                         );
                       },
+                    )
+                    : widget.onSaveCallback != null
+                    ? InkWell(
+                      onTap: widget.onSaveCallback,
+                      child: Icon(Icons.save, color: context.primaryColor),
                     )
                     : null,
             border: context.inputDecorationTheme.border,
@@ -398,12 +404,15 @@ class CustomDateField extends StatefulWidget {
     required this.initialDate,
     required this.textEditingController,
     this.validator,
+    this.req = true,
   });
   final String label;
   final DateTime? initialDate;
   final Function(DateTime date) onDateSubmit;
   final String? Function(String?)? validator;
   final TextEditingController textEditingController;
+  final bool req;
+
   @override
   State<CustomDateField> createState() => _CustomDateFieldState();
 }
@@ -419,28 +428,45 @@ class _CustomDateFieldState extends State<CustomDateField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: GestureDetector(
-        onTap: () => _selectDate(context),
-        child: AbsorbPointer(
-          child: TextFormField(
-            controller: widget.textEditingController,
-            decoration: InputDecoration(
-              labelText: widget.label,
-              hintText:
-                  widget.initialDate != null
-                      ? '${widget.initialDate?.year}-${widget.initialDate?.month.toString().padLeft(2, '0')}-${widget.initialDate?.day.toString().padLeft(2, '0')}'
-                      : 'Select a date',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: [
+              txt(widget.label, e: St.bold16),
+              SizedBox(width: 5),
+              txt(
+                widget.req ? '*' : '(optinal)',
+                e: St.reg12,
+                c: widget.req ? Colors.red : null,
               ),
-            ),
-            // validator: (_) => widget.selectedDate == null ? '${widget.label} is required' : null,
-            validator: widget.validator,
+            ],
           ),
         ),
-      ),
+        GestureDetector(
+          onTap: () => _selectDate(context),
+          child: AbsorbPointer(
+            child: TextFormField(
+              controller: widget.textEditingController,
+              decoration: InputDecoration(
+                // labelText: widget.label,
+                hintText:
+                    widget.initialDate != null
+                        ? '${widget.initialDate?.year}-${widget.initialDate?.month.toString().padLeft(2, '0')}-${widget.initialDate?.day.toString().padLeft(2, '0')}'
+                        : 'Select a date',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              // validator: (_) => widget.selectedDate == null ? '${widget.label} is required' : null,
+              validator: widget.validator,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -518,6 +544,157 @@ class CustomTextField extends StatelessWidget {
         maxLines: showMulitLine ? 20 : null,
         minLines: showMulitLine ? 2 : null,
       ),
+    );
+  }
+}
+
+class DropDownWidget extends StatefulWidget {
+  const DropDownWidget({
+    super.key,
+    required this.options,
+    required this.label,
+    required this.onSelect,
+    this.req = true,
+  });
+  final List<String> options;
+  final String label;
+  final Function onSelect;
+  final bool req;
+  @override
+  State<DropDownWidget> createState() => _DropDownWidgetState();
+}
+
+class _DropDownWidgetState extends State<DropDownWidget> {
+  String? selectedValue;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: [
+              txt(widget.label, e: St.bold16),
+              SizedBox(width: 5),
+              txt(
+                widget.req ? '*' : '(optinal)',
+                e: St.reg12,
+                c: widget.req ? Colors.red : null,
+              ),
+            ],
+          ),
+        ),
+        DropdownButtonFormField(
+          decoration: _decoration(widget.label),
+          items:
+              widget.options
+                  .map(
+                    (option) => DropdownMenuItem<String>(
+                      value: option,
+                      child: txt(option),
+                    ),
+                  )
+                  .toList(),
+          onChanged: (String? value) {
+            widget.onSelect(value);
+            setState(() {
+              selectedValue = value;
+            });
+          },
+          validator: (value) => value == null ? 'Please Select A Value' : null,
+        ),
+      ],
+    );
+  }
+
+  InputDecoration _decoration(String label) {
+    return InputDecoration(
+      // labelText: label,
+      labelStyle: context.inputDecorationTheme.labelStyle,
+      hintStyle: context.inputDecorationTheme.hintStyle,
+      border: context.inputDecorationTheme.border,
+      enabledBorder: context.inputDecorationTheme.enabledBorder,
+      focusedBorder: context.inputDecorationTheme.focusedBorder,
+      contentPadding: context.inputDecorationTheme.contentPadding,
+    );
+  }
+}
+
+class CustomMultipleTextFormField extends StatefulWidget {
+  const CustomMultipleTextFormField({
+    super.key,
+    required this.label,
+    required this.onSelected,
+    required this.controller,
+    this.placeholder,
+    this.req = true,
+  });
+  final String? placeholder;
+  final String label;
+  final Function(String) onSelected;
+  final TextEditingController controller;
+  final bool req;
+  @override
+  State<CustomMultipleTextFormField> createState() =>
+      _CustomMultipleTextFormFieldState();
+}
+
+class _CustomMultipleTextFormFieldState
+    extends State<CustomMultipleTextFormField> {
+  String selectedValue = '';
+  List<String> inputs = [];
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomTextFormField(
+          controller: widget.controller,
+          placeholder: widget.placeholder,
+          label: widget.label,
+          req: widget.req,
+          onSaveCallback: () {
+            setState(() {
+              inputs.add(widget.controller.value.text);
+              widget.controller.text = '';
+            });
+          },
+        ),
+        SizedBox(height: 5),
+        ...List.generate(inputs.length, (index) {
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.grey),
+            ),
+            child: Row(
+              children: [
+                Expanded(child: txt(inputs[index], e: St.reg14)),
+                InkWell(
+                  child: Icon(Icons.remove, color: Colors.red),
+                  onTap: () {
+                    setState(() {
+                      inputs =
+                          inputs
+                              .where((input) => input != inputs[index])
+                              .toList();
+                    });
+                  },
+                ),
+              ],
+            ),
+          );
+        }),
+      ],
     );
   }
 }
