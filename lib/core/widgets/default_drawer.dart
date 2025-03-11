@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/features/auth/helpers/auth_helpers.dart';
 import 'package:hr/utils/assets/assets.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -143,6 +144,14 @@ class DefaultDrawer extends StatelessWidget {
               text: 'Settings',
               onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            _createDrawerItem(
+              context,
+              icon: Icons.exit_to_app,
+              text: 'Logout',
+              onTap: () {
+                AuthHelpers.logout();
               },
             ),
             // const Divider(color: Colors.white70),
