@@ -7,6 +7,7 @@ import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/widgets/default_drawer.dart';
+import 'package:hr/core/widgets/handle_response_widget.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
@@ -44,6 +45,7 @@ class _CompaniesViewState extends State<CompaniesView> {
       >(
         builder: (context, state) {
           final controller = context.read<CompaniesIndexCubit>();
+          // state.response = ResponseEnum.failed;
           return MainScaffold(
             appBarTitle: 'Companies',
             drawer: DefaultDrawer(),
@@ -89,28 +91,28 @@ class _CompaniesViewState extends State<CompaniesView> {
                   ],
                 ),
                 SizedBox(height: 16),
-
-                // List of employee cards
-                state.response == ResponseEnum.success
-                    ? Expanded(
-                      child: ListView.builder(
-                        itemCount: state.data?.length,
-                        itemBuilder: (context, index) {
-                          final employee = state.data?[index];
-                          if (employee == null) {
-                            return SizedBox();
-                          }
-                          return CompanyCard(
-                                company: employee,
-                                number: index + 1,
-                              )
-                              .animate()
-                              .fadeIn(duration: Duration(milliseconds: 500))
-                              .slide(begin: Offset(0, 0.1));
-                        },
-                      ),
-                    )
-                    : SizedBox(),
+                Expanded(
+                  child: HandleResponseWidget(
+                    response: state.response ?? ResponseEnum.initial,
+                    showNoData: state.data?.isEmpty,
+                    tryAgain: () {
+                      controller.index();
+                    },
+                    child: ListView.builder(
+                      itemCount: state.data?.length,
+                      itemBuilder: (context, index) {
+                        final employee = state.data?[index];
+                        if (employee == null) {
+                          return SizedBox();
+                        }
+                        return CompanyCard(company: employee, number: index + 1)
+                            .animate()
+                            .fadeIn(duration: Duration(milliseconds: 500))
+                            .slide(begin: Offset(0, 0.1));
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           );
