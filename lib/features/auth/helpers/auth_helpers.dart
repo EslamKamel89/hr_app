@@ -18,7 +18,7 @@ class AuthHelpers {
     _user = user;
     _token = user.accessToken;
     await sh.setString(ShPrefKey.user, jsonEncode(user.toJson()));
-    await sh.setString(ShPrefKey.token, jsonEncode(user.accessToken));
+    await sh.setString(ShPrefKey.token, user.accessToken ?? '');
   }
 
   static UserModel? getUser() {

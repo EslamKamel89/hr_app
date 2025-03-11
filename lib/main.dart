@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
               theme: themeCubit.state,
               debugShowCheckedModeBanner: false,
               initialRoute: AppRoutesNames.splashScreen,
+              // initialRoute: AppRoutesNames.companiesView,
               locale: context.locale,
               supportedLocales: context.supportedLocales,
               localizationsDelegates: context.localizationDelegates,

@@ -28,7 +28,7 @@ class _CompanyCardState extends State<CompanyCard> {
           SizedBox(width: 12),
           Expanded(
             child: Text(
-              widget.company.name,
+              widget.company.companyName ?? '',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -37,12 +37,12 @@ class _CompanyCardState extends State<CompanyCard> {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Text(
+          //   'Employees number: ${widget.company.employeesCount}',
+          //   style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+          // ),
           Text(
-            'Employees number: ${widget.company.employeesCount}',
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-          ),
-          Text(
-            'Created at: ${widget.company.createdAt.toLocal().toString().split(' ')[0]}',
+            'Created at: ${widget.company.createdAt?.split(' ')[0]}',
             style: TextStyle(fontSize: 16, color: Colors.grey[700]),
           ),
           SizedBox(height: 8),

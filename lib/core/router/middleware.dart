@@ -14,6 +14,7 @@ class AppMiddleWare {
   }
 
   String? middlleware(String? routeName) {
+    // return routeName;
     if (routeName == AppRoutesNames.signInView && _isSignedIn()) {
       return AppRoutesNames.companiesView;
     }

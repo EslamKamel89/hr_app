@@ -6,6 +6,7 @@ import 'package:hr/core/api_service/api_consumer.dart';
 import 'package:hr/core/api_service/api_interceptors.dart';
 import 'package:hr/core/api_service/check_internet.dart';
 import 'package:hr/core/api_service/end_points.dart';
+import 'package:hr/features/auth/helpers/auth_helpers.dart';
 
 class DioConsumer extends ApiConsumer {
   DioConsumer({required Dio dio}) : super(dio: dio) {
@@ -37,7 +38,10 @@ class DioConsumer extends ApiConsumer {
     Object? data,
     Map<String, dynamic>? queryParameter,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
+    dio.options.headers = {
+      "Authorization": 'Bearer ${AuthHelpers.getToken()}',
+      "Accept": "application/json",
+    };
     try {
       if (!(await checkInternet())) {
         throw OfflineException();
@@ -60,7 +64,10 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameter,
     bool isFormData = false,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
+    dio.options.headers = {
+      "Authorization": 'Bearer ${AuthHelpers.getToken()}',
+      "Accept": "application/json",
+    };
 
     try {
       if (!(await checkInternet())) {
@@ -84,7 +91,10 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameter,
     bool isFormData = false,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
+    dio.options.headers = {
+      "Authorization": 'Bearer ${AuthHelpers.getToken()}',
+      "Accept": "application/json",
+    };
 
     try {
       if (!(await checkInternet())) {
@@ -108,7 +118,10 @@ class DioConsumer extends ApiConsumer {
     Map<String, dynamic>? queryParameter,
     bool isFormData = false,
   }) async {
-    // dio.options.headers = {"Authorization": 'Bearer ${'token'}', "Accept": "application/json"};
+    dio.options.headers = {
+      "Authorization": 'Bearer ${AuthHelpers.getToken()}',
+      "Accept": "application/json",
+    };
 
     try {
       if (!(await checkInternet())) {

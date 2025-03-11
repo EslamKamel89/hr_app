@@ -28,7 +28,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
     return DefaultTabController(
       length: tabs.length,
       child: MainScaffold(
-        appBarTitle: widget.company?.name ?? 'Create company',
+        appBarTitle: widget.company?.companyName ?? 'Create company',
         child: Column(
           children: [
             TabBar(

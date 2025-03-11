@@ -33,6 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
           Navigator.of(
             context,
           ).pushNamedAndRemoveUntil(AppRoutesNames.signInView, (_) => false);
+          // ).pushNamedAndRemoveUntil(AppRoutesNames.companiesView, (_) => false);
         });
       }
     });

@@ -1,11 +1,8 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:hr/core/api_service/api_consumer.dart';
 import 'package:hr/core/api_service/end_points.dart';
 import 'package:hr/core/enums/response_type.dart';
+import 'package:hr/core/heleprs/handle_exception.dart';
 import 'package:hr/core/heleprs/print_helper.dart';
-import 'package:hr/core/heleprs/snackbar.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/auth/controllers/params/login_params.dart';
@@ -30,11 +27,7 @@ class AuthController {
         t,
       );
     } catch (e) {
-      String errorMessage = e.toString();
-      if (e is DioException) {
-        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occured');
-      }
-      showSnackbar('Error', errorMessage, true);
+      String errorMessage = handeException(e);
       return pr(
         ApiResponseModel(
           errorMessage: errorMessage,
@@ -59,11 +52,7 @@ class AuthController {
         t,
       );
     } catch (e) {
-      String errorMessage = e.toString();
-      if (e is DioException) {
-        errorMessage = jsonEncode(e.response?.data ?? 'Unknown error occured');
-      }
-      showSnackbar('Error', errorMessage, true);
+      String errorMessage = handeException(e);
       return pr(
         ApiResponseModel(
           errorMessage: errorMessage,
