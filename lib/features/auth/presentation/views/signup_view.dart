@@ -6,7 +6,7 @@ import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/router/app_routes_names.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/features/auth/controllers/params/register_params.dart';
-import 'package:hr/features/auth/cubits/register/register_cubit.dart';
+import 'package:hr/features/auth/cubits/register_cubit.dart';
 import 'package:hr/features/auth/models/user_model.dart';
 import 'package:hr/utils/assets/assets.dart';
 
@@ -101,7 +101,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   label: 'Email',
                                   isRequired: true,
                                   isEmail: true,
-                                  minChars: 5,
+                                  minChars: 6,
                                   maxChars: 50,
                                 ),
                           ),
@@ -116,7 +116,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   input: input,
                                   label: 'Password',
                                   isRequired: true,
-                                  minChars: 5,
+                                  minChars: 6,
                                   maxChars: 50,
                                 ),
                           ),
@@ -131,7 +131,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 input: input,
                                 label: 'Confirm Password',
                                 isRequired: true,
-                                minChars: 5,
+                                minChars: 6,
                                 maxChars: 50,
                                 isConfirmPassword: true,
                                 firstPassword: _passwordController.text,

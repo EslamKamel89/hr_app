@@ -1,3 +1,5 @@
+import 'package:hr/core/router/app_routes_names.dart';
+import 'package:hr/features/auth/helpers/auth_helpers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppMiddleWare {
@@ -8,10 +10,13 @@ class AppMiddleWare {
   }
 
   static bool _isSignedIn() {
-    return true;
+    return AuthHelpers.isSignedIn();
   }
 
   String? middlleware(String? routeName) {
+    if (routeName == AppRoutesNames.signInView && _isSignedIn()) {
+      return AppRoutesNames.companiesView;
+    }
     return routeName;
   }
 }
