@@ -604,7 +604,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
               selectedValue = value;
             });
           },
-          validator: (value) => value == null ? 'Please Select A Value' : null,
+          // validator: (value) => value == null ? 'Please Select A Value' : null,
         ),
       ],
     );

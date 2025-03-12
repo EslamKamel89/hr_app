@@ -10,7 +10,12 @@ part 'company_form_state.dart';
 
 class CompanyFormCubit extends Cubit<CompanyFormState> {
   final CompanyFormController controller = serviceLocator();
-  CompanyFormCubit() : super(CompanyFormState());
+  CompanyFormCubit()
+    : super(
+        CompanyFormState(
+          company: ApiResponseModel(response: ResponseEnum.initial),
+        ),
+      );
   Future basic() async {
     final t = prt('basic - CompanyFormCubit');
     if (state.company?.data == null) {

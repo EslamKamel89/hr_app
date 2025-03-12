@@ -53,7 +53,8 @@ class CompanyModel {
     'incoporation_date': incoporationDate,
     'website_url': websiteUrl,
     'parent_company': parentCompany,
-    'business_activities': businessActivities,
+    'business_activities':
+        businessActivities == null ? [] : businessActivities!.split(','),
     // 'created_at': createdAt,
     // 'updated_at': updatedAt,
   };
