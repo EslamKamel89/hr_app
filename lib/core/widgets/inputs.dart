@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/utils/styles/styles.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -630,12 +631,14 @@ class CustomMultipleTextFormField extends StatefulWidget {
     this.placeholder,
     this.req = true,
     this.initialValues,
+    required this.valueByReference,
   });
   final String? placeholder;
   final String label;
   final Function(String) onSelected;
   final bool req;
   final List<String>? initialValues;
+  final PassByReference<String?> valueByReference;
   @override
   State<CustomMultipleTextFormField> createState() =>
       _CustomMultipleTextFormFieldState();
@@ -643,7 +646,6 @@ class CustomMultipleTextFormField extends StatefulWidget {
 
 class _CustomMultipleTextFormFieldState
     extends State<CustomMultipleTextFormField> {
-  String selectedValue = '';
   List<String> inputs = [];
   TextEditingController controller = TextEditingController();
   @override
@@ -675,6 +677,7 @@ class _CustomMultipleTextFormFieldState
               inputs.add(controller.value.text);
               controller.text = '';
             });
+            widget.valueByReference.data = inputs.join(',');
           },
         ),
         SizedBox(height: 5),
@@ -698,6 +701,7 @@ class _CustomMultipleTextFormFieldState
                               .where((input) => input != inputs[index])
                               .toList();
                     });
+                    widget.valueByReference.data = inputs.join(',');
                   },
                 ),
               ],

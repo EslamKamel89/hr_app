@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/heleprs/format_date.dart';
+import 'package:hr/core/heleprs/print_helper.dart';
+import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
@@ -19,8 +21,8 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
   final TextEditingController dateOfIncorporationStr = TextEditingController();
   DateTime? dateOfIncorporation;
   final TextEditingController website = TextEditingController();
-  List<String> activities = [];
   late final CompanyFormCubit controller;
+  final PassByReference<String?> activities = PassByReference(null);
   @override
   void initState() {
     controller = context.read<CompanyFormCubit>();
@@ -29,6 +31,10 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
         controller.state.company?.data?.tradeLicenseNumber ?? '';
     abbr.text = controller.state.company?.data?.abbr ?? '';
     website.text = controller.state.company?.data?.websiteUrl ?? '';
+    dateOfIncorporation = parseDateTime(
+      controller.state.company?.data?.incoporationDate,
+    );
+    activities.data = controller.state.company?.data?.businessActivities;
     super.initState();
   }
 
@@ -70,7 +76,9 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
           CustomDateField(
             label: 'Date of Incorporation',
             req: false,
-            onDateSubmit: (data) {},
+            onDateSubmit: (date) {
+              dateOfIncorporation = date;
+            },
             initialDate: parseDateTime(
               controller.state.company?.data?.createdAt,
             ),
@@ -86,7 +94,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
           SizedBox(height: 10),
           DropDownWidget(
             label: 'Parent Company',
-            options: [],
+            options: ['Option one', 'Option two', 'Option three'],
             onSelect: () {},
             req: false,
             // placeholder: 'Enter Parent Company',
@@ -97,14 +105,27 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             placeholder: 'Enter Business Activities',
             req: false,
             onSelected: (value) {},
-            initialValues: controller.state.company?.data?.businessActivities
-                ?.split(','),
+            initialValues: activities.data?.split(','),
+            valueByReference: activities,
           ),
           SizedBox(height: 30),
-          SaveButton(onTap: () {}),
+          SaveButton(
+            onTap: () {
+              _sendRequest();
+            },
+          ),
           SizedBox(height: 100),
         ],
       ),
     );
+  }
+
+  Future _sendRequest() async {
+    pr(companyName.text, 'companyName');
+    pr(tradeLicense.text, 'tradeLicense');
+    pr(abbr.text, 'abbr');
+    pr(dateOfIncorporation, 'dateOfIncorporation');
+    pr(website.text, 'website');
+    pr(activities.data, 'activities');
   }
 }
