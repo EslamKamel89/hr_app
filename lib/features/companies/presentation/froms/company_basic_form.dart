@@ -10,6 +10,21 @@ class CompanyBasicForm extends StatefulWidget {
 }
 
 class _CompanyBasicFormState extends State<CompanyBasicForm> {
+  final TextEditingController companyName = TextEditingController();
+  final TextEditingController tradeLicense = TextEditingController();
+  final TextEditingController abbr = TextEditingController();
+  DateTime? dateOfIncorporation;
+  final TextEditingController website = TextEditingController();
+  List<String> activities = [];
+  @override
+  void dispose() {
+    companyName.dispose();
+    tradeLicense.dispose();
+    abbr.dispose();
+    website.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -19,17 +34,20 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
           CustomTextFormField(
             label: 'Company Name',
             placeholder: 'Enter Company Name',
+            controller: companyName,
           ),
           SizedBox(height: 10),
           CustomTextFormField(
             label: 'Trade License No',
             placeholder: 'Enter Trade License No',
+            controller: tradeLicense,
           ),
           SizedBox(height: 10),
           CustomTextFormField(
             label: 'Abbr',
             placeholder: 'Enter Abbr',
             req: false,
+            controller: abbr,
           ),
           SizedBox(height: 10),
           CustomDateField(
@@ -45,6 +63,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             label: 'Website',
             placeholder: 'Enter Website',
             req: false,
+            controller: website,
           ),
           SizedBox(height: 10),
           DropDownWidget(
