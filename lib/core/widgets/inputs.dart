@@ -627,15 +627,15 @@ class CustomMultipleTextFormField extends StatefulWidget {
     super.key,
     required this.label,
     required this.onSelected,
-    required this.controller,
     this.placeholder,
     this.req = true,
+    this.initialValues,
   });
   final String? placeholder;
   final String label;
   final Function(String) onSelected;
-  final TextEditingController controller;
   final bool req;
+  final List<String>? initialValues;
   @override
   State<CustomMultipleTextFormField> createState() =>
       _CustomMultipleTextFormFieldState();
@@ -645,9 +645,19 @@ class _CustomMultipleTextFormFieldState
     extends State<CustomMultipleTextFormField> {
   String selectedValue = '';
   List<String> inputs = [];
+  TextEditingController controller = TextEditingController();
   @override
   void initState() {
+    if (widget.initialValues != null) {
+      inputs = widget.initialValues!;
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -656,14 +666,14 @@ class _CustomMultipleTextFormFieldState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextFormField(
-          controller: widget.controller,
+          controller: controller,
           placeholder: widget.placeholder,
           label: widget.label,
           req: widget.req,
           onSaveCallback: () {
             setState(() {
-              inputs.add(widget.controller.value.text);
-              widget.controller.text = '';
+              inputs.add(controller.value.text);
+              controller.text = '';
             });
           },
         ),

@@ -97,7 +97,8 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             placeholder: 'Enter Business Activities',
             req: false,
             onSelected: (value) {},
-            controller: TextEditingController(),
+            initialValues: controller.state.company?.data?.businessActivities
+                ?.split(','),
           ),
           SizedBox(height: 30),
           SaveButton(onTap: () {}),

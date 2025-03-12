@@ -100,7 +100,7 @@ class DioConsumer extends ApiConsumer {
       if (!(await checkInternet())) {
         throw OfflineException();
       }
-      final response = await dio.patch(
+      final response = await dio.put(
         path,
         data: isFormData ? FormData.fromMap(data) : data,
         queryParameters: queryParameter,
