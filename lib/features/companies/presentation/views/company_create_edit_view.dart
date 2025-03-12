@@ -3,8 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
+import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/models/company_model.dart';
-import 'package:hr/utils/styles/styles.dart';
 
 class ComapanyCreateEditView extends StatefulWidget {
   const ComapanyCreateEditView({super.key, required this.company});
@@ -128,14 +128,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             controller: TextEditingController(),
           ),
           SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: () {},
-            child: Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              child: txt('Save', e: St.bold18),
-            ),
-          ),
+          SaveButton(onTap: () {}),
           SizedBox(height: 100),
         ],
       ),
