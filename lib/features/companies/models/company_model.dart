@@ -45,7 +45,7 @@ class CompanyModel {
   );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
+    // 'id': id,
     'user_id': userId,
     'company_name': companyName,
     'trade_license_number': tradeLicenseNumber,
@@ -54,8 +54,8 @@ class CompanyModel {
     'website_url': websiteUrl,
     'parent_company': parentCompany,
     'business_activities': businessActivities,
-    'created_at': createdAt,
-    'updated_at': updatedAt,
+    // 'created_at': createdAt,
+    // 'updated_at': updatedAt,
   };
 
   CompanyModel copyWith({

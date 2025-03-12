@@ -6,6 +6,7 @@ import 'package:hr/core/router/app_router.dart';
 import 'package:hr/core/router/middleware.dart';
 import 'package:hr/features/auth/controllers/auth_controller.dart';
 import 'package:hr/features/companies/controllers/companies_controller.dart';
+import 'package:hr/features/companies/controllers/company_form_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,5 +29,8 @@ Future initServiceLocator() async {
   serviceLocator.registerLazySingleton<AuthController>(() => AuthController());
   serviceLocator.registerLazySingleton<CompaniesController>(
     () => CompaniesController(),
+  );
+  serviceLocator.registerLazySingleton<CompanyFormController>(
+    () => CompanyFormController(),
   );
 }
