@@ -5,13 +5,14 @@ import 'package:hr/core/widgets/default_screen_padding.dart';
 class MainScaffold extends StatelessWidget {
   const MainScaffold({
     super.key,
-    required this.appBarTitle,
+    this.appBarTitle = '',
     required this.child,
     this.bottomNavigationBar,
     this.drawer,
     this.resizeToAvoidBottomInset,
     this.hideAppBar = false,
     this.floatingActionButton,
+    this.appBarTitleWidget,
   });
   final String appBarTitle;
   final Widget child;
@@ -20,6 +21,7 @@ class MainScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final bool? resizeToAvoidBottomInset;
   final bool hideAppBar;
+  final Widget? appBarTitleWidget;
   @override
   Widget build(BuildContext context) {
     // final bool isDark = context.watch<ThemeCubit>().isDarkMode();
@@ -27,7 +29,7 @@ class MainScaffold extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: hideAppBar ? Colors.transparent : null,
-          title: Text(appBarTitle),
+          title: appBarTitleWidget ?? Text(appBarTitle),
           // foregroundColor: hideAppBar
           //     ? isDark
           //         ? Colors.white

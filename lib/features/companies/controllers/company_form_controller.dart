@@ -3,6 +3,7 @@ import 'package:hr/core/api_service/end_points.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/handle_exception.dart';
 import 'package:hr/core/heleprs/print_helper.dart';
+import 'package:hr/core/heleprs/snackbar.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/companies/models/company_model.dart';
@@ -31,7 +32,11 @@ class CompanyFormController {
       CompanyModel companyModel = CompanyModel.fromJson(
         company.id != null ? response['companyBasic'] : response,
       );
-
+      showSnackbar(
+        'Success',
+        '${company.companyName} Updated Successfully',
+        false,
+      );
       return pr(
         ApiResponseModel(response: ResponseEnum.success, data: companyModel),
         t,

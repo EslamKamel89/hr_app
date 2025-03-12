@@ -3,8 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/globals.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
+import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
@@ -27,6 +29,15 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
     "Attachments",
     "Additional Info",
   ];
+  // void didPopNext(Route<dynamic> nextRoute) {
+  //   super.did
+  // }
+  @override
+  void dispose() {
+    navigatorKey.currentContext?.read<CompaniesIndexCubit>().index();
+    // context.
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +55,15 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
           return DefaultTabController(
             length: tabs.length,
             child: MainScaffold(
-              appBarTitle: widget.company?.companyName ?? 'Create company',
+              appBarTitleWidget:
+                  BlocBuilder<CompanyFormCubit, CompanyFormState>(
+                    builder: (context, state) {
+                      return Text(
+                        controller.state.company?.data?.companyName ??
+                            'Create company',
+                      );
+                    },
+                  ),
               child: Column(
                 children: [
                   TabBar(

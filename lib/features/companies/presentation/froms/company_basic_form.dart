@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/format_date.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
@@ -10,7 +11,6 @@ import 'package:hr/features/companies/models/company_model.dart';
 
 class CompanyBasicForm extends StatefulWidget {
   const CompanyBasicForm({super.key});
-
   @override
   State<CompanyBasicForm> createState() => _CompanyBasicFormState();
 }
@@ -45,7 +45,6 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
     companyName.dispose();
     tradeLicense.dispose();
     abbr.dispose();
-    website.dispose();
     dateOfIncorporationStr.dispose();
     super.dispose();
   }
@@ -129,9 +128,21 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               valueByReference: activities,
             ),
             SizedBox(height: 30),
-            SaveButton(
-              onTap: () {
-                _sendRequest();
+            BlocBuilder<CompanyFormCubit, CompanyFormState>(
+              buildWhen:
+                  (previous, current) => [
+                    ResponseEnum.loading,
+                    ResponseEnum.success,
+                  ].contains(current.company?.response),
+              builder: (context, state) {
+                if (state.company?.response == ResponseEnum.loading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return SaveButton(
+                  onTap: () {
+                    _sendRequest();
+                  },
+                );
               },
             ),
             SizedBox(height: 100),

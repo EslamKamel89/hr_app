@@ -24,85 +24,88 @@ class _CompaniesViewState extends State<CompaniesView> {
   final TextEditingController _searchController = TextEditingController();
 
   final String _searchQuery = '';
+  late final CompaniesIndexCubit controller;
+  @override
+  void initState() {
+    controller = context.read<CompaniesIndexCubit>();
+    controller.index();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CompaniesIndexCubit()..index(),
-      child: BlocBuilder<
-        CompaniesIndexCubit,
-        ApiResponseModel<List<CompanyModel>>
-      >(
-        builder: (context, state) {
-          final controller = context.read<CompaniesIndexCubit>();
-          return MainScaffold(
-            appBarTitle: 'Companies',
-            drawer: DefaultDrawer(),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          hintText: 'Search employees...',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
-                        onChanged: (value) {
-                          controller.filter(value);
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutesNames.companyCreateEditView,
-                          arguments: null,
-                        );
-                      },
-                      icon: Icon(Icons.add),
-                      label: Text('Add'),
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
+    return BlocBuilder<
+      CompaniesIndexCubit,
+      ApiResponseModel<List<CompanyModel>>
+    >(
+      builder: (context, state) {
+        return MainScaffold(
+          appBarTitle: 'Companies',
+          drawer: DefaultDrawer(),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search employees...',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16),
-                Expanded(
-                  child: HandleResponseWidget(
-                    response: state.response ?? ResponseEnum.initial,
-                    showNoData: state.data?.isEmpty,
-                    tryAgain: () {
-                      controller.index();
-                    },
-                    child: ListView.builder(
-                      itemCount: state.data?.length,
-                      itemBuilder: (context, index) {
-                        final employee = state.data?[index];
-                        if (employee == null) {
-                          return SizedBox();
-                        }
-                        return CompanyCard(company: employee, number: index + 1)
-                            .animate()
-                            .fadeIn(duration: Duration(milliseconds: 500))
-                            .slide(begin: Offset(0, 0.1));
+                      onChanged: (value) {
+                        controller.filter(value);
                       },
                     ),
                   ),
+                  SizedBox(width: 12),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutesNames.companyCreateEditView,
+                        arguments: null,
+                      );
+                    },
+                    icon: Icon(Icons.add),
+                    label: Text('Add'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              Expanded(
+                child: HandleResponseWidget(
+                  response: state.response ?? ResponseEnum.initial,
+                  showNoData: state.data?.isEmpty,
+                  tryAgain: () {
+                    controller.index();
+                  },
+                  child: ListView.builder(
+                    itemCount: state.data?.length,
+                    itemBuilder: (context, index) {
+                      final employee = state.data?[index];
+                      if (employee == null) {
+                        return SizedBox();
+                      }
+                      return CompanyCard(company: employee, number: index + 1)
+                          .animate()
+                          .fadeIn(duration: Duration(milliseconds: 500))
+                          .slide(begin: Offset(0, 0.1));
+                    },
+                  ),
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
