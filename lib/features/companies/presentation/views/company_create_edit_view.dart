@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/widgets/main_scaffold.dart';
+import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
 
@@ -26,41 +30,57 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: tabs.length,
-      child: MainScaffold(
-        appBarTitle: widget.company?.companyName ?? 'Create company',
-        child: Column(
-          children: [
-            TabBar(
-              isScrollable: true,
-              indicatorColor: context.secondaryHeaderColor,
-              labelStyle: TextStyle(fontWeight: FontWeight.bold),
-              tabs: tabs.map((tab) => Tab(text: tab)).toList(),
-            ),
-            Expanded(
-              child: TabBarView(
+    return BlocProvider(
+      create: (context) => CompanyFormCubit(),
+      child: Builder(
+        builder: (context) {
+          final controller = context.read<CompanyFormCubit>();
+          if (widget.company != null) {
+            controller.state.company = ApiResponseModel(
+              data: widget.company,
+              response: ResponseEnum.success,
+            );
+          }
+          return DefaultTabController(
+            length: tabs.length,
+            child: MainScaffold(
+              appBarTitle: widget.company?.companyName ?? 'Create company',
+              child: Column(
                 children: [
-                  CompanyBasicForm(),
-                  ...tabs.where((tab) => !['Basic'].contains(tab)).map((tab) {
-                    return Center(
-                      child: Text(
-                            "Content for $tab",
-                            style: TextStyle(fontSize: 20),
-                          )
-                          .animate()
-                          .fadeIn(duration: Duration(milliseconds: 500))
-                          .slide(
-                            begin: Offset(0, 0.1),
-                            duration: Duration(milliseconds: 500),
-                          ),
-                    );
-                  }),
+                  TabBar(
+                    isScrollable: true,
+                    indicatorColor: context.secondaryHeaderColor,
+                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                    tabs: tabs.map((tab) => Tab(text: tab)).toList(),
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        CompanyBasicForm(),
+                        ...tabs.where((tab) => !['Basic'].contains(tab)).map((
+                          tab,
+                        ) {
+                          return Center(
+                            child: Text(
+                                  "Content for $tab",
+                                  style: TextStyle(fontSize: 20),
+                                )
+                                .animate()
+                                .fadeIn(duration: Duration(milliseconds: 500))
+                                .slide(
+                                  begin: Offset(0, 0.1),
+                                  duration: Duration(milliseconds: 500),
+                                ),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

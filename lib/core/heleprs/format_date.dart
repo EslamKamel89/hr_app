@@ -16,3 +16,12 @@ String formatDateForApi(DateTime dateTime) {
   pr(formattedDate);
   return formattedDate;
 }
+
+DateTime? parseDateTime(String? dateTimeStr) {
+  try {
+    if (dateTimeStr == null) return null;
+    return DateTime.parse(dateTimeStr).toLocal();
+  } catch (e) {
+    return null;
+  }
+}

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/heleprs/format_date.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/save_button.dart';
+import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 
 class CompanyBasicForm extends StatefulWidget {
   const CompanyBasicForm({super.key});
@@ -13,15 +16,29 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
   final TextEditingController companyName = TextEditingController();
   final TextEditingController tradeLicense = TextEditingController();
   final TextEditingController abbr = TextEditingController();
+  final TextEditingController dateOfIncorporationStr = TextEditingController();
   DateTime? dateOfIncorporation;
   final TextEditingController website = TextEditingController();
   List<String> activities = [];
+  late final CompanyFormCubit controller;
+  @override
+  void initState() {
+    controller = context.read<CompanyFormCubit>();
+    companyName.text = controller.state.company?.data?.companyName ?? '';
+    tradeLicense.text =
+        controller.state.company?.data?.tradeLicenseNumber ?? '';
+    abbr.text = controller.state.company?.data?.abbr ?? '';
+    website.text = controller.state.company?.data?.websiteUrl ?? '';
+    super.initState();
+  }
+
   @override
   void dispose() {
     companyName.dispose();
     tradeLicense.dispose();
     abbr.dispose();
     website.dispose();
+    dateOfIncorporationStr.dispose();
     super.dispose();
   }
 
@@ -54,9 +71,10 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             label: 'Date of Incorporation',
             req: false,
             onDateSubmit: (data) {},
-            initialDate: DateTime.now(),
-            textEditingController: TextEditingController(),
-            // placeholder: 'Enter Date of Incorporation',
+            initialDate: parseDateTime(
+              controller.state.company?.data?.createdAt,
+            ),
+            textEditingController: dateOfIncorporationStr,
           ),
           SizedBox(height: 10),
           CustomTextFormField(
