@@ -140,6 +140,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
                 }
                 return SaveButton(
                   onTap: () {
+                    FocusScope.of(context).unfocus();
                     _sendRequest();
                   },
                 );
