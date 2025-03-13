@@ -8,6 +8,7 @@ class CompanyModel {
   String? websiteUrl;
   int? parentCompany;
   String? businessActivities;
+  int? empCount;
   String? createdAt;
   String? updatedAt;
 
@@ -21,13 +22,14 @@ class CompanyModel {
     this.websiteUrl,
     this.parentCompany,
     this.businessActivities,
+    this.empCount,
     this.createdAt,
     this.updatedAt,
   });
 
   @override
   String toString() {
-    return 'CompanyModel(id: $id, userId: $userId, companyName: $companyName, tradeLicenseNumber: $tradeLicenseNumber, abbr: $abbr, incoporationDate: $incoporationDate, websiteUrl: $websiteUrl, parentCompany: $parentCompany, businessActivities: $businessActivities, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CompanyModel(id: $id, userId: $userId, companyName: $companyName, tradeLicenseNumber: $tradeLicenseNumber, abbr: $abbr, incoporationDate: $incoporationDate, websiteUrl: $websiteUrl, parentCompany: $parentCompany, businessActivities: $businessActivities, empCount: $empCount, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   factory CompanyModel.fromJson(Map<String, dynamic> json) => CompanyModel(
@@ -40,6 +42,7 @@ class CompanyModel {
     websiteUrl: json['website_url'] as String?,
     parentCompany: json['parent_company'] as int?,
     businessActivities: json['business_activities'] as String?,
+    empCount: json['emp_count'] as int?,
     createdAt: json['created_at'] as String?,
     updatedAt: json['updated_at'] as String?,
   );
@@ -53,8 +56,7 @@ class CompanyModel {
     'incoporation_date': incoporationDate,
     'website_url': websiteUrl,
     'parent_company': parentCompany,
-    'business_activities':
-        businessActivities == null ? [] : businessActivities!.split(','),
+    'business_activities': businessActivities == null ? [] : businessActivities!.split(','),
     // 'created_at': createdAt,
     // 'updated_at': updatedAt,
   };
