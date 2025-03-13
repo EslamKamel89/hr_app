@@ -17,37 +17,26 @@ class CompanyBasicForm extends StatefulWidget {
 }
 
 class _CompanyBasicFormState extends State<CompanyBasicForm> {
-  final TextEditingController companyName = TextEditingController();
-  final TextEditingController tradeLicense = TextEditingController();
-  final TextEditingController abbr = TextEditingController();
-  final TextEditingController dateOfIncorporationStr = TextEditingController();
+  final TextEditingController _companyName = TextEditingController();
+  final TextEditingController _tradeLicense = TextEditingController();
+  final TextEditingController _abbr = TextEditingController();
+  final TextEditingController _dateOfIncorporationStr = TextEditingController();
   DateTime? dateOfIncorporation;
-  final TextEditingController website = TextEditingController();
-  late final CompanyFormCubit controller;
-  final PassByReference<String?> activities = PassByReference(null);
-  int? parentCompanyId;
+  final TextEditingController _website = TextEditingController();
+  late final CompanyFormCubit _controller;
+  final PassByReference<String?> _activities = PassByReference(null);
+  int? _parentCompanyId;
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    controller = context.read<CompanyFormCubit>();
-    companyName.text = controller.state.company?.data?.companyName ?? '';
-    tradeLicense.text =
-        controller.state.company?.data?.tradeLicenseNumber ?? '';
-    abbr.text = controller.state.company?.data?.abbr ?? '';
-    website.text = controller.state.company?.data?.websiteUrl ?? '';
-    dateOfIncorporation = parseDateTime(
-      controller.state.company?.data?.incoporationDate,
-    );
-    activities.data = controller.state.company?.data?.businessActivities;
+    _controller = context.read<CompanyFormCubit>();
+    _initializeFields();
     super.initState();
   }
 
   @override
   void dispose() {
-    companyName.dispose();
-    tradeLicense.dispose();
-    abbr.dispose();
-    dateOfIncorporationStr.dispose();
+    _disposeControllers();
     super.dispose();
   }
 
@@ -62,7 +51,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             CustomTextFormField(
               label: 'Company Name',
               placeholder: 'Enter Company Name',
-              controller: companyName,
+              controller: _companyName,
               validator:
                   (input) => valdiator(
                     input: input,
@@ -76,7 +65,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             CustomTextFormField(
               label: 'Trade License No',
               placeholder: 'Enter Trade License No',
-              controller: tradeLicense,
+              controller: _tradeLicense,
               validator:
                   (input) => valdiator(
                     input: input,
@@ -91,7 +80,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               label: 'Abbr',
               placeholder: 'Enter Abbr',
               req: false,
-              controller: abbr,
+              controller: _abbr,
             ),
             SizedBox(height: 10),
             CustomDateField(
@@ -100,44 +89,33 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               onDateSubmit: (date) {
                 dateOfIncorporation = date;
               },
-              initialDate: parseDateTime(
-                controller.state.company?.data?.incoporationDate,
-              ),
-              textEditingController: dateOfIncorporationStr,
+              initialDate: parseDateTime(_controller.state.company?.data?.incoporationDate),
+              textEditingController: _dateOfIncorporationStr,
             ),
             SizedBox(height: 10),
             CustomTextFormField(
               label: 'Website',
               placeholder: 'Enter Website',
               req: false,
-              controller: website,
+              controller: _website,
             ),
             SizedBox(height: 10),
             Builder(
               builder: (context) {
-                final companies =
-                    context.read<CompaniesIndexCubit>().state.data ?? [];
+                final companies = context.read<CompaniesIndexCubit>().state.data ?? [];
                 return DropDownWidget(
                   label: 'Parent Company',
                   initialValue:
-                      controller.state.company?.data?.parentCompany == null
+                      _controller.state.company?.data?.parentCompany == null
                           ? null
                           : companies
-                              .where(
-                                (c) =>
-                                    c.id ==
-                                    controller
-                                        .state
-                                        .company
-                                        ?.data
-                                        ?.parentCompany,
-                              )
+                              .where((c) => c.id == _controller.state.company?.data?.parentCompany)
                               .toList()
                               .firstOrNull
                               ?.companyName,
                   options: companies.map((c) => c.companyName ?? '').toList(),
                   onSelect: (String? selectedCompanyName) {
-                    parentCompanyId =
+                    _parentCompanyId =
                         companies
                             .where((c) => c.companyName == selectedCompanyName)
                             .toList()
@@ -153,8 +131,8 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             Builder(
               builder: (context) {
                 List<String> activitiesList = [];
-                if (activities.data?.trim().isNotEmpty == true) {
-                  activitiesList = activities.data?.trim().split(',') ?? [];
+                if (_activities.data?.trim().isNotEmpty == true) {
+                  activitiesList = _activities.data?.trim().split(',') ?? [];
                 }
                 return CustomMultipleTextFormField(
                   label: 'Business Activities',
@@ -162,7 +140,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
                   req: false,
                   onSelected: (value) {},
                   initialValues: activitiesList,
-                  valueByReference: activities,
+                  valueByReference: _activities,
                 );
               },
             ),
@@ -192,23 +170,38 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
     );
   }
 
+  void _initializeFields() {
+    _companyName.text = _controller.state.company?.data?.companyName ?? '';
+    _tradeLicense.text = _controller.state.company?.data?.tradeLicenseNumber ?? '';
+    _abbr.text = _controller.state.company?.data?.abbr ?? '';
+    _website.text = _controller.state.company?.data?.websiteUrl ?? '';
+    dateOfIncorporation = parseDateTime(_controller.state.company?.data?.incoporationDate);
+    _activities.data = _controller.state.company?.data?.businessActivities;
+  }
+
+  void _disposeControllers() {
+    _companyName.dispose();
+    _tradeLicense.dispose();
+    _abbr.dispose();
+    _dateOfIncorporationStr.dispose();
+  }
+
   Future _sendRequest() async {
     if (_formKey.currentState!.validate()) {
-      CompanyModel companyInState =
-          controller.state.company?.data ?? CompanyModel();
+      CompanyModel companyInState = _controller.state.company?.data ?? CompanyModel();
       CompanyModel companyUpdated = companyInState.copyWith(
-        companyName: companyName.text,
-        tradeLicenseNumber: tradeLicense.text,
-        abbr: abbr.text,
+        companyName: _companyName.text,
+        tradeLicenseNumber: _tradeLicense.text,
+        abbr: _abbr.text,
         incoporationDate: dateOfIncorporation?.toIso8601String(),
-        websiteUrl: website.text,
-        businessActivities: activities.data,
-        parentCompany: parentCompanyId,
+        websiteUrl: _website.text,
+        businessActivities: _activities.data,
+        parentCompany: _parentCompanyId,
       );
       // pr(companyUpdated, 'companyUpdated');
       // return;
-      controller.state.company!.data = companyUpdated;
-      await controller.basic();
+      _controller.state.company!.data = companyUpdated;
+      await _controller.basic();
     }
   }
 }
