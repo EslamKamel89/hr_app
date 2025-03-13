@@ -77,7 +77,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
                     child: TabBarView(
                       children: [
                         CompanyBasicForm(),
-                        CompanyContactForm(),
+                        CompanyContactProvider(),
                         ...tabs.where((tab) => !['Basic', 'Contact'].contains(tab)).map((tab) {
                           return Center(
                             child: Text("Content for $tab", style: TextStyle(fontSize: 20))

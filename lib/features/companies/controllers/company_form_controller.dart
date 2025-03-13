@@ -36,16 +36,22 @@ class CompanyFormController {
     }
   }
 
-  Future<ApiResponseModel<CompanyContactModel>> contactShow(int companyId) async {
+  Future<ApiCrudResponseModel<CompanyContactModel>> contactShow(int companyId) async {
     final t = prt('contactShow - CompanyFormController ');
     try {
       final response = await api.get('${EndPoint.companyContact}/$companyId');
       CompanyContactModel companyContactModel = CompanyContactModel.fromJson(response['contact']);
-      showSnackbar('Success', 'Data Saved Successfully', false);
-      return pr(ApiResponseModel(response: ResponseEnum.success, data: companyContactModel), t);
+      // showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(showResponse: ResponseEnum.success, data: companyContactModel),
+        t,
+      );
     } catch (e) {
-      String errorMessage = handeException(e);
-      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+      // String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(errorMessage: 'No data found', showResponse: ResponseEnum.failed),
+        t,
+      );
     }
   }
 }
