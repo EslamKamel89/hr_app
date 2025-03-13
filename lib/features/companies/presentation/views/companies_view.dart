@@ -28,6 +28,7 @@ class _CompaniesViewState extends State<CompaniesView> {
   @override
   void initState() {
     controller = context.read<CompaniesIndexCubit>();
+    // controller.resetState();
     controller.index();
     super.initState();
   }

@@ -556,17 +556,25 @@ class DropDownWidget extends StatefulWidget {
     required this.label,
     required this.onSelect,
     this.req = true,
+    this.initialValue,
   });
   final List<String> options;
   final String label;
-  final Function onSelect;
+  final Function(String?) onSelect;
   final bool req;
+  final String? initialValue;
   @override
   State<DropDownWidget> createState() => _DropDownWidgetState();
 }
 
 class _DropDownWidgetState extends State<DropDownWidget> {
   String? selectedValue;
+  @override
+  void initState() {
+    selectedValue = widget.initialValue;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -589,6 +597,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
         ),
         DropdownButtonFormField(
           decoration: _decoration(widget.label),
+          value: selectedValue,
           items:
               widget.options
                   .map(

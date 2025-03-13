@@ -56,4 +56,8 @@ class CompaniesIndexCubit extends Cubit<ApiResponseModel<List<CompanyModel>>> {
     }
     companies = state.data ?? [];
   }
+
+  void resetState() {
+    emit(ApiResponseModel(response: ResponseEnum.initial));
+  }
 }

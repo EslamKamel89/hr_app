@@ -6,6 +6,7 @@ import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/save_button.dart';
+import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
@@ -24,18 +25,16 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
   final TextEditingController website = TextEditingController();
   late final CompanyFormCubit controller;
   final PassByReference<String?> activities = PassByReference(null);
+  int? parentCompanyId;
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     controller = context.read<CompanyFormCubit>();
     companyName.text = controller.state.company?.data?.companyName ?? '';
-    tradeLicense.text =
-        controller.state.company?.data?.tradeLicenseNumber ?? '';
+    tradeLicense.text = controller.state.company?.data?.tradeLicenseNumber ?? '';
     abbr.text = controller.state.company?.data?.abbr ?? '';
     website.text = controller.state.company?.data?.websiteUrl ?? '';
-    dateOfIncorporation = parseDateTime(
-      controller.state.company?.data?.incoporationDate,
-    );
+    dateOfIncorporation = parseDateTime(controller.state.company?.data?.incoporationDate);
     activities.data = controller.state.company?.data?.businessActivities;
     super.initState();
   }
@@ -98,9 +97,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               onDateSubmit: (date) {
                 dateOfIncorporation = date;
               },
-              initialDate: parseDateTime(
-                controller.state.company?.data?.incoporationDate,
-              ),
+              initialDate: parseDateTime(controller.state.company?.data?.incoporationDate),
               textEditingController: dateOfIncorporationStr,
             ),
             SizedBox(height: 10),
@@ -111,21 +108,49 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               controller: website,
             ),
             SizedBox(height: 10),
-            DropDownWidget(
-              label: 'Parent Company',
-              options: ['Option one', 'Option two', 'Option three'],
-              onSelect: () {},
-              req: false,
-              // placeholder: 'Enter Parent Company',
+            Builder(
+              builder: (context) {
+                final companies = context.read<CompaniesIndexCubit>().state.data ?? [];
+                return DropDownWidget(
+                  label: 'Parent Company',
+                  initialValue:
+                      controller.state.company?.data?.parentCompany == null
+                          ? null
+                          : companies
+                              .where((c) => c.id == controller.state.company?.data?.parentCompany)
+                              .toList()
+                              .firstOrNull
+                              ?.companyName,
+                  options: companies.map((c) => c.companyName ?? '').toList(),
+                  onSelect: (String? selectedCompanyName) {
+                    parentCompanyId =
+                        companies
+                            .where((c) => c.companyName == selectedCompanyName)
+                            .toList()
+                            .firstOrNull
+                            ?.id;
+                  },
+                  req: false,
+                  // placeholder: 'Enter Parent Company',
+                );
+              },
             ),
             SizedBox(height: 10),
-            CustomMultipleTextFormField(
-              label: 'Business Activities',
-              placeholder: 'Enter Business Activities',
-              req: false,
-              onSelected: (value) {},
-              initialValues: activities.data?.split(','),
-              valueByReference: activities,
+            Builder(
+              builder: (context) {
+                List<String> activitiesList = [];
+                if (activities.data?.trim().isNotEmpty == true) {
+                  activitiesList = activities.data?.trim().split(',') ?? [];
+                }
+                return CustomMultipleTextFormField(
+                  label: 'Business Activities',
+                  placeholder: 'Enter Business Activities',
+                  req: false,
+                  onSelected: (value) {},
+                  initialValues: activitiesList,
+                  valueByReference: activities,
+                );
+              },
             ),
             SizedBox(height: 30),
             BlocBuilder<CompanyFormCubit, CompanyFormState>(
@@ -155,8 +180,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
 
   Future _sendRequest() async {
     if (_formKey.currentState!.validate()) {
-      CompanyModel companyInState =
-          controller.state.company?.data ?? CompanyModel();
+      CompanyModel companyInState = controller.state.company?.data ?? CompanyModel();
       CompanyModel companyUpdated = companyInState.copyWith(
         companyName: companyName.text,
         tradeLicenseNumber: tradeLicense.text,
@@ -164,7 +188,10 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
         incoporationDate: dateOfIncorporation?.toIso8601String(),
         websiteUrl: website.text,
         businessActivities: activities.data,
+        parentCompany: parentCompanyId,
       );
+      // pr(companyUpdated, 'companyUpdated');
+      // return;
       controller.state.company!.data = companyUpdated;
       await controller.basic();
     }
