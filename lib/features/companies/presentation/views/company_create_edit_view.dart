@@ -10,6 +10,7 @@ import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
+import 'package:hr/features/companies/presentation/froms/company_contact_form.dart';
 
 class ComapanyCreateEditView extends StatefulWidget {
   const ComapanyCreateEditView({super.key, required this.company});
@@ -55,15 +56,11 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
           return DefaultTabController(
             length: tabs.length,
             child: MainScaffold(
-              appBarTitleWidget:
-                  BlocBuilder<CompanyFormCubit, CompanyFormState>(
-                    builder: (context, state) {
-                      return Text(
-                        controller.state.company?.data?.companyName ??
-                            'Create company',
-                      );
-                    },
-                  ),
+              appBarTitleWidget: BlocBuilder<CompanyFormCubit, CompanyFormState>(
+                builder: (context, state) {
+                  return Text(controller.state.company?.data?.companyName ?? 'Create company');
+                },
+              ),
               child: Column(
                 children: [
                   TabBar(
@@ -76,14 +73,10 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
                     child: TabBarView(
                       children: [
                         CompanyBasicForm(),
-                        ...tabs.where((tab) => !['Basic'].contains(tab)).map((
-                          tab,
-                        ) {
+                        CompanyContactForm(),
+                        ...tabs.where((tab) => !['Basic', 'Contact'].contains(tab)).map((tab) {
                           return Center(
-                            child: Text(
-                                  "Content for $tab",
-                                  style: TextStyle(fontSize: 20),
-                                )
+                            child: Text("Content for $tab", style: TextStyle(fontSize: 20))
                                 .animate()
                                 .fadeIn(duration: Duration(milliseconds: 500))
                                 .slide(
