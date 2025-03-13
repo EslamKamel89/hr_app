@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
 import 'package:hr/features/companies/presentation/widgets/section_title.dart';
@@ -72,6 +74,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     input: input,
                     label: 'Company Email',
                     isRequired: true,
+                    isEmail: true,
                     minChars: 5,
                     maxChars: 50,
                   ),
@@ -81,6 +84,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
               label: 'Primary Mobile Number',
               placeholder: 'Enter Primary Mobile Number',
               controller: _contactName,
+              showNumberOnly: true,
               validator:
                   (input) => valdiator(
                     input: input,
@@ -95,6 +99,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
               label: 'Secondary Mobile Number',
               placeholder: 'Enter Secondary Mobile Number',
               controller: _contactName,
+              showNumberOnly: true,
               validator:
                   (input) => valdiator(
                     input: input,
@@ -109,6 +114,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
               label: 'Landline Number',
               placeholder: 'Enter Landline Number',
               controller: _contactName,
+              showNumberOnly: true,
               validator:
                   (input) => valdiator(
                     input: input,
@@ -123,6 +129,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
               label: 'Fax Number',
               placeholder: 'Enter Fax Number',
               controller: _contactName,
+              showNumberOnly: true,
               validator:
                   (input) => valdiator(
                     input: input,
@@ -138,6 +145,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
             CustomTextFormField(
               label: 'Mobile Number:',
               placeholder: 'Enter Mobile Number:',
+              showNumberOnly: true,
               controller: _contactName,
               validator:
                   (input) => valdiator(
@@ -152,6 +160,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
             CustomTextFormField(
               label: 'Landline Number',
               placeholder: 'Enter Landline Number',
+              showNumberOnly: true,
               controller: _contactName,
               validator:
                   (input) => valdiator(
@@ -172,11 +181,31 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     input: input,
                     label: 'Email',
                     isRequired: true,
+                    isEmail: true,
                     minChars: 5,
                     maxChars: 50,
                   ),
             ),
-            FormVerticalGap(),
+            SizedBox(height: 30),
+            BlocBuilder<CompanyFormCubit, CompanyFormState>(
+              buildWhen:
+                  (previous, current) => [
+                    ResponseEnum.loading,
+                    ResponseEnum.success,
+                  ].contains(current.contact?.response),
+              builder: (context, state) {
+                if (state.company?.response == ResponseEnum.loading) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return SaveButton(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    _sendRequest();
+                  },
+                );
+              },
+            ),
+            SizedBox(height: 100),
           ],
         ),
       ),
