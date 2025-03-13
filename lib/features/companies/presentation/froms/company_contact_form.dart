@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/heleprs/validator.dart';
+import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
+import 'package:hr/features/companies/presentation/widgets/section_title.dart';
 
 class CompanyContactForm extends StatefulWidget {
   const CompanyContactForm({super.key});
@@ -36,7 +39,31 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            SectionTitle(title: 'Primary Contact Details'),
+            CustomTextFormField(
+              label: 'Company Name',
+              placeholder: 'Enter Company Name',
+              controller: _contactName,
+              validator:
+                  (input) => valdiator(
+                    input: input,
+                    label: 'Contact Name',
+                    isRequired: true,
+                    minChars: 5,
+                    maxChars: 50,
+                  ),
+            ),
+            SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
   }
 
   void _initializeFields() {
