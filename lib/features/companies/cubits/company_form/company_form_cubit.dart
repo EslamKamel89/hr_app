@@ -29,4 +29,8 @@ class CompanyFormCubit extends Cubit<CompanyFormState> {
     pr(companyRes, t);
     emit(state.copyWith(company: companyRes));
   }
+
+  void changeTab(int tab) {
+    emit(state.copyWith(currentTab: tab));
+  }
 }

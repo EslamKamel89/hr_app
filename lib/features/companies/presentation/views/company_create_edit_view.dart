@@ -55,6 +55,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
           }
           return DefaultTabController(
             length: tabs.length,
+            animationDuration: Duration(seconds: 1),
             child: MainScaffold(
               appBarTitleWidget: BlocBuilder<CompanyFormCubit, CompanyFormState>(
                 builder: (context, state) {
@@ -64,6 +65,9 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
               child: Column(
                 children: [
                   TabBar(
+                    onTap: (int tab) {
+                      controller.changeTab(tab);
+                    },
                     isScrollable: true,
                     indicatorColor: context.secondaryHeaderColor,
                     labelStyle: TextStyle(fontWeight: FontWeight.bold),
@@ -95,5 +99,12 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
         },
       ),
     );
+  }
+
+  Widget _checkBasicDataExist(Widget child, CompanyFormCubit controller) {
+    if (controller.state.company?.data != null) {
+      return child;
+    }
+    return Center(child: Text("Please Fill Your Basic Data First", style: TextStyle(fontSize: 20)));
   }
 }
