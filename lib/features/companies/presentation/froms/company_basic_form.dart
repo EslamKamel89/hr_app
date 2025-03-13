@@ -9,6 +9,7 @@ import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
+import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
 
 class CompanyBasicForm extends StatefulWidget {
   const CompanyBasicForm({super.key});
@@ -61,7 +62,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
                     maxChars: 50,
                   ),
             ),
-            SizedBox(height: 10),
+            FormVerticalGap(),
             CustomTextFormField(
               label: 'Trade License No',
               placeholder: 'Enter Trade License No',
@@ -75,14 +76,14 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
                     maxChars: 50,
                   ),
             ),
-            SizedBox(height: 10),
+            FormVerticalGap(),
             CustomTextFormField(
               label: 'Abbr',
               placeholder: 'Enter Abbr',
               req: false,
               controller: _abbr,
             ),
-            SizedBox(height: 10),
+            FormVerticalGap(),
             CustomDateField(
               label: 'Date of Incorporation',
               req: false,
@@ -92,14 +93,14 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               initialDate: parseDateTime(_controller.state.company?.data?.incoporationDate),
               textEditingController: _dateOfIncorporationStr,
             ),
-            SizedBox(height: 10),
+            FormVerticalGap(),
             CustomTextFormField(
               label: 'Website',
               placeholder: 'Enter Website',
               req: false,
               controller: _website,
             ),
-            SizedBox(height: 10),
+            FormVerticalGap(),
             Builder(
               builder: (context) {
                 final companies = context.read<CompaniesIndexCubit>().state.data ?? [];
@@ -127,7 +128,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
                 );
               },
             ),
-            SizedBox(height: 10),
+            FormVerticalGap(),
             Builder(
               builder: (context) {
                 List<String> activitiesList = [];
