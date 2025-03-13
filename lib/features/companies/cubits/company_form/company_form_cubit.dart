@@ -4,6 +4,7 @@ import 'package:hr/core/heleprs/print_helper.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/companies/controllers/company_form_controller.dart';
+import 'package:hr/features/companies/models/company_contact_model.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
 part 'company_form_state.dart';
@@ -11,11 +12,7 @@ part 'company_form_state.dart';
 class CompanyFormCubit extends Cubit<CompanyFormState> {
   final CompanyFormController controller = serviceLocator();
   CompanyFormCubit()
-    : super(
-        CompanyFormState(
-          company: ApiResponseModel(response: ResponseEnum.initial),
-        ),
-      );
+    : super(CompanyFormState(company: ApiResponseModel(response: ResponseEnum.initial)));
   Future basic() async {
     final t = prt('basic - CompanyFormCubit');
     if (state.company?.data == null) {
@@ -24,10 +21,7 @@ class CompanyFormCubit extends Cubit<CompanyFormState> {
     }
     emit(
       state.copyWith(
-        company: state.company?.copyWith(
-          errorMessage: null,
-          response: ResponseEnum.loading,
-        ),
+        company: state.company?.copyWith(errorMessage: null, response: ResponseEnum.loading),
       ),
     );
     pr('Loading....', t);

@@ -31,10 +31,13 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
   void initState() {
     controller = context.read<CompanyFormCubit>();
     companyName.text = controller.state.company?.data?.companyName ?? '';
-    tradeLicense.text = controller.state.company?.data?.tradeLicenseNumber ?? '';
+    tradeLicense.text =
+        controller.state.company?.data?.tradeLicenseNumber ?? '';
     abbr.text = controller.state.company?.data?.abbr ?? '';
     website.text = controller.state.company?.data?.websiteUrl ?? '';
-    dateOfIncorporation = parseDateTime(controller.state.company?.data?.incoporationDate);
+    dateOfIncorporation = parseDateTime(
+      controller.state.company?.data?.incoporationDate,
+    );
     activities.data = controller.state.company?.data?.businessActivities;
     super.initState();
   }
@@ -97,7 +100,9 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               onDateSubmit: (date) {
                 dateOfIncorporation = date;
               },
-              initialDate: parseDateTime(controller.state.company?.data?.incoporationDate),
+              initialDate: parseDateTime(
+                controller.state.company?.data?.incoporationDate,
+              ),
               textEditingController: dateOfIncorporationStr,
             ),
             SizedBox(height: 10),
@@ -110,14 +115,23 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             SizedBox(height: 10),
             Builder(
               builder: (context) {
-                final companies = context.read<CompaniesIndexCubit>().state.data ?? [];
+                final companies =
+                    context.read<CompaniesIndexCubit>().state.data ?? [];
                 return DropDownWidget(
                   label: 'Parent Company',
                   initialValue:
                       controller.state.company?.data?.parentCompany == null
                           ? null
                           : companies
-                              .where((c) => c.id == controller.state.company?.data?.parentCompany)
+                              .where(
+                                (c) =>
+                                    c.id ==
+                                    controller
+                                        .state
+                                        .company
+                                        ?.data
+                                        ?.parentCompany,
+                              )
                               .toList()
                               .firstOrNull
                               ?.companyName,
@@ -180,7 +194,8 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
 
   Future _sendRequest() async {
     if (_formKey.currentState!.validate()) {
-      CompanyModel companyInState = controller.state.company?.data ?? CompanyModel();
+      CompanyModel companyInState =
+          controller.state.company?.data ?? CompanyModel();
       CompanyModel companyUpdated = companyInState.copyWith(
         companyName: companyName.text,
         tradeLicenseNumber: tradeLicense.text,

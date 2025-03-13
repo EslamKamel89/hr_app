@@ -25,7 +25,10 @@ class _CompanyCardState extends State<CompanyCard> {
         children: [
           CircleAvatar(
             backgroundColor: Colors.teal,
-            child: Text(widget.number.toString(), style: TextStyle(color: Colors.white)),
+            child: Text(
+              widget.number.toString(),
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           SizedBox(width: 12),
           Expanded(
@@ -52,19 +55,25 @@ class _CompanyCardState extends State<CompanyCard> {
             children: [
               ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.of(
-                    context,
-                  ).pushNamed(AppRoutesNames.companyCreateEditView, arguments: widget.company);
+                  Navigator.of(context).pushNamed(
+                    AppRoutesNames.companyCreateEditView,
+                    arguments: widget.company,
+                  );
                 },
                 icon: Icon(Icons.edit, size: 18),
                 label: Text('Edit'),
                 style: ElevatedButton.styleFrom(
                   // primary: Colors.blue,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
               SizedBox(width: 8),
-              BlocBuilder<CompaniesIndexCubit, ApiResponseModel<List<CompanyModel>>>(
+              BlocBuilder<
+                CompaniesIndexCubit,
+                ApiResponseModel<List<CompanyModel>>
+              >(
                 builder: (context, state) {
                   final controller = context.read<CompaniesIndexCubit>();
                   if (state.response == ResponseEnum.loading) {
@@ -81,7 +90,9 @@ class _CompanyCardState extends State<CompanyCard> {
                     label: Text('Delete'),
                     style: ElevatedButton.styleFrom(
                       // primary: Colors.red,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
                   );
                 },

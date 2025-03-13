@@ -3,12 +3,16 @@ part of 'company_form_cubit.dart';
 
 class CompanyFormState {
   ApiResponseModel<CompanyModel?>? company;
-  CompanyFormState({this.company});
+  ApiResponseModel<CompanyContactModel?>? contact;
+  CompanyFormState({this.company, this.contact});
 
-  CompanyFormState copyWith({ApiResponseModel<CompanyModel?>? company}) {
-    return CompanyFormState(company: company ?? this.company);
+  CompanyFormState copyWith({
+    ApiResponseModel<CompanyModel?>? company,
+    ApiResponseModel<CompanyContactModel?>? contact,
+  }) {
+    return CompanyFormState(company: company ?? this.company, contact: contact ?? this.contact);
   }
 
   @override
-  String toString() => 'CompanyFormState(company: $company)';
+  String toString() => 'CompanyFormState(company: $company, contact: $contact)';
 }
