@@ -31,4 +31,25 @@ class CompanyContactCubit extends Cubit<ApiCrudResponseModel<CompanyContactModel
     pr(contactRes, t);
     emit(contactRes);
   }
+
+  Future contactUpsert(BuildContext context, CompanyContactModel contact) async {
+    final t = prt('contactUpsert - CompanyFormCubit');
+    final company = getCompany(context);
+    if (company == null || company.id == null) {
+      pr('Error" company basic data cant be null', t);
+      return;
+    }
+    emit(
+      state.copyWith(
+        upsertResponse: ResponseEnum.loading,
+        showResponse: ResponseEnum.initial,
+        data: null,
+        errorMessage: null,
+      ),
+    );
+    pr('Loading....', t);
+    final contactRes = await controller.contactUpsert(company.id!, contact);
+    pr(contactRes, t);
+    emit(contactRes);
+  }
 }

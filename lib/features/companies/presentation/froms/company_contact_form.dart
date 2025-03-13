@@ -69,6 +69,10 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
           );
         }
         return BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
+          buildWhen: (previous, current) {
+            return (previous.showResponse != ResponseEnum.success &&
+                current.showResponse == ResponseEnum.success);
+          },
           builder: (context, state) {
             _initializeFields();
             return Form(
@@ -112,7 +116,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     CustomTextFormField(
                       label: 'Primary Mobile Number',
                       placeholder: 'Enter Primary Mobile Number',
-                      controller: _contactName,
+                      controller: _primaryMobileNumber,
                       showNumberOnly: true,
                       validator:
                           (input) => valdiator(
@@ -127,7 +131,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     CustomTextFormField(
                       label: 'Secondary Mobile Number',
                       placeholder: 'Enter Secondary Mobile Number',
-                      controller: _contactName,
+                      controller: _secondaryMobileNumber,
                       showNumberOnly: true,
                       validator:
                           (input) => valdiator(
@@ -142,7 +146,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     CustomTextFormField(
                       label: 'Landline Number',
                       placeholder: 'Enter Landline Number',
-                      controller: _contactName,
+                      controller: _landlineNumber,
                       showNumberOnly: true,
                       validator:
                           (input) => valdiator(
@@ -157,7 +161,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     CustomTextFormField(
                       label: 'Fax Number',
                       placeholder: 'Enter Fax Number',
-                      controller: _contactName,
+                      controller: _faxNumber,
                       showNumberOnly: true,
                       validator:
                           (input) => valdiator(
@@ -175,7 +179,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                       label: 'Mobile Number:',
                       placeholder: 'Enter Mobile Number:',
                       showNumberOnly: true,
-                      controller: _contactName,
+                      controller: _hrMobileNumber,
                       validator:
                           (input) => valdiator(
                             input: input,
@@ -190,7 +194,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                       label: 'Landline Number',
                       placeholder: 'Enter Landline Number',
                       showNumberOnly: true,
-                      controller: _contactName,
+                      controller: _hrLandlineNumber,
                       validator:
                           (input) => valdiator(
                             input: input,
@@ -204,7 +208,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     CustomTextFormField(
                       label: 'Email',
                       placeholder: 'Enter Email',
-                      controller: _contactName,
+                      controller: _hrEmail,
                       validator:
                           (input) => valdiator(
                             input: input,
@@ -216,14 +220,15 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                           ),
                     ),
                     SizedBox(height: 30),
-                    BlocBuilder<CompanyFormCubit, CompanyFormState>(
+                    BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
                       // buildWhen:
                       //     (previous, current) => [
                       //       ResponseEnum.loading,
                       //       ResponseEnum.success,
                       //     ].contains(current.contact?.response),
                       builder: (context, state) {
-                        if (state.company?.response == ResponseEnum.loading) {
+                        if (state.showResponse == ResponseEnum.loading ||
+                            state.upsertResponse == ResponseEnum.loading) {
                           return Center(child: CircularProgressIndicator());
                         }
                         return SaveButton(
@@ -249,6 +254,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
     _contactName.text = _controller.state.data?.contactName ?? '';
     _companyEmail.text = _controller.state.data?.companyEmail ?? '';
     _primaryMobileNumber.text = _controller.state.data?.primaryMobileNumber ?? '';
+    _secondaryMobileNumber.text = _controller.state.data?.secondaryMobileNumber ?? '';
     _landlineNumber.text = _controller.state.data?.landlineNumber ?? '';
     _faxNumber.text = _controller.state.data?.faxNumber ?? '';
     _hrMobileNumber.text = _controller.state.data?.hrMobileNumber ?? '';
@@ -261,6 +267,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
     _companyEmail.dispose();
     _primaryMobileNumber.dispose();
     _secondaryMobileNumber.dispose();
+    _landlineNumber.dispose();
     _faxNumber.dispose();
     _hrMobileNumber.dispose();
     _hrLandlineNumber.dispose();
@@ -268,6 +275,21 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
   }
 
   Future _sendRequest() async {
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      _controller.contactUpsert(
+        context,
+        CompanyContactModel(
+          contactName: _contactName.text,
+          companyEmail: _companyEmail.text,
+          primaryMobileNumber: _primaryMobileNumber.text,
+          secondaryMobileNumber: _secondaryMobileNumber.text,
+          landlineNumber: _landlineNumber.text,
+          faxNumber: _faxNumber.text,
+          hrMobileNumber: _hrMobileNumber.text,
+          hrLandlineNumber: _hrLandlineNumber.text,
+          hrEmail: _hrEmail.text,
+        ),
+      );
+    }
   }
 }

@@ -54,4 +54,29 @@ class CompanyFormController {
       );
     }
   }
+
+  Future<ApiCrudResponseModel<CompanyContactModel>> contactUpsert(
+    int companyId,
+    CompanyContactModel contact,
+  ) async {
+    final t = prt('contactUpsert - CompanyFormController ');
+    try {
+      final response = await api.patch(
+        '${EndPoint.companyContact}/$companyId',
+        data: contact.toJson(),
+      );
+      CompanyContactModel companyContactModel = CompanyContactModel.fromJson(response['contact']);
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(upsertResponse: ResponseEnum.success, data: companyContactModel),
+        t,
+      );
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(errorMessage: errorMessage, upsertResponse: ResponseEnum.failed),
+        t,
+      );
+    }
+  }
 }

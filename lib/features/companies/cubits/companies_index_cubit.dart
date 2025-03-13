@@ -8,15 +8,12 @@ import 'package:hr/features/companies/models/company_model.dart';
 
 class CompaniesIndexCubit extends Cubit<ApiResponseModel<List<CompanyModel>>> {
   CompaniesController controller = serviceLocator();
-  CompaniesIndexCubit()
-    : super(ApiResponseModel(response: ResponseEnum.initial));
+  CompaniesIndexCubit() : super(ApiResponseModel(response: ResponseEnum.initial));
 
   List<CompanyModel> companies = [];
   Future index() async {
     final t = prt('index - CompaniesIndexCubit');
-    emit(
-      pr(state.copyWith(errorMessage: null, response: ResponseEnum.loading), t),
-    );
+    emit(pr(state.copyWith(errorMessage: null, response: ResponseEnum.loading), t));
     emit(pr(await controller.index(), t));
     companies = state.data ?? [];
   }
@@ -41,9 +38,7 @@ class CompaniesIndexCubit extends Cubit<ApiResponseModel<List<CompanyModel>>> {
 
   Future delete(int id) async {
     final t = prt('delete - CompaniesIndexCubit');
-    emit(
-      pr(state.copyWith(errorMessage: null, response: ResponseEnum.loading), t),
-    );
+    emit(pr(state.copyWith(errorMessage: null, response: ResponseEnum.loading), t));
     final res = await controller.delete(id);
 
     if (res.response == ResponseEnum.success) {
@@ -53,6 +48,8 @@ class CompaniesIndexCubit extends Cubit<ApiResponseModel<List<CompanyModel>>> {
           response: ResponseEnum.success,
         ),
       );
+    } else {
+      emit(state.copyWith(response: res.response));
     }
     companies = state.data ?? [];
   }
