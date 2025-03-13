@@ -30,6 +30,23 @@ class CompanyFormCubit extends Cubit<CompanyFormState> {
     emit(state.copyWith(company: companyRes));
   }
 
+  Future contactShow() async {
+    final t = prt('contactShow - CompanyFormCubit');
+    if ([state.company?.data, state.company?.data?.id].contains(null)) {
+      pr('Error" company basic data cant be null', t);
+      return;
+    }
+    emit(
+      state.copyWith(
+        company: state.company?.copyWith(errorMessage: null, response: ResponseEnum.loading),
+      ),
+    );
+    pr('Loading....', t);
+    final contactRes = await controller.contactShow((state.company?.data?.id)!);
+    pr(contactRes, t);
+    emit(state.copyWith(contact: contactRes));
+  }
+
   void changeTab(int tab) {
     emit(state.copyWith(currentTab: tab));
   }
