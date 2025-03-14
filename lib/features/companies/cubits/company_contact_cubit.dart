@@ -29,7 +29,9 @@ class CompanyContactCubit extends Cubit<ApiCrudResponseModel<CompanyContactModel
     pr('Loading....', t);
     final contactRes = await controller.contactShow(company.id!);
     pr(contactRes, t);
-    emit(contactRes);
+    if (!isClosed) {
+      emit(contactRes);
+    }
   }
 
   Future contactUpsert(BuildContext context, CompanyContactModel contact) async {

@@ -9,6 +9,7 @@ import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
+import 'package:hr/features/companies/presentation/froms/company_address_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_contact_form.dart';
 
@@ -78,7 +79,10 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
                       children: [
                         CompanyBasicForm(),
                         CompanyContactProvider(),
-                        ...tabs.where((tab) => !['Basic', 'Contact'].contains(tab)).map((tab) {
+                        CompanyAddressProvider(),
+                        ...tabs.where((tab) => !['Basic', 'Contact', 'Address'].contains(tab)).map((
+                          tab,
+                        ) {
                           return Center(
                             child: Text("Content for $tab", style: TextStyle(fontSize: 20))
                                 .animate()
