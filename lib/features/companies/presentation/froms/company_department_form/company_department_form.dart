@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
-import 'package:hr/core/heleprs/validator.dart';
-import 'package:hr/core/widgets/collapsible_card.dart';
-import 'package:hr/core/widgets/inputs.dart';
-import 'package:hr/core/widgets/save_button.dart';
+import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/add_main_department.dart';
+import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/add_sub_department.dart';
 import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
 import 'package:hr/utils/styles/styles.dart';
@@ -24,7 +22,8 @@ class CompanyDepartmentForm extends StatefulWidget {
   State<CompanyDepartmentForm> createState() => _CompanyDepartmentFormState();
 }
 
-class _CompanyDepartmentFormState extends State<CompanyDepartmentForm> {
+class _CompanyDepartmentFormState extends State<CompanyDepartmentForm>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _contactName = TextEditingController();
   final TextEditingController _companyEmail = TextEditingController();
   final TextEditingController _primaryMobileNumber = TextEditingController();
@@ -36,8 +35,10 @@ class _CompanyDepartmentFormState extends State<CompanyDepartmentForm> {
   final TextEditingController _hrEmail = TextEditingController();
   // late final CompanyContactCubit _controller;
   final _formKey = GlobalKey<FormState>();
+  late final TabController _tabController;
   @override
   void initState() {
+    _tabController = TabController(length: 2, vsync: this);
     // _controller = context.read<CompanyContactCubit>();
     // _controller.contactShow(context);
     super.initState();
@@ -53,83 +54,30 @@ class _CompanyDepartmentFormState extends State<CompanyDepartmentForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 3,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CollapsibleCard(
-              header: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [txt('Add Main Department'), Icon(Icons.add)],
-              ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FormVerticalGap(),
-                  CustomTextFormField(
-                    placeholder: 'Enter Main Department',
-                    // controller: _contactName,
-                    validator:
-                        (input) => valdiator(
-                          input: input,
-                          label: 'Main Department',
-                          isRequired: true,
-                          minChars: 5,
-                          maxChars: 50,
-                        ),
-                  ),
-                  FormVerticalGap(),
-                  SaveButton(onTap: () {}, title: 'Create'),
-                  FormVerticalGap(),
-                ],
-              ),
-            ),
-            FormVerticalGap(),
-            CollapsibleCard(
-              header: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [txt('Add Sub Department'), Icon(Icons.add)],
-              ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FormVerticalGap(),
-                  DropDownWidget(
-                    label: 'Pick Main Category',
-                    initialValue: 'category 1',
-                    options: ['category 1', 'category 2', 'category 3', 'category 4'],
-                    onSelect: (value) {},
-                  ),
-                  FormVerticalGap(),
-                  CustomTextFormField(
-                    placeholder: 'Enter Sub Department',
-                    // controller: _contactName,
-                    validator:
-                        (input) => valdiator(
-                          input: input,
-                          label: 'Main Department',
-                          isRequired: true,
-                          minChars: 5,
-                          maxChars: 50,
-                        ),
-                  ),
-                  FormVerticalGap(),
-                  SaveButton(onTap: () {}, title: 'Create'),
-                  FormVerticalGap(),
-                ],
-              ),
-            ),
-            FormVerticalGap(),
-            DefaultTabController(
-              length: 2,
-              child: TabBar(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AddMainDepartment(),
+          FormVerticalGap(),
+          AddSubDepartment(),
+          FormVerticalGap(),
+          Builder(
+            builder: (context) {
+              return TabBar(
+                controller: _tabController,
                 indicatorColor: context.secondaryHeaderColor,
                 labelStyle: TextStyle(fontWeight: FontWeight.bold),
                 tabs: [Tab(child: txt('Main Departments')), Tab(child: txt('Sub Departments'))],
-              ),
+              );
+            },
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [Text('Main Department'), Text('Sub Department')],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -156,6 +104,7 @@ class _CompanyDepartmentFormState extends State<CompanyDepartmentForm> {
     _hrMobileNumber.dispose();
     _hrLandlineNumber.dispose();
     _hrEmail.dispose();
+    _tabController.dispose();
   }
 
   Future _sendRequest() async {
