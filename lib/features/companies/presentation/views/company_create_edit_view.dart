@@ -12,6 +12,7 @@ import 'package:hr/features/companies/models/company_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_address_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_contact_form.dart';
+import 'package:hr/features/companies/presentation/froms/company_department_form.dart';
 
 class ComapanyCreateEditView extends StatefulWidget {
   const ComapanyCreateEditView({super.key, required this.company});
@@ -80,19 +81,23 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView> {
                         CompanyBasicForm(),
                         CompanyContactProvider(),
                         CompanyAddressProvider(),
-                        ...tabs.where((tab) => !['Basic', 'Contact', 'Address'].contains(tab)).map((
-                          tab,
-                        ) {
-                          return Center(
-                            child: Text("Content for $tab", style: TextStyle(fontSize: 20))
-                                .animate()
-                                .fadeIn(duration: Duration(milliseconds: 500))
-                                .slide(
-                                  begin: Offset(0, 0.1),
-                                  duration: Duration(milliseconds: 500),
-                                ),
-                          );
-                        }),
+                        CompanyDepartmentProvider(),
+                        ...tabs
+                            .where(
+                              (tab) =>
+                                  !['Basic', 'Contact', 'Address', "Departments"].contains(tab),
+                            )
+                            .map((tab) {
+                              return Center(
+                                child: Text("Content for $tab", style: TextStyle(fontSize: 20))
+                                    .animate()
+                                    .fadeIn(duration: Duration(milliseconds: 500))
+                                    .slide(
+                                      begin: Offset(0, 0.1),
+                                      duration: Duration(milliseconds: 500),
+                                    ),
+                              );
+                            }),
                       ],
                     ),
                   ),

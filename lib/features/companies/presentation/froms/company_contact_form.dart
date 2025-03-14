@@ -6,9 +6,8 @@ import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/company_contact_cubit.dart';
-import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
-import 'package:hr/features/companies/helpers/get_company.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
+import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
 import 'package:hr/features/companies/presentation/widgets/section_title.dart';
 
@@ -58,195 +57,186 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyFormCubit, CompanyFormState>(
-      buildWhen: (previous, current) {
-        return (previous.currentTab != 1 && current.currentTab == 1);
-      },
-      builder: (context, state) {
-        if (getCompany(context) == null) {
-          return Center(
-            child: Text("Please Fill Your Basic Data First", style: TextStyle(fontSize: 20)),
-          );
-        }
-        return BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
-          buildWhen: (previous, current) {
-            return (previous.showResponse != ResponseEnum.success &&
-                current.showResponse == ResponseEnum.success);
-          },
-          builder: (context, state) {
-            _initializeFields();
-            return Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20),
-                    SectionTitle(title: 'Primary Contact Details'),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Company Name',
-                      placeholder: 'Enter Company Name',
-                      controller: _contactName,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Contact Name',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Company Email',
-                      placeholder: 'Enter Company Email',
-                      controller: _companyEmail,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Company Email',
-                            isRequired: true,
-                            isEmail: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Primary Mobile Number',
-                      placeholder: 'Enter Primary Mobile Number',
-                      controller: _primaryMobileNumber,
-                      showNumberOnly: true,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Primary Mobile Number',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Secondary Mobile Number',
-                      placeholder: 'Enter Secondary Mobile Number',
-                      controller: _secondaryMobileNumber,
-                      showNumberOnly: true,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Secondary Mobile Number',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Landline Number',
-                      placeholder: 'Enter Landline Number',
-                      controller: _landlineNumber,
-                      showNumberOnly: true,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Landline Number',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Fax Number',
-                      placeholder: 'Enter Fax Number',
-                      controller: _faxNumber,
-                      showNumberOnly: true,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Fax Number',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    SectionTitle(title: 'HR Contact Details'),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Mobile Number:',
-                      placeholder: 'Enter Mobile Number:',
-                      showNumberOnly: true,
-                      controller: _hrMobileNumber,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Mobile Number:',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Landline Number',
-                      placeholder: 'Enter Landline Number',
-                      showNumberOnly: true,
-                      controller: _hrLandlineNumber,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Landline Number',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Email',
-                      placeholder: 'Enter Email',
-                      controller: _hrEmail,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Email',
-                            isRequired: true,
-                            isEmail: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                    SizedBox(height: 30),
-                    BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
-                      // buildWhen:
-                      //     (previous, current) => [
-                      //       ResponseEnum.loading,
-                      //       ResponseEnum.success,
-                      //     ].contains(current.contact?.response),
-                      builder: (context, state) {
-                        if (state.showResponse == ResponseEnum.loading ||
-                            state.upsertResponse == ResponseEnum.loading) {
-                          return Center(child: CircularProgressIndicator());
-                        }
-                        return SaveButton(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            _sendRequest();
-                          },
-                        );
-                      },
-                    ),
-                    SizedBox(height: 100),
-                  ],
-                ),
+    return CompanyBasicInfoFilledWidget(
+      currentTab: 1,
+      child: BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
+        buildWhen: (previous, current) {
+          return (previous.showResponse != ResponseEnum.success &&
+              current.showResponse == ResponseEnum.success);
+        },
+        builder: (context, state) {
+          _initializeFields();
+          return Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  SectionTitle(title: 'Primary Contact Details'),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Company Name',
+                    placeholder: 'Enter Company Name',
+                    controller: _contactName,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Contact Name',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Company Email',
+                    placeholder: 'Enter Company Email',
+                    controller: _companyEmail,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Company Email',
+                          isRequired: true,
+                          isEmail: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Primary Mobile Number',
+                    placeholder: 'Enter Primary Mobile Number',
+                    controller: _primaryMobileNumber,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Primary Mobile Number',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Secondary Mobile Number',
+                    placeholder: 'Enter Secondary Mobile Number',
+                    controller: _secondaryMobileNumber,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Secondary Mobile Number',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Landline Number',
+                    placeholder: 'Enter Landline Number',
+                    controller: _landlineNumber,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Landline Number',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Fax Number',
+                    placeholder: 'Enter Fax Number',
+                    controller: _faxNumber,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Fax Number',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  SectionTitle(title: 'HR Contact Details'),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Mobile Number:',
+                    placeholder: 'Enter Mobile Number:',
+                    showNumberOnly: true,
+                    controller: _hrMobileNumber,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Mobile Number:',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Landline Number',
+                    placeholder: 'Enter Landline Number',
+                    showNumberOnly: true,
+                    controller: _hrLandlineNumber,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Landline Number',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Email',
+                    placeholder: 'Enter Email',
+                    controller: _hrEmail,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Email',
+                          isRequired: true,
+                          isEmail: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  SizedBox(height: 30),
+                  BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
+                    // buildWhen:
+                    //     (previous, current) => [
+                    //       ResponseEnum.loading,
+                    //       ResponseEnum.success,
+                    //     ].contains(current.contact?.response),
+                    builder: (context, state) {
+                      if (state.showResponse == ResponseEnum.loading ||
+                          state.upsertResponse == ResponseEnum.loading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return SaveButton(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          _sendRequest();
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 100),
+                ],
               ),
-            );
-          },
-        );
-      },
+            ),
+          );
+        },
+      ),
     );
   }
 

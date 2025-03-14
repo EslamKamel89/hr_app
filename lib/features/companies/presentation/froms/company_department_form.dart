@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
 
-class CompanyAddressProvider extends StatelessWidget {
-  const CompanyAddressProvider({super.key});
+class CompanyDepartmentProvider extends StatelessWidget {
+  const CompanyDepartmentProvider({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CompanyAddressForm();
+    return const CompanyDepartmentForm();
   }
 }
 
-class CompanyAddressForm extends StatefulWidget {
-  const CompanyAddressForm({super.key});
+class CompanyDepartmentForm extends StatefulWidget {
+  const CompanyDepartmentForm({super.key});
 
   @override
-  State<CompanyAddressForm> createState() => _CompanyAddressFormState();
+  State<CompanyDepartmentForm> createState() => _CompanyDepartmentFormState();
 }
 
-class _CompanyAddressFormState extends State<CompanyAddressForm> {
+class _CompanyDepartmentFormState extends State<CompanyDepartmentForm> {
   final TextEditingController _contactName = TextEditingController();
   final TextEditingController _companyEmail = TextEditingController();
   final TextEditingController _primaryMobileNumber = TextEditingController();
@@ -44,7 +44,7 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
 
   @override
   Widget build(BuildContext context) {
-    return CompanyBasicInfoFilledWidget(currentTab: 2, child: Placeholder());
+    return CompanyBasicInfoFilledWidget(currentTab: 3, child: Placeholder());
   }
 
   void _initializeFields() {
