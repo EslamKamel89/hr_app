@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
 import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/add_main_department.dart';
 import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/add_sub_department.dart';
+import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/main_department_table.dart';
+import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/sub_department_table.dart';
 import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
 import 'package:hr/utils/styles/styles.dart';
@@ -54,30 +56,33 @@ class _CompanyDepartmentFormState extends State<CompanyDepartmentForm>
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AddMainDepartment(),
-          FormVerticalGap(),
-          AddSubDepartment(),
-          FormVerticalGap(),
-          Builder(
-            builder: (context) {
-              return TabBar(
-                controller: _tabController,
-                indicatorColor: context.secondaryHeaderColor,
-                labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                tabs: [Tab(child: txt('Main Departments')), Tab(child: txt('Sub Departments'))],
-              );
-            },
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [Text('Main Department'), Text('Sub Department')],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AddMainDepartment(),
+            FormVerticalGap(),
+            AddSubDepartment(),
+            FormVerticalGap(),
+            Builder(
+              builder: (context) {
+                return TabBar(
+                  controller: _tabController,
+                  indicatorColor: context.secondaryHeaderColor,
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  tabs: [Tab(child: txt('Main Departments')), Tab(child: txt('Sub Departments'))],
+                );
+              },
             ),
-          ),
-        ],
+            SizedBox(
+              height: 700,
+              child: TabBarView(
+                controller: _tabController,
+                children: [MainDepartmentTableWidget(), SubDepartmentTableWidget()],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
