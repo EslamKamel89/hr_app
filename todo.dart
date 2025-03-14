@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 
-const _doneTodos = [];
-const _todo = [
+const _doneTodos = [
   "use CompanyBasicInfo widget in address, departments and contact and make sure that every thing is okay",
+  "understant the flow of the departments", //
 ];
+const _todo = ["create the ui for the departments"];

@@ -82,7 +82,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     validator:
                         (input) => valdiator(
                           input: input,
-                          label: 'Contact Name',
+                          label: 'Company Name',
                           isRequired: true,
                           minChars: 5,
                           maxChars: 50,

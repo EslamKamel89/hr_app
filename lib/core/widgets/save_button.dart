@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hr/utils/styles/styles.dart';
 
 class SaveButton extends StatelessWidget {
-  const SaveButton({super.key, required this.onTap});
+  const SaveButton({super.key, required this.onTap, this.title});
   final VoidCallback onTap;
+  final String? title;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -11,7 +12,7 @@ class SaveButton extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,
-        child: txt('Save', e: St.bold18),
+        child: txt(title ?? 'Save', e: St.bold18),
       ),
     );
   }
