@@ -6,7 +6,7 @@ import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/widgets/collapsible_card.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/save_button.dart';
-import 'package:hr/features/companies/cubits/create_main_department_cubit.dart';
+import 'package:hr/features/companies/cubits/upsert_main_department_cubit.dart';
 import 'package:hr/features/companies/helpers/get_company.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
@@ -32,10 +32,10 @@ class _AddMainDepartmentState extends State<AddMainDepartment> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateMainDepartmentCubit(),
-      child: BlocBuilder<CreateMainDepartmentCubit, ApiResponseModel<CompanyMainDepartmentModel>>(
+      create: (context) => UpsertMainDepartmentCubit(),
+      child: BlocBuilder<UpsertMainDepartmentCubit, ApiResponseModel<CompanyMainDepartmentModel>>(
         builder: (context, state) {
-          final controller = context.read<CreateMainDepartmentCubit>();
+          final controller = context.read<UpsertMainDepartmentCubit>();
           return Form(
             key: _formKey,
             child: CollapsibleCard(
@@ -66,7 +66,7 @@ class _AddMainDepartmentState extends State<AddMainDepartment> {
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             FocusScope.of(context).unfocus();
-                            await controller.create(
+                            await controller.upsert(
                               CompanyMainDepartmentModel(
                                 name: _name.text,
                                 companyId: getCompany(context)?.id,

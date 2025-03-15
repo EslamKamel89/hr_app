@@ -5,8 +5,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/models/api_response_model.dart';
+import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/core/widgets/handle_response_widget.dart';
 import 'package:hr/core/widgets/show_are_you_sure_dialog.dart';
+import 'package:hr/features/companies/controllers/company_form_controller.dart';
 import 'package:hr/features/companies/cubits/company_departments_index_cubit.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/edit_main_department_model.dart';
@@ -103,7 +105,9 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                                 children: [
                                   InkWell(
                                         onTap: () {
-                                          _showEditMainDepartmentModel();
+                                          if (state.data?[index] != null) {
+                                            _showEditMainDepartmentModel((state.data?[index])!);
+                                          }
                                         },
                                         child: Icon(Icons.edit, size: 25),
                                       )
@@ -116,7 +120,9 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                                   SizedBox(width: 10),
                                   InkWell(
                                         onTap: () {
-                                          _deleteMainDepartment();
+                                          if (state.data?[index] != null) {
+                                            _deleteMainDepartment((state.data?[index])!);
+                                          }
                                         },
                                         child: Icon(
                                           Icons.delete,
@@ -148,16 +154,22 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
         .slideY(begin: 0.2, duration: const Duration(milliseconds: 600));
   }
 
-  _showEditMainDepartmentModel() {
+  _showEditMainDepartmentModel(CompanyMainDepartmentModel departmentModel) {
     showDialog(
       context: context,
       builder: (context) {
-        return EditMainDepartmentModel();
+        return EditMainDepartmentModel(departmentModel);
       },
     );
   }
 
-  _deleteMainDepartment() {
-    showAreYouSureDialog();
+  _deleteMainDepartment(CompanyMainDepartmentModel departmentModel) async {
+    bool? confirm = await showAreYouSureDialog();
+    if (confirm != true) return;
+    final controller = serviceLocator<CompanyFormController>();
+    final res = await controller.deleteMainDepartment(departmentModel);
+    if (res.response == ResponseEnum.success && departmentModel.companyId != null) {
+      context.read<CompanyDepartmentsIndexCubit>().index(departmentModel.companyId!);
+    }
   }
 }

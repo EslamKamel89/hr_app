@@ -21,7 +21,7 @@ class CompanyFormController {
       if (company.id == null) {
         response = await api.post(EndPoint.companiesIndex, data: company.toJson());
       } else {
-        response = await api.patch(
+        response = await api.put(
           '${EndPoint.companiesIndex}/${company.id}',
           data: company.toJson(),
         );
@@ -62,7 +62,7 @@ class CompanyFormController {
   ) async {
     final t = prt('contactUpsert - CompanyFormController ');
     try {
-      final response = await api.patch(
+      final response = await api.put(
         '${EndPoint.companyContact}/$companyId',
         data: contact.toJson(),
       );
@@ -99,17 +99,39 @@ class CompanyFormController {
     }
   }
 
-  Future<ApiResponseModel<CompanyMainDepartmentModel>> createMainDepartment(
+  Future<ApiResponseModel<CompanyMainDepartmentModel>> upsertMainDepartment(
     CompanyMainDepartmentModel model,
   ) async {
-    final t = prt('contactUpsert - CompanyFormController ');
+    final t = prt('upsertMainDepartment - CompanyFormController ');
     try {
-      final response = await api.post(EndPoint.companyMainDepartment, data: model.toJson());
+      final dynamic response;
+      if (model.id == null) {
+        response = await api.post(EndPoint.companyMainDepartment, data: model.toJson());
+      } else {
+        response = await api.put(
+          '${EndPoint.companyMainDepartment}/${model.id}',
+          data: model.toJson(),
+        );
+      }
       CompanyMainDepartmentModel department = CompanyMainDepartmentModel.fromJson(
-        response['main_department'],
+        response[model.id == null ? 'main_department' : 'company_main_department'],
       );
       showSnackbar('Success', 'Data Saved Successfully', false);
       return pr(ApiResponseModel(response: ResponseEnum.success, data: department), t);
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<String>> deleteMainDepartment(CompanyMainDepartmentModel model) async {
+    final t = prt('deleteMainDepartment - CompanyFormController ');
+    try {
+      final response = await api.delete('${EndPoint.companyMainDepartment}/${model.id}');
+
+      String message = response['message'];
+      showSnackbar('Success', message, false);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: message), t);
     } catch (e) {
       String errorMessage = handeException(e);
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
