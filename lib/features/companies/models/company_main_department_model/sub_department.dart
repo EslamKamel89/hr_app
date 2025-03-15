@@ -1,4 +1,4 @@
-class CompanySubDepartment {
+class CompanySubDepartmentModel {
   int? subDeptId;
   int? companyId;
   String? subDepartmentName;
@@ -7,7 +7,7 @@ class CompanySubDepartment {
   String? updatedAt;
   dynamic deletedAt;
 
-  CompanySubDepartment({
+  CompanySubDepartmentModel({
     this.subDeptId,
     this.companyId,
     this.subDepartmentName,
@@ -22,15 +22,16 @@ class CompanySubDepartment {
     return 'SubDepartment(subDeptId: $subDeptId, companyId: $companyId, subDepartmentName: $subDepartmentName, parentDepartmentId: $parentDepartmentId, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt)';
   }
 
-  factory CompanySubDepartment.fromJson(Map<String, dynamic> json) => CompanySubDepartment(
-    subDeptId: json['sub_dept_id'] as int?,
-    companyId: json['company_id'] as int?,
-    subDepartmentName: json['sub_department_name'] as String?,
-    parentDepartmentId: json['parent_department_id'] as int?,
-    createdAt: json['created_at'] as String?,
-    updatedAt: json['updated_at'] as String?,
-    deletedAt: json['deleted_at'] as dynamic,
-  );
+  factory CompanySubDepartmentModel.fromJson(Map<String, dynamic> json) =>
+      CompanySubDepartmentModel(
+        subDeptId: json['sub_dept_id'] as int?,
+        companyId: json['company_id'] as int?,
+        subDepartmentName: json['sub_department_name'] as String?,
+        parentDepartmentId: json['parent_department_id'] as int?,
+        createdAt: json['created_at'] as String?,
+        updatedAt: json['updated_at'] as String?,
+        deletedAt: json['deleted_at'] as dynamic,
+      );
 
   Map<String, dynamic> toJson() => {
     'sub_dept_id': subDeptId,
@@ -42,7 +43,7 @@ class CompanySubDepartment {
     'deleted_at': deletedAt,
   };
 
-  CompanySubDepartment copyWith({
+  CompanySubDepartmentModel copyWith({
     int? subDeptId,
     int? companyId,
     String? subDepartmentName,
@@ -51,7 +52,7 @@ class CompanySubDepartment {
     String? updatedAt,
     dynamic deletedAt,
   }) {
-    return CompanySubDepartment(
+    return CompanySubDepartmentModel(
       subDeptId: subDeptId ?? this.subDeptId,
       companyId: companyId ?? this.companyId,
       subDepartmentName: subDepartmentName ?? this.subDepartmentName,

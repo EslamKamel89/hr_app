@@ -11,19 +11,14 @@ class Department {
   final String subDepartment;
   final String mainDepartment;
 
-  Department({
-    required this.id,
-    required this.subDepartment,
-    required this.mainDepartment,
-  });
+  Department({required this.id, required this.subDepartment, required this.mainDepartment});
 }
 
 class MainDepartmentTableWidget extends StatefulWidget {
   const MainDepartmentTableWidget({super.key});
 
   @override
-  _MainDepartmentTableWidgetState createState() =>
-      _MainDepartmentTableWidgetState();
+  _MainDepartmentTableWidgetState createState() => _MainDepartmentTableWidgetState();
 }
 
 class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
@@ -47,7 +42,7 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          // physics: NeverScrollableScrollPhysics(),
           itemCount: _generateData().length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
@@ -59,20 +54,12 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: txt(
-                        'Main\nDepartment',
-                        e: St.bold16,
-                        textAlign: TextAlign.center,
-                      ),
+                      child: txt('Main\nDepartment', e: St.bold16, textAlign: TextAlign.center),
                     ),
 
                     Expanded(
                       flex: 1,
-                      child: txt(
-                        'Action',
-                        e: St.bold16,
-                        textAlign: TextAlign.center,
-                      ),
+                      child: txt('Action', e: St.bold16, textAlign: TextAlign.center),
                     ),
                   ],
                 ),
@@ -101,9 +88,7 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                   ),
                   Expanded(
                     child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(right: borderSide),
-                      ),
+                      decoration: BoxDecoration(border: Border(right: borderSide)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -114,32 +99,18 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                                 child: Icon(Icons.edit, size: 25),
                               )
                               .animate()
-                              .fadeIn(
-                                duration: const Duration(milliseconds: 300),
-                              )
-                              .slideX(
-                                begin: -0.1,
-                                duration: const Duration(milliseconds: 300),
-                              ),
+                              .fadeIn(duration: const Duration(milliseconds: 300))
+                              .slideX(begin: -0.1, duration: const Duration(milliseconds: 300)),
                           SizedBox(width: 10),
                           InkWell(
                                 onTap: () {
                                   _deleteMainDepartment();
                                 },
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 25,
-                                  color: Colors.redAccent,
-                                ),
+                                child: Icon(Icons.delete, size: 25, color: Colors.redAccent),
                               )
                               .animate()
-                              .fadeIn(
-                                duration: const Duration(milliseconds: 300),
-                              )
-                              .slideX(
-                                begin: 0.1,
-                                duration: const Duration(milliseconds: 300),
-                              ),
+                              .fadeIn(duration: const Duration(milliseconds: 300))
+                              .slideX(begin: 0.1, duration: const Duration(milliseconds: 300)),
                         ],
                       ),
                     ),

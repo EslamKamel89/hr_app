@@ -7,7 +7,7 @@ class CompanyMainDepartmentModel {
   String? createdAt;
   String? updatedAt;
   dynamic deletedAt;
-  List<CompanySubDepartment>? subDepartments;
+  List<CompanySubDepartmentModel>? subDepartments;
 
   CompanyMainDepartmentModel({
     this.id,
@@ -34,7 +34,7 @@ class CompanyMainDepartmentModel {
       deletedAt: json['deleted_at'] as dynamic,
       subDepartments:
           (json['sub_departments'] as List<dynamic>?)
-              ?.map((e) => CompanySubDepartment.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => CompanySubDepartmentModel.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
   }
@@ -56,7 +56,7 @@ class CompanyMainDepartmentModel {
     String? createdAt,
     String? updatedAt,
     dynamic deletedAt,
-    List<CompanySubDepartment>? subDepartments,
+    List<CompanySubDepartmentModel>? subDepartments,
   }) {
     return CompanyMainDepartmentModel(
       id: id ?? this.id,
