@@ -40,13 +40,13 @@ class CompanyMainDepartmentModel {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
+    // 'id': id,
     'name': name,
     'company_id': companyId,
-    'created_at': createdAt,
-    'updated_at': updatedAt,
-    'deleted_at': deletedAt,
-    'sub_departments': subDepartments?.map((e) => e.toJson()).toList(),
+    // 'created_at': createdAt,
+    // 'updated_at': updatedAt,
+    // 'deleted_at': deletedAt,
+    // 'sub_departments': subDepartments?.map((e) => e.toJson()).toList(),
   };
 
   CompanyMainDepartmentModel copyWith({

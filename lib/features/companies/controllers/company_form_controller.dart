@@ -98,4 +98,22 @@ class CompanyFormController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel<CompanyMainDepartmentModel>> createMainDepartment(
+    int companyId,
+    CompanyMainDepartmentModel model,
+  ) async {
+    final t = prt('contactUpsert - CompanyFormController ');
+    try {
+      final response = await api.post(EndPoint.companyMainDepartment, data: model.toJson());
+      CompanyMainDepartmentModel department = CompanyMainDepartmentModel.fromJson(
+        response['main_department'],
+      );
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: department), t);
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }
