@@ -1,4 +1,4 @@
-import 'sub_department.dart';
+import 'compoany_sub_department_model.dart';
 
 class CompanyMainDepartmentModel {
   int? id;

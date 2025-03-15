@@ -8,6 +8,7 @@ import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
+import 'package:hr/features/companies/models/company_main_department_model/compoany_sub_department_model.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
 class CompanyFormController {
@@ -132,6 +133,31 @@ class CompanyFormController {
       String message = response['message'];
       showSnackbar('Success', message, false);
       return pr(ApiResponseModel(response: ResponseEnum.success, data: message), t);
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
+
+  Future<ApiResponseModel<CompanySubDepartmentModel>> upsertSubDepartment(
+    CompanySubDepartmentModel model,
+  ) async {
+    final t = prt('upsertSubDepartment - CompanyFormController ');
+    try {
+      final dynamic response;
+      if (model.subDeptId == null) {
+        response = await api.post(EndPoint.companySubDepartment, data: model.toJson());
+      } else {
+        response = await api.put(
+          '${EndPoint.companySubDepartment}/${model.subDeptId}',
+          data: model.toJson(),
+        );
+      }
+      CompanySubDepartmentModel subDepartment = CompanySubDepartmentModel.fromJson(
+        response['sub_department'],
+      );
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: subDepartment), t);
     } catch (e) {
       String errorMessage = handeException(e);
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);

@@ -68,6 +68,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
                 return Text(controller.state.company?.data?.companyName ?? 'Create company');
               },
             ),
+            resizeToAvoidBottomInset: false,
             child: Column(
               children: [
                 TabBar(

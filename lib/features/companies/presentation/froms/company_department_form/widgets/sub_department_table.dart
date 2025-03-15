@@ -8,7 +8,7 @@ import 'package:hr/core/widgets/show_are_you_sure_dialog.dart';
 import 'package:hr/features/companies/cubits/company_departments_index_cubit.dart';
 import 'package:hr/features/companies/entiites/sub_department_entity.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
-import 'package:hr/features/companies/models/company_main_department_model/sub_department.dart';
+import 'package:hr/features/companies/models/company_main_department_model/compoany_sub_department_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_department_form/widgets/edit_sub_department_model.dart';
 import 'package:hr/utils/styles/styles.dart';
 
@@ -122,7 +122,7 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                                     children: [
                                       InkWell(
                                             onTap: () {
-                                              _showEditSubDepartmentModel();
+                                              _showEditSubDepartmentModel(data[index]);
                                             },
                                             child: Icon(Icons.edit, size: 25),
                                           )
@@ -169,11 +169,18 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
         .slideY(begin: 0.2, duration: const Duration(milliseconds: 600));
   }
 
-  _showEditSubDepartmentModel() {
+  _showEditSubDepartmentModel(SubDepartmentEntity entity) {
     showDialog(
       context: context,
       builder: (context) {
-        return EditSubDepartmentModel();
+        return EditSubDepartmentModel(
+          CompanySubDepartmentModel(
+            subDeptId: entity.subDepartmentId,
+            parentDepartmentId: entity.departmentId,
+            companyId: entity.companyId,
+            subDepartmentName: entity.subDepartment,
+          ),
+        );
       },
     );
   }

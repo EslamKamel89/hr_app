@@ -7,17 +7,17 @@ import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/companies/controllers/company_form_controller.dart';
 import 'package:hr/features/companies/cubits/company_departments_index_cubit.dart';
-import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
+import 'package:hr/features/companies/models/company_main_department_model/compoany_sub_department_model.dart';
 
-class UpsertMainDepartmentCubit extends Cubit<ApiResponseModel<CompanyMainDepartmentModel>> {
+class UpsertSubDepartmentCubit extends Cubit<ApiResponseModel<CompanySubDepartmentModel>> {
   CompanyFormController controller = serviceLocator();
-  UpsertMainDepartmentCubit() : super(ApiResponseModel.initial());
-  Future upsert(CompanyMainDepartmentModel model) async {
-    final t = prt('create - UpsertMainDepartmentCubit');
+  UpsertSubDepartmentCubit() : super(ApiResponseModel.initial());
+  Future upsert(CompanySubDepartmentModel model) async {
+    final t = prt('create - UpsertSubDepartmentCubit');
 
     emit(state.copyWith(response: ResponseEnum.loading));
     pr('Loading....', t);
-    final department = await controller.upsertMainDepartment(model);
+    final department = await controller.upsertSubDepartment(model);
     pr(department, t);
     emit(department);
     BuildContext? context = navigatorKey.currentContext;
