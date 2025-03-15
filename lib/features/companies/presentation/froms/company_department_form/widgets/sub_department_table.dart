@@ -3,8 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/models/api_response_model.dart';
+import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/core/widgets/handle_response_widget.dart';
 import 'package:hr/core/widgets/show_are_you_sure_dialog.dart';
+import 'package:hr/features/companies/controllers/company_form_controller.dart';
 import 'package:hr/features/companies/cubits/company_departments_index_cubit.dart';
 import 'package:hr/features/companies/entiites/sub_department_entity.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
@@ -135,7 +137,7 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                                       SizedBox(width: 10),
                                       InkWell(
                                             onTap: () {
-                                              _deleteSubDepartment();
+                                              _deleteSubDepartment(data[index]);
                                             },
                                             child: Icon(
                                               Icons.delete,
@@ -185,8 +187,15 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
     );
   }
 
-  _deleteSubDepartment() {
-    showAreYouSureDialog();
+  _deleteSubDepartment(SubDepartmentEntity subDepartmentEntity) async {
+    bool? confirm = await showAreYouSureDialog();
+    if (confirm != true) return;
+    final controller = serviceLocator<CompanyFormController>();
+    if (subDepartmentEntity.subDepartmentId == null) return;
+    final res = await controller.deleteSubDepartment(subDepartmentEntity.subDepartmentId!);
+    if (res.response == ResponseEnum.success && subDepartmentEntity.companyId != null) {
+      context.read<CompanyDepartmentsIndexCubit>().index(subDepartmentEntity.companyId!);
+    }
   }
 
   List<SubDepartmentEntity> _transformData(List<CompanyMainDepartmentModel> departments) {

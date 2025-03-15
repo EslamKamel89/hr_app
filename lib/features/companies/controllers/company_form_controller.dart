@@ -163,4 +163,18 @@ class CompanyFormController {
       return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
+
+  Future<ApiResponseModel<String>> deleteSubDepartment(int subDeptId) async {
+    final t = prt('deleteSubDepartment - CompanyFormController ');
+    try {
+      final response = await api.delete('${EndPoint.companySubDepartment}/$subDeptId');
+
+      String message = response['message'];
+      showSnackbar('Success', message, false);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: message), t);
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
+    }
+  }
 }

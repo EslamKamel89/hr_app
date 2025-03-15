@@ -25,6 +25,12 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
   final TextEditingController _name = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   int? parentDepartmentId;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   void dispose() {
     _name.dispose();
@@ -55,9 +61,10 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
                   >(
                     builder: (context, state) {
                       List<String> options = state.data?.map((e) => e.name ?? '').toList() ?? [];
+
                       return DropDownWidget(
                         label: 'Pick Main Department',
-                        initialValue: options[0],
+                        // initialValue: options[0],
                         options: state.data?.map((e) => e.name ?? '').toList() ?? [],
                         onSelect: (value) {
                           state.data?.forEach((mainDepartment) {
@@ -87,6 +94,15 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
                       ? Center(child: CircularProgressIndicator())
                       : SaveButton(
                         onTap: () async {
+                          // pr(
+                          //   CompanySubDepartmentModel(
+                          //     subDepartmentName: _name.text,
+                          //     companyId: getCompany(context)?.id,
+                          //     parentDepartmentId: parentDepartmentId,
+                          //   ),
+                          //   'CompanySubDepartmentModel',
+                          // );
+                          // return;
                           if (_formKey.currentState!.validate()) {
                             FocusScope.of(context).unfocus();
                             await controller.upsert(
