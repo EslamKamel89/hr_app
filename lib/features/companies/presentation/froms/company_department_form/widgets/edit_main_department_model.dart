@@ -9,7 +9,8 @@ class EditMainDepartmentModel extends StatefulWidget {
   const EditMainDepartmentModel({super.key});
 
   @override
-  State<EditMainDepartmentModel> createState() => _EditMainDepartmentModelState();
+  State<EditMainDepartmentModel> createState() =>
+      _EditMainDepartmentModelState();
 }
 
 class _EditMainDepartmentModelState extends State<EditMainDepartmentModel> {

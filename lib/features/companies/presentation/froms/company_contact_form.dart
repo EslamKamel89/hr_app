@@ -59,7 +59,10 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 1,
-      child: BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
+      child: BlocBuilder<
+        CompanyContactCubit,
+        ApiCrudResponseModel<CompanyContactModel>
+      >(
         buildWhen: (previous, current) {
           return (previous.showResponse != ResponseEnum.success &&
               current.showResponse == ResponseEnum.success);
@@ -211,7 +214,10 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                         ),
                   ),
                   SizedBox(height: 30),
-                  BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
+                  BlocBuilder<
+                    CompanyContactCubit,
+                    ApiCrudResponseModel<CompanyContactModel>
+                  >(
                     // buildWhen:
                     //     (previous, current) => [
                     //       ResponseEnum.loading,
@@ -243,8 +249,10 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
   void _initializeFields() {
     _contactName.text = _controller.state.data?.contactName ?? '';
     _companyEmail.text = _controller.state.data?.companyEmail ?? '';
-    _primaryMobileNumber.text = _controller.state.data?.primaryMobileNumber ?? '';
-    _secondaryMobileNumber.text = _controller.state.data?.secondaryMobileNumber ?? '';
+    _primaryMobileNumber.text =
+        _controller.state.data?.primaryMobileNumber ?? '';
+    _secondaryMobileNumber.text =
+        _controller.state.data?.secondaryMobileNumber ?? '';
     _landlineNumber.text = _controller.state.data?.landlineNumber ?? '';
     _faxNumber.text = _controller.state.data?.faxNumber ?? '';
     _hrMobileNumber.text = _controller.state.data?.hrMobileNumber ?? '';

@@ -8,7 +8,8 @@ import 'package:hr/features/companies/controllers/company_form_controller.dart';
 import 'package:hr/features/companies/helpers/get_company.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
 
-class CompanyContactCubit extends Cubit<ApiCrudResponseModel<CompanyContactModel>> {
+class CompanyContactCubit
+    extends Cubit<ApiCrudResponseModel<CompanyContactModel>> {
   CompanyFormController controller = serviceLocator();
   CompanyContactCubit() : super(ApiCrudResponseModel.initial());
   Future contactShow(BuildContext context) async {
@@ -34,7 +35,10 @@ class CompanyContactCubit extends Cubit<ApiCrudResponseModel<CompanyContactModel
     }
   }
 
-  Future contactUpsert(BuildContext context, CompanyContactModel contact) async {
+  Future contactUpsert(
+    BuildContext context,
+    CompanyContactModel contact,
+  ) async {
     final t = prt('contactUpsert - CompanyFormCubit');
     final company = getCompany(context);
     if (company == null || company.id == null) {

@@ -9,7 +9,8 @@ class SubDepartmentTableWidget extends StatefulWidget {
   const SubDepartmentTableWidget({super.key});
 
   @override
-  _SubDepartmentTableWidgetState createState() => _SubDepartmentTableWidgetState();
+  _SubDepartmentTableWidgetState createState() =>
+      _SubDepartmentTableWidgetState();
 }
 
 class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
@@ -46,15 +47,27 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                   children: [
                     Expanded(
                       flex: 2,
-                      child: txt('Main\nDepartment', e: St.bold16, textAlign: TextAlign.center),
+                      child: txt(
+                        'Main\nDepartment',
+                        e: St.bold16,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     Expanded(
                       flex: 2,
-                      child: txt('Sub\nDepartment', e: St.bold16, textAlign: TextAlign.center),
+                      child: txt(
+                        'Sub\nDepartment',
+                        e: St.bold16,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     Expanded(
                       flex: 1,
-                      child: txt('Action', e: St.bold16, textAlign: TextAlign.center),
+                      child: txt(
+                        'Action',
+                        e: St.bold16,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ],
                 ),
@@ -84,7 +97,9 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                   Expanded(
                     flex: 2,
                     child: Container(
-                      decoration: BoxDecoration(border: Border(right: borderSide)),
+                      decoration: BoxDecoration(
+                        border: Border(right: borderSide),
+                      ),
                       child: txt(
                         _generateData()[index].subDepartment,
                         e: St.reg16,
@@ -94,7 +109,9 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                   ),
                   Expanded(
                     child: Container(
-                      decoration: BoxDecoration(border: Border(right: borderSide)),
+                      decoration: BoxDecoration(
+                        border: Border(right: borderSide),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -105,18 +122,32 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                                 child: Icon(Icons.edit, size: 25),
                               )
                               .animate()
-                              .fadeIn(duration: const Duration(milliseconds: 300))
-                              .slideX(begin: -0.1, duration: const Duration(milliseconds: 300)),
+                              .fadeIn(
+                                duration: const Duration(milliseconds: 300),
+                              )
+                              .slideX(
+                                begin: -0.1,
+                                duration: const Duration(milliseconds: 300),
+                              ),
                           SizedBox(width: 10),
                           InkWell(
                                 onTap: () {
                                   _deleteSubDepartment();
                                 },
-                                child: Icon(Icons.delete, size: 25, color: Colors.redAccent),
+                                child: Icon(
+                                  Icons.delete,
+                                  size: 25,
+                                  color: Colors.redAccent,
+                                ),
                               )
                               .animate()
-                              .fadeIn(duration: const Duration(milliseconds: 300))
-                              .slideX(begin: 0.1, duration: const Duration(milliseconds: 300)),
+                              .fadeIn(
+                                duration: const Duration(milliseconds: 300),
+                              )
+                              .slideX(
+                                begin: 0.1,
+                                duration: const Duration(milliseconds: 300),
+                              ),
                         ],
                       ),
                     ),

@@ -7,7 +7,10 @@ class CompanyFormState {
   int? currentTab;
   CompanyFormState({this.company, this.currentTab});
 
-  CompanyFormState copyWith({ApiResponseModel<CompanyModel?>? company, int? currentTab}) {
+  CompanyFormState copyWith({
+    ApiResponseModel<CompanyModel?>? company,
+    int? currentTab,
+  }) {
     return CompanyFormState(
       company: company ?? this.company,
       currentTab: currentTab ?? this.currentTab,
@@ -15,5 +18,6 @@ class CompanyFormState {
   }
 
   @override
-  String toString() => 'CompanyFormState(company: $company,currentTab: $currentTab)';
+  String toString() =>
+      'CompanyFormState(company: $company,currentTab: $currentTab)';
 }

@@ -4,4 +4,5 @@ class EndPoint {
   static const String login = "$baseUrl/login";
   static const String companiesIndex = "$baseUrl/apicompanies";
   static const String companyContact = "$baseUrl/apicompany-contacts";
+  static const String companyMainDepartment = "$baseUrl/apicompany-departments";
 }

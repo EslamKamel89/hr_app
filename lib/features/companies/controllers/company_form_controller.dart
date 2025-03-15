@@ -7,6 +7,7 @@ import 'package:hr/core/heleprs/snackbar.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
+import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
 import 'package:hr/features/companies/models/company_model.dart';
 
 class CompanyFormController {
@@ -77,6 +78,24 @@ class CompanyFormController {
         ApiCrudResponseModel(errorMessage: errorMessage, upsertResponse: ResponseEnum.failed),
         t,
       );
+    }
+  }
+
+  Future<ApiResponseModel<List<CompanyMainDepartmentModel>>> companyDepartmentsIndex(
+    int companyId,
+  ) async {
+    final t = prt('companyDepartmentIndex - CompanyFormController ');
+    try {
+      final response = await api.get('${EndPoint.companyMainDepartment}/$companyId');
+      List<CompanyMainDepartmentModel> departments =
+          (response['main_departments'] as List<dynamic>)
+              .map((e) => CompanyMainDepartmentModel.fromJson(e as Map<String, dynamic>))
+              .toList();
+      // showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(ApiResponseModel(response: ResponseEnum.success, data: departments), t);
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(ApiResponseModel(errorMessage: errorMessage, response: ResponseEnum.failed), t);
     }
   }
 }

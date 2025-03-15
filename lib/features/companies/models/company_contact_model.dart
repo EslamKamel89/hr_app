@@ -44,7 +44,9 @@ class CompanyContactModel {
       hrLandlineNumber: json['hr_landline_number'] as String?,
       hrEmail: json['hr_email'] as String?,
       companyBasicId:
-          json['company_basic_id'] == null ? null : int.parse(json['company_basic_id'].toString()),
+          json['company_basic_id'] == null
+              ? null
+              : int.parse(json['company_basic_id'].toString()),
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
     );
@@ -83,7 +85,8 @@ class CompanyContactModel {
       contactName: contactName ?? this.contactName,
       companyEmail: companyEmail ?? this.companyEmail,
       primaryMobileNumber: primaryMobileNumber ?? this.primaryMobileNumber,
-      secondaryMobileNumber: secondaryMobileNumber ?? this.secondaryMobileNumber,
+      secondaryMobileNumber:
+          secondaryMobileNumber ?? this.secondaryMobileNumber,
       landlineNumber: landlineNumber ?? this.landlineNumber,
       faxNumber: faxNumber ?? this.faxNumber,
       hrMobileNumber: hrMobileNumber ?? this.hrMobileNumber,

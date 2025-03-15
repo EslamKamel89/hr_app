@@ -65,7 +65,10 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
           return MainScaffold(
             appBarTitleWidget: BlocBuilder<CompanyFormCubit, CompanyFormState>(
               builder: (context, state) {
-                return Text(controller.state.company?.data?.companyName ?? 'Create company');
+                return Text(
+                  controller.state.company?.data?.companyName ??
+                      'Create company',
+                );
               },
             ),
             child: Column(
@@ -90,11 +93,20 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
                       CompanyDepartmentProvider(),
                       ...tabs
                           .where(
-                            (tab) => !['Basic', 'Contact', 'Address', "Departments"].contains(tab),
+                            (tab) =>
+                                ![
+                                  'Basic',
+                                  'Contact',
+                                  'Address',
+                                  "Departments",
+                                ].contains(tab),
                           )
                           .map((tab) {
                             return Center(
-                              child: Text("Content for $tab", style: TextStyle(fontSize: 20))
+                              child: Text(
+                                    "Content for $tab",
+                                    style: TextStyle(fontSize: 20),
+                                  )
                                   .animate()
                                   .fadeIn(duration: Duration(milliseconds: 500))
                                   .slide(
