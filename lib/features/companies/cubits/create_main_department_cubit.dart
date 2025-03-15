@@ -12,16 +12,16 @@ import 'package:hr/features/companies/models/company_main_department_model/compa
 class CreateMainDepartmentCubit extends Cubit<ApiResponseModel<CompanyMainDepartmentModel>> {
   CompanyFormController controller = serviceLocator();
   CreateMainDepartmentCubit() : super(ApiResponseModel.initial());
-  Future create(int companyId, CompanyMainDepartmentModel model) async {
+  Future create(CompanyMainDepartmentModel model) async {
     final t = prt('create - CreateMainDepartmentCubit');
 
     emit(state.copyWith(response: ResponseEnum.loading));
     pr('Loading....', t);
-    final department = await controller.createMainDepartment(companyId, model);
+    final department = await controller.createMainDepartment(model);
     pr(department, t);
     emit(department);
     BuildContext? context = navigatorKey.currentContext;
-    if (context == null) return;
-    context.read<CompanyDepartmentsIndexCubit>().index(companyId);
+    if (context == null || model.companyId == null) return;
+    context.read<CompanyDepartmentsIndexCubit>().index(model.companyId!);
   }
 }

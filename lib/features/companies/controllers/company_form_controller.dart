@@ -100,7 +100,6 @@ class CompanyFormController {
   }
 
   Future<ApiResponseModel<CompanyMainDepartmentModel>> createMainDepartment(
-    int companyId,
     CompanyMainDepartmentModel model,
   ) async {
     final t = prt('contactUpsert - CompanyFormController ');
