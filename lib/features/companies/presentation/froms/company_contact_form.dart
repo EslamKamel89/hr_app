@@ -218,14 +218,8 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                     CompanyContactCubit,
                     ApiCrudResponseModel<CompanyContactModel>
                   >(
-                    // buildWhen:
-                    //     (previous, current) => [
-                    //       ResponseEnum.loading,
-                    //       ResponseEnum.success,
-                    //     ].contains(current.contact?.response),
                     builder: (context, state) {
-                      if (state.showResponse == ResponseEnum.loading ||
-                          state.upsertResponse == ResponseEnum.loading) {
+                      if (state.upsertResponse == ResponseEnum.loading) {
                         return Center(child: CircularProgressIndicator());
                       }
                       return SaveButton(
@@ -236,7 +230,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                       );
                     },
                   ),
-                  SizedBox(height: 100),
+                  SizedBox(height: 300),
                 ],
               ),
             ),

@@ -175,7 +175,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
                 );
               },
             ),
-            SizedBox(height: 100),
+            SizedBox(height: 300),
           ],
         ),
       ),

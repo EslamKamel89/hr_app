@@ -26,17 +26,18 @@ class CompanyBankModel {
     return 'CompanyBankModel(id: $id, bankNickName: $bankNickName, bankName: $bankName, bankAccountNumber: $bankAccountNumber, bankAccountIbanNumber: $bankAccountIbanNumber, swiftCode: $swiftCode, companyBasicId: $companyBasicId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
-  factory CompanyBankModel.fromJson(Map<String, dynamic> json) => CompanyBankModel(
-    id: json['id'] as int?,
-    bankNickName: json['bank_nick_name'] as String?,
-    bankName: json['bank_name'] as String?,
-    bankAccountNumber: json['bank_account_number'] as String?,
-    bankAccountIbanNumber: json['bank_account_iban_number'] as String?,
-    swiftCode: json['swift_code'] as String?,
-    companyBasicId: json['company_basic_id'] as int?,
-    createdAt: json['created_at'] as String?,
-    updatedAt: json['updated_at'] as String?,
-  );
+  factory CompanyBankModel.fromJson(Map<String, dynamic> json) =>
+      CompanyBankModel(
+        id: json['id'] as int?,
+        bankNickName: json['bank_nick_name'] as String?,
+        bankName: json['bank_name'] as String?,
+        bankAccountNumber: json['bank_account_number'] as String?,
+        bankAccountIbanNumber: json['bank_account_iban_number'] as String?,
+        swiftCode: json['swift_code'] as String?,
+        companyBasicId: json['company_basic_id'] as int?,
+        createdAt: json['created_at'] as String?,
+        updatedAt: json['updated_at'] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -66,7 +67,8 @@ class CompanyBankModel {
       bankNickName: bankNickName ?? this.bankNickName,
       bankName: bankName ?? this.bankName,
       bankAccountNumber: bankAccountNumber ?? this.bankAccountNumber,
-      bankAccountIbanNumber: bankAccountIbanNumber ?? this.bankAccountIbanNumber,
+      bankAccountIbanNumber:
+          bankAccountIbanNumber ?? this.bankAccountIbanNumber,
       swiftCode: swiftCode ?? this.swiftCode,
       companyBasicId: companyBasicId ?? this.companyBasicId,
       createdAt: createdAt ?? this.createdAt,

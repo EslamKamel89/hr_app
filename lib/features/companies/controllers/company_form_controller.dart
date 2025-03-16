@@ -6,6 +6,7 @@ import 'package:hr/core/heleprs/print_helper.dart';
 import 'package:hr/core/heleprs/snackbar.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
+import 'package:hr/features/companies/models/company_bank_model.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
 import 'package:hr/features/companies/models/company_main_department_model/compoany_sub_department_model.dart';
@@ -272,6 +273,66 @@ class CompanyFormController {
         ApiResponseModel(
           errorMessage: errorMessage,
           response: ResponseEnum.failed,
+        ),
+        t,
+      );
+    }
+  }
+
+  Future<ApiCrudResponseModel<CompanyBankModel>> bankShow(int companyId) async {
+    final t = prt('bankShow - CompanyFormController ');
+    try {
+      final response = await api.get('${EndPoint.companyBank}/$companyId');
+      CompanyBankModel companyBankModel = CompanyBankModel.fromJson(
+        response['bank'],
+      );
+      // showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(
+          showResponse: ResponseEnum.success,
+          data: companyBankModel,
+        ),
+        t,
+      );
+    } catch (e) {
+      // String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(
+          errorMessage: 'No data found',
+          showResponse: ResponseEnum.failed,
+        ),
+        t,
+      );
+    }
+  }
+
+  Future<ApiCrudResponseModel<CompanyBankModel>> bankUpsert(
+    int companyId,
+    CompanyBankModel contact,
+  ) async {
+    final t = prt('bankUpsert - CompanyFormController ');
+    try {
+      final response = await api.put(
+        '${EndPoint.companyBank}/$companyId',
+        data: contact.toJson(),
+      );
+      CompanyBankModel companyBankModel = CompanyBankModel.fromJson(
+        response['bank'],
+      );
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(
+          upsertResponse: ResponseEnum.success,
+          data: companyBankModel,
+        ),
+        t,
+      );
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(
+          errorMessage: errorMessage,
+          upsertResponse: ResponseEnum.failed,
         ),
         t,
       );

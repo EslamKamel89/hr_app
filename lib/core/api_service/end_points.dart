@@ -7,4 +7,5 @@ class EndPoint {
   static const String companyMainDepartment = "$baseUrl/apicompany-departments";
   static const String companySubDepartment =
       "$baseUrl/apicompany-sub-departments";
+  static const String companyBank = "$baseUrl/apicompanies-bank";
 }
