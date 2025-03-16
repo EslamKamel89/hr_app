@@ -16,10 +16,7 @@ class CompanyBankProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CompanyBankCubit(),
-      child: const CompanyBankForm(),
-    );
+    return BlocProvider(create: (context) => CompanyBankCubit(), child: const CompanyBankForm());
   }
 }
 
@@ -31,7 +28,7 @@ class CompanyBankForm extends StatefulWidget {
 }
 
 class _CompanyBankFormState extends State<CompanyBankForm> {
-  final TextEditingController _nickName = TextEditingController();
+  final TextEditingController _tradeLicenseExpiryDate = TextEditingController();
   final TextEditingController _bankName = TextEditingController();
   final TextEditingController _accountNumber = TextEditingController();
   final TextEditingController _ibanNumber = TextEditingController();
@@ -56,122 +53,118 @@ class _CompanyBankFormState extends State<CompanyBankForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 5,
-      child:
-          BlocBuilder<CompanyBankCubit, ApiCrudResponseModel<CompanyBankModel>>(
-            buildWhen: (previous, current) {
-              return (previous.showResponse != ResponseEnum.success &&
-                  current.showResponse == ResponseEnum.success);
-            },
-            builder: (context, state) {
-              _initializeFields();
-              return Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20),
-                      CustomTextFormField(
-                        label: 'Bank Nick Name',
-                        placeholder: 'Enter Bank Nick Name',
-                        controller: _nickName,
-                        validator:
-                            (input) => valdiator(
-                              input: input,
-                              label: 'Bank Nick Name:',
-                              isRequired: true,
-                              minChars: 3,
-                              maxChars: 50,
-                            ),
-                      ),
-                      FormVerticalGap(),
-                      CustomTextFormField(
-                        label: 'Bank Name',
-                        placeholder: 'Enter Bank Name',
-                        controller: _bankName,
-                        validator:
-                            (input) => valdiator(
-                              input: input,
-                              label: 'Bank Name',
-                              isRequired: true,
-                              minChars: 3,
-                              maxChars: 50,
-                            ),
-                      ),
-                      FormVerticalGap(),
-                      CustomTextFormField(
-                        label: 'Account Number',
-                        placeholder: 'Enter Account Number',
-                        controller: _accountNumber,
-                        showNumberOnly: true,
-                        validator:
-                            (input) => valdiator(
-                              input: input,
-                              label: 'Account Number',
-                              isRequired: true,
-                              minChars: 3,
-                              maxChars: 50,
-                            ),
-                      ),
-                      FormVerticalGap(),
-                      CustomTextFormField(
-                        label: 'IBAN Number',
-                        placeholder: 'Enter IBAN Number',
-                        controller: _ibanNumber,
-                        showNumberOnly: true,
-                        validator:
-                            (input) => valdiator(
-                              input: input,
-                              label: 'IBAN Number',
-                              isRequired: true,
-                              minChars: 3,
-                              maxChars: 50,
-                            ),
-                      ),
-                      FormVerticalGap(),
-                      CustomTextFormField(
-                        label: 'Swift Code',
-                        placeholder: 'Enter Swift Code',
-                        controller: _swiftCode,
-                        showNumberOnly: true,
-                        validator:
-                            (input) => valdiator(
-                              input: input,
-                              label: 'Swift Code',
-                              isRequired: true,
-                              minChars: 3,
-                              maxChars: 50,
-                            ),
-                      ),
-                      SizedBox(height: 30),
-                      BlocBuilder<
-                        CompanyBankCubit,
-                        ApiCrudResponseModel<CompanyBankModel>
-                      >(
-                        builder: (context, state) {
-                          if (state.upsertResponse == ResponseEnum.loading) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          return SaveButton(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              _sendRequest();
-                            },
-                          );
-                        },
-                      ),
-                      SizedBox(height: 300),
-                    ],
+      child: BlocBuilder<CompanyBankCubit, ApiCrudResponseModel<CompanyBankModel>>(
+        buildWhen: (previous, current) {
+          return (previous.showResponse != ResponseEnum.success &&
+              current.showResponse == ResponseEnum.success);
+        },
+        builder: (context, state) {
+          _initializeFields();
+          return Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  CustomTextFormField(
+                    label: 'Bank Nick Name',
+                    placeholder: 'Enter Bank Nick Name',
+                    controller: _tradeLicenseExpiryDate,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Bank Nick Name:',
+                          isRequired: true,
+                          minChars: 3,
+                          maxChars: 50,
+                        ),
                   ),
-                ),
-              );
-            },
-          ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Bank Name',
+                    placeholder: 'Enter Bank Name',
+                    controller: _bankName,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Bank Name',
+                          isRequired: true,
+                          minChars: 3,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Account Number',
+                    placeholder: 'Enter Account Number',
+                    controller: _accountNumber,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Account Number',
+                          isRequired: true,
+                          minChars: 3,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'IBAN Number',
+                    placeholder: 'Enter IBAN Number',
+                    controller: _ibanNumber,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'IBAN Number',
+                          isRequired: true,
+                          minChars: 3,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Swift Code',
+                    placeholder: 'Enter Swift Code',
+                    controller: _swiftCode,
+                    showNumberOnly: true,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Swift Code',
+                          isRequired: true,
+                          minChars: 3,
+                          maxChars: 50,
+                        ),
+                  ),
+                  SizedBox(height: 30),
+                  BlocBuilder<CompanyBankCubit, ApiCrudResponseModel<CompanyBankModel>>(
+                    builder: (context, state) {
+                      if (state.upsertResponse == ResponseEnum.loading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return SaveButton(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          _sendRequest();
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 300),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
   void _initializeFields() {
-    _nickName.text = _controller.state.data?.bankNickName ?? '';
+    _tradeLicenseExpiryDate.text = _controller.state.data?.bankNickName ?? '';
     _bankName.text = _controller.state.data?.bankName ?? '';
     _accountNumber.text = _controller.state.data?.bankAccountNumber ?? '';
     _ibanNumber.text = _controller.state.data?.bankAccountIbanNumber ?? '';
@@ -179,7 +172,7 @@ class _CompanyBankFormState extends State<CompanyBankForm> {
   }
 
   void _disposeControllers() {
-    _nickName.dispose();
+    _tradeLicenseExpiryDate.dispose();
     _bankName.dispose();
     _accountNumber.dispose();
     _ibanNumber.dispose();
@@ -192,7 +185,7 @@ class _CompanyBankFormState extends State<CompanyBankForm> {
         context,
         CompanyBankModel(
           companyBasicId: getCompany(context)?.id,
-          bankNickName: _nickName.text,
+          bankNickName: _tradeLicenseExpiryDate.text,
           bankName: _bankName.text,
           bankAccountNumber: _accountNumber.text,
           bankAccountIbanNumber: _ibanNumber.text,

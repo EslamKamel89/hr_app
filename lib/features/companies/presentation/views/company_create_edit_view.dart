@@ -14,6 +14,7 @@ import 'package:hr/features/companies/presentation/froms/company_bank_form.dart'
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_contact_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_department_form/company_department_form.dart';
+import 'package:hr/features/companies/presentation/froms/company_legal_form.dart';
 
 class ComapanyCreateEditView extends StatefulWidget {
   const ComapanyCreateEditView({super.key, required this.company});
@@ -66,10 +67,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
           return MainScaffold(
             appBarTitleWidget: BlocBuilder<CompanyFormCubit, CompanyFormState>(
               builder: (context, state) {
-                return Text(
-                  controller.state.company?.data?.companyName ??
-                      'Create company',
-                );
+                return Text(controller.state.company?.data?.companyName ?? 'Create company');
               },
             ),
             resizeToAvoidBottomInset: false,
@@ -94,6 +92,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
                       CompanyAddressProvider(),
                       CompanyDepartmentForm(),
                       CompanyBankProvider(),
+                      CompanyLegalProvider(),
                       ...tabs
                           .where(
                             (tab) =>
@@ -103,14 +102,12 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
                                   'Address',
                                   "Departments",
                                   "Bank Details",
+                                  "Legal Details",
                                 ].contains(tab),
                           )
                           .map((tab) {
                             return Center(
-                              child: Text(
-                                    "Content for $tab",
-                                    style: TextStyle(fontSize: 20),
-                                  )
+                              child: Text("Content for $tab", style: TextStyle(fontSize: 20))
                                   .animate()
                                   .fadeIn(duration: Duration(milliseconds: 500))
                                   .slide(
