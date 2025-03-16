@@ -34,7 +34,11 @@ class CompanyMainDepartmentModel {
       deletedAt: json['deleted_at'] as dynamic,
       subDepartments:
           (json['sub_departments'] as List<dynamic>?)
-              ?.map((e) => CompanySubDepartmentModel.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                (e) => CompanySubDepartmentModel.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
               .toList(),
     );
   }

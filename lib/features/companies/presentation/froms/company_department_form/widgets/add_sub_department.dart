@@ -41,7 +41,10 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpsertSubDepartmentCubit(),
-      child: BlocBuilder<UpsertSubDepartmentCubit, ApiResponseModel<CompanySubDepartmentModel>>(
+      child: BlocBuilder<
+        UpsertSubDepartmentCubit,
+        ApiResponseModel<CompanySubDepartmentModel>
+      >(
         builder: (context, state) {
           final controller = context.read<UpsertSubDepartmentCubit>();
           return Form(
@@ -60,12 +63,14 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
                     ApiResponseModel<List<CompanyMainDepartmentModel>>
                   >(
                     builder: (context, state) {
-                      List<String> options = state.data?.map((e) => e.name ?? '').toList() ?? [];
+                      List<String> options =
+                          state.data?.map((e) => e.name ?? '').toList() ?? [];
 
                       return DropDownWidget(
                         label: 'Pick Main Department',
                         // initialValue: options[0],
-                        options: state.data?.map((e) => e.name ?? '').toList() ?? [],
+                        options:
+                            state.data?.map((e) => e.name ?? '').toList() ?? [],
                         onSelect: (value) {
                           state.data?.forEach((mainDepartment) {
                             if (mainDepartment.name == value) {

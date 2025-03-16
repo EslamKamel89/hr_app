@@ -17,7 +17,9 @@ class DioConsumer extends ApiConsumer {
       // "Content-Type": "application/json",
       "Accept": "application/json",
     };
-    dio.interceptors.add(DioInterceptor()); // i use the interceptor to add the header
+    dio.interceptors.add(
+      DioInterceptor(),
+    ); // i use the interceptor to add the header
     dio.interceptors.add(
       LogInterceptor(
         request: true,
@@ -31,7 +33,11 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future get(String path, {Object? data, Map<String, dynamic>? queryParameter}) async {
+  Future get(
+    String path, {
+    Object? data,
+    Map<String, dynamic>? queryParameter,
+  }) async {
     dio.options.headers = {
       "Authorization": 'Bearer ${AuthHelpers.getToken()}',
       "Accept": "application/json",
@@ -40,7 +46,11 @@ class DioConsumer extends ApiConsumer {
       if (!(await checkInternet())) {
         throw OfflineException();
       }
-      final response = await dio.get(path, data: data, queryParameters: queryParameter);
+      final response = await dio.get(
+        path,
+        data: data,
+        queryParameters: queryParameter,
+      );
       return response.data;
     } catch (e) {
       rethrow;

@@ -9,11 +9,14 @@ import 'package:hr/features/companies/models/company_main_department_model/compa
 class CompanyDepartmentsIndexCubit
     extends Cubit<ApiResponseModel<List<CompanyMainDepartmentModel>>> {
   CompanyFormController controller = serviceLocator();
-  CompanyDepartmentsIndexCubit() : super(ApiResponseModel(response: ResponseEnum.initial));
+  CompanyDepartmentsIndexCubit()
+    : super(ApiResponseModel(response: ResponseEnum.initial));
 
   Future index(int companyId) async {
     final t = prt('index - CompanyDepartmentsIndexCubit');
-    emit(pr(state.copyWith(errorMessage: null, response: ResponseEnum.loading), t));
+    emit(
+      pr(state.copyWith(errorMessage: null, response: ResponseEnum.loading), t),
+    );
     emit(pr(await controller.companyDepartmentsIndex(companyId), t));
   }
 

@@ -14,7 +14,8 @@ class EditMainDepartmentModel extends StatefulWidget {
   const EditMainDepartmentModel(this.departmentModel, {super.key});
   final CompanyMainDepartmentModel departmentModel;
   @override
-  State<EditMainDepartmentModel> createState() => _EditMainDepartmentModelState();
+  State<EditMainDepartmentModel> createState() =>
+      _EditMainDepartmentModelState();
 }
 
 class _EditMainDepartmentModelState extends State<EditMainDepartmentModel> {
@@ -39,68 +40,72 @@ class _EditMainDepartmentModelState extends State<EditMainDepartmentModel> {
       backgroundColor: Colors.white,
       child: BlocProvider(
         create: (context) => UpsertMainDepartmentCubit(),
-        child:
-            BlocConsumer<UpsertMainDepartmentCubit, ApiResponseModel<CompanyMainDepartmentModel>>(
-              listener: (context, state) {
-                if (state.response == ResponseEnum.success) {
-                  Navigator.of(context).pop();
-                }
-              },
-              builder: (context, state) {
-                final controller = context.read<UpsertMainDepartmentCubit>();
-                return Form(
-                  key: _formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+        child: BlocConsumer<
+          UpsertMainDepartmentCubit,
+          ApiResponseModel<CompanyMainDepartmentModel>
+        >(
+          listener: (context, state) {
+            if (state.response == ResponseEnum.success) {
+              Navigator.of(context).pop();
+            }
+          },
+          builder: (context, state) {
+            final controller = context.read<UpsertMainDepartmentCubit>();
+            return Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            txt('Edit Main Department', e: St.bold20),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Icon(Icons.close),
-                            ),
-                          ],
+                        txt('Edit Main Department', e: St.bold20),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(Icons.close),
                         ),
-                        FormVerticalGap(),
-                        CustomTextFormField(
-                          placeholder: 'Enter Main Department',
-                          controller: _name,
-                          validator:
-                              (input) => valdiator(
-                                input: input,
-                                label: 'Main Department',
-                                isRequired: true,
-                                minChars: 2,
-                                maxChars: 50,
-                              ),
-                        ),
-                        FormVerticalGap(),
-                        state.response == ResponseEnum.loading
-                            ? Center(child: CircularProgressIndicator())
-                            : SaveButton(
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  FocusScope.of(context).unfocus();
-                                  await controller.upsert(
-                                    widget.departmentModel.copyWith(name: _name.text),
-                                  );
-                                }
-                              },
-                              title: 'Create',
-                            ),
-                        FormVerticalGap(),
                       ],
                     ),
-                  ),
-                );
-              },
-            ),
+                    FormVerticalGap(),
+                    CustomTextFormField(
+                      placeholder: 'Enter Main Department',
+                      controller: _name,
+                      validator:
+                          (input) => valdiator(
+                            input: input,
+                            label: 'Main Department',
+                            isRequired: true,
+                            minChars: 2,
+                            maxChars: 50,
+                          ),
+                    ),
+                    FormVerticalGap(),
+                    state.response == ResponseEnum.loading
+                        ? Center(child: CircularProgressIndicator())
+                        : SaveButton(
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
+                              await controller.upsert(
+                                widget.departmentModel.copyWith(
+                                  name: _name.text,
+                                ),
+                              );
+                            }
+                          },
+                          title: 'Create',
+                        ),
+                    FormVerticalGap(),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

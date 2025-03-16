@@ -18,7 +18,8 @@ class SubDepartmentTableWidget extends StatefulWidget {
   const SubDepartmentTableWidget({super.key});
 
   @override
-  _SubDepartmentTableWidgetState createState() => _SubDepartmentTableWidgetState();
+  _SubDepartmentTableWidgetState createState() =>
+      _SubDepartmentTableWidgetState();
 }
 
 class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
@@ -43,7 +44,9 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
               padding: const EdgeInsets.only(top: 10),
               child: HandleResponseWidget(
                 response: state.response ?? ResponseEnum.initial,
-                showNoData: state.data?.isEmpty == true && state.response == ResponseEnum.success,
+                showNoData:
+                    state.data?.isEmpty == true &&
+                    state.response == ResponseEnum.success,
                 child: Builder(
                   builder: (context) {
                     List<SubDepartmentEntity> data = _transformData(
@@ -57,7 +60,9 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                           return Container(
                             margin: EdgeInsets.symmetric(vertical: 10),
                             padding: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+                            decoration: BoxDecoration(
+                              border: Border(bottom: BorderSide()),
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
@@ -78,7 +83,11 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                                 ),
                                 Expanded(
                                   flex: 1,
-                                  child: txt('Action', e: St.bold16, textAlign: TextAlign.center),
+                                  child: txt(
+                                    'Action',
+                                    e: St.bold16,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ],
                             ),
@@ -88,7 +97,9 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                         return Container(
                           margin: EdgeInsets.symmetric(vertical: 5),
                           padding: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(border: Border(bottom: borderSide)),
+                          decoration: BoxDecoration(
+                            border: Border(bottom: borderSide),
+                          ),
 
                           child: Row(
                             children: [
@@ -96,7 +107,10 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                                 flex: 2,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    border: Border(left: borderSide, right: borderSide),
+                                    border: Border(
+                                      left: borderSide,
+                                      right: borderSide,
+                                    ),
                                   ),
                                   child: txt(
                                     data[index].mainDepartment ?? '',
@@ -108,7 +122,9 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                               Expanded(
                                 flex: 2,
                                 child: Container(
-                                  decoration: BoxDecoration(border: Border(right: borderSide)),
+                                  decoration: BoxDecoration(
+                                    border: Border(right: borderSide),
+                                  ),
                                   child: txt(
                                     data[index].subDepartment ?? '',
                                     e: St.reg16,
@@ -118,21 +134,31 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                               ),
                               Expanded(
                                 child: Container(
-                                  decoration: BoxDecoration(border: Border(right: borderSide)),
+                                  decoration: BoxDecoration(
+                                    border: Border(right: borderSide),
+                                  ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       InkWell(
                                             onTap: () {
-                                              _showEditSubDepartmentModel(data[index]);
+                                              _showEditSubDepartmentModel(
+                                                data[index],
+                                              );
                                             },
                                             child: Icon(Icons.edit, size: 25),
                                           )
                                           .animate()
-                                          .fadeIn(duration: const Duration(milliseconds: 300))
+                                          .fadeIn(
+                                            duration: const Duration(
+                                              milliseconds: 300,
+                                            ),
+                                          )
                                           .slideX(
                                             begin: -0.1,
-                                            duration: const Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                              milliseconds: 300,
+                                            ),
                                           ),
                                       SizedBox(width: 10),
                                       InkWell(
@@ -146,10 +172,16 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
                                             ),
                                           )
                                           .animate()
-                                          .fadeIn(duration: const Duration(milliseconds: 300))
+                                          .fadeIn(
+                                            duration: const Duration(
+                                              milliseconds: 300,
+                                            ),
+                                          )
                                           .slideX(
                                             begin: 0.1,
-                                            duration: const Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                              milliseconds: 300,
+                                            ),
                                           ),
                                     ],
                                   ),
@@ -192,16 +224,24 @@ class _SubDepartmentTableWidgetState extends State<SubDepartmentTableWidget> {
     if (confirm != true) return;
     final controller = serviceLocator<CompanyFormController>();
     if (subDepartmentEntity.subDepartmentId == null) return;
-    final res = await controller.deleteSubDepartment(subDepartmentEntity.subDepartmentId!);
-    if (res.response == ResponseEnum.success && subDepartmentEntity.companyId != null) {
-      context.read<CompanyDepartmentsIndexCubit>().index(subDepartmentEntity.companyId!);
+    final res = await controller.deleteSubDepartment(
+      subDepartmentEntity.subDepartmentId!,
+    );
+    if (res.response == ResponseEnum.success &&
+        subDepartmentEntity.companyId != null) {
+      context.read<CompanyDepartmentsIndexCubit>().index(
+        subDepartmentEntity.companyId!,
+      );
     }
   }
 
-  List<SubDepartmentEntity> _transformData(List<CompanyMainDepartmentModel> departments) {
+  List<SubDepartmentEntity> _transformData(
+    List<CompanyMainDepartmentModel> departments,
+  ) {
     List<SubDepartmentEntity> result = [];
     for (var department in departments) {
-      for (var subDepartment in department.subDepartments ?? <CompanySubDepartmentModel>[]) {
+      for (var subDepartment
+          in department.subDepartments ?? <CompanySubDepartmentModel>[]) {
         result.add(
           SubDepartmentEntity(
             companyId: department.companyId,

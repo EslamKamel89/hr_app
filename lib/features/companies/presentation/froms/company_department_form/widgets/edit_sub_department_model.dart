@@ -44,7 +44,10 @@ class _EditSubDepartmentModelState extends State<EditSubDepartmentModel> {
       backgroundColor: Colors.white,
       child: BlocProvider(
         create: (context) => UpsertSubDepartmentCubit(),
-        child: BlocConsumer<UpsertSubDepartmentCubit, ApiResponseModel<CompanySubDepartmentModel>>(
+        child: BlocConsumer<
+          UpsertSubDepartmentCubit,
+          ApiResponseModel<CompanySubDepartmentModel>
+        >(
           listener: (context, state) {
             if (state.response == ResponseEnum.success) {
               Navigator.of(context).pop();
@@ -77,20 +80,26 @@ class _EditSubDepartmentModelState extends State<EditSubDepartmentModel> {
                       ApiResponseModel<List<CompanyMainDepartmentModel>>
                     >(
                       builder: (context, state) {
-                        List<String> options = state.data?.map((e) => e.name ?? '').toList() ?? [];
+                        List<String> options =
+                            state.data?.map((e) => e.name ?? '').toList() ?? [];
                         return DropDownWidget(
                           label: 'Pick Main Department',
                           initialValue:
                               state.data
                                   ?.where(
                                     (parent) =>
-                                        parent.id == widget.subDepartmentModel.parentDepartmentId,
+                                        parent.id ==
+                                        widget
+                                            .subDepartmentModel
+                                            .parentDepartmentId,
                                   )
                                   .toList()
                                   .firstOrNull
                                   ?.name ??
                               options[0],
-                          options: state.data?.map((e) => e.name ?? '').toList() ?? [],
+                          options:
+                              state.data?.map((e) => e.name ?? '').toList() ??
+                              [],
                           onSelect: (value) {
                             state.data?.forEach((mainDepartment) {
                               if (mainDepartment.name == value) {

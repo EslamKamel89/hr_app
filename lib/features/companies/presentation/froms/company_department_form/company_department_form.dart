@@ -55,7 +55,10 @@ class _CompanyDepartmentFormState extends State<CompanyDepartmentForm>
                 controller: _tabController,
                 indicatorColor: context.secondaryHeaderColor,
                 labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                tabs: [Tab(child: txt('Main Departments')), Tab(child: txt('Sub Departments'))],
+                tabs: [
+                  Tab(child: txt('Main Departments')),
+                  Tab(child: txt('Sub Departments')),
+                ],
               );
             },
           ),
@@ -63,7 +66,10 @@ class _CompanyDepartmentFormState extends State<CompanyDepartmentForm>
             // height: 700,
             child: TabBarView(
               controller: _tabController,
-              children: [MainDepartmentTableWidget(), SubDepartmentTableWidget()],
+              children: [
+                MainDepartmentTableWidget(),
+                SubDepartmentTableWidget(),
+              ],
             ),
           ),
         ],

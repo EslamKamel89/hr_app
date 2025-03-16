@@ -9,7 +9,8 @@ import 'package:hr/features/companies/controllers/company_form_controller.dart';
 import 'package:hr/features/companies/cubits/company_departments_index_cubit.dart';
 import 'package:hr/features/companies/models/company_main_department_model/company_main_department_model.dart';
 
-class UpsertMainDepartmentCubit extends Cubit<ApiResponseModel<CompanyMainDepartmentModel>> {
+class UpsertMainDepartmentCubit
+    extends Cubit<ApiResponseModel<CompanyMainDepartmentModel>> {
   CompanyFormController controller = serviceLocator();
   UpsertMainDepartmentCubit() : super(ApiResponseModel.initial());
   Future upsert(CompanyMainDepartmentModel model) async {

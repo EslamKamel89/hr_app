@@ -33,7 +33,10 @@ class _AddMainDepartmentState extends State<AddMainDepartment> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpsertMainDepartmentCubit(),
-      child: BlocBuilder<UpsertMainDepartmentCubit, ApiResponseModel<CompanyMainDepartmentModel>>(
+      child: BlocBuilder<
+        UpsertMainDepartmentCubit,
+        ApiResponseModel<CompanyMainDepartmentModel>
+      >(
         builder: (context, state) {
           final controller = context.read<UpsertMainDepartmentCubit>();
           return Form(

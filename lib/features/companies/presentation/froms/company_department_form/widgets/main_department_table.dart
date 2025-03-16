@@ -19,14 +19,19 @@ class Department {
   final String subDepartment;
   final String mainDepartment;
 
-  Department({required this.id, required this.subDepartment, required this.mainDepartment});
+  Department({
+    required this.id,
+    required this.subDepartment,
+    required this.mainDepartment,
+  });
 }
 
 class MainDepartmentTableWidget extends StatefulWidget {
   const MainDepartmentTableWidget({super.key});
 
   @override
-  _MainDepartmentTableWidgetState createState() => _MainDepartmentTableWidgetState();
+  _MainDepartmentTableWidgetState createState() =>
+      _MainDepartmentTableWidgetState();
 }
 
 class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
@@ -47,7 +52,9 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
               padding: const EdgeInsets.only(top: 10),
               child: HandleResponseWidget(
                 response: state.response ?? ResponseEnum.initial,
-                showNoData: state.data?.isEmpty == true && state.response == ResponseEnum.success,
+                showNoData:
+                    state.data?.isEmpty == true &&
+                    state.response == ResponseEnum.success,
                 child: ListView.builder(
                   // physics: NeverScrollableScrollPhysics(),
                   itemCount: (state.data?.length ?? 0) + 1,
@@ -56,7 +63,9 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 10),
                         padding: EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+                        decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide()),
+                        ),
                         child: Row(
                           children: [
                             Expanded(
@@ -70,7 +79,11 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
 
                             Expanded(
                               flex: 1,
-                              child: txt('Action', e: St.bold16, textAlign: TextAlign.center),
+                              child: txt(
+                                'Action',
+                                e: St.bold16,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),
@@ -80,7 +93,9 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                     return Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
                       padding: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(border: Border(bottom: borderSide)),
+                      decoration: BoxDecoration(
+                        border: Border(bottom: borderSide),
+                      ),
 
                       child: Row(
                         children: [
@@ -88,7 +103,10 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                             flex: 2,
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border(left: borderSide, right: borderSide),
+                                border: Border(
+                                  left: borderSide,
+                                  right: borderSide,
+                                ),
                               ),
                               child: txt(
                                 state.data?[index].name ?? '',
@@ -99,29 +117,41 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                           ),
                           Expanded(
                             child: Container(
-                              decoration: BoxDecoration(border: Border(right: borderSide)),
+                              decoration: BoxDecoration(
+                                border: Border(right: borderSide),
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   InkWell(
                                         onTap: () {
                                           if (state.data?[index] != null) {
-                                            _showEditMainDepartmentModel((state.data?[index])!);
+                                            _showEditMainDepartmentModel(
+                                              (state.data?[index])!,
+                                            );
                                           }
                                         },
                                         child: Icon(Icons.edit, size: 25),
                                       )
                                       .animate()
-                                      .fadeIn(duration: const Duration(milliseconds: 300))
+                                      .fadeIn(
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
+                                      )
                                       .slideX(
                                         begin: -0.1,
-                                        duration: const Duration(milliseconds: 300),
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
                                       ),
                                   SizedBox(width: 10),
                                   InkWell(
                                         onTap: () {
                                           if (state.data?[index] != null) {
-                                            _deleteMainDepartment((state.data?[index])!);
+                                            _deleteMainDepartment(
+                                              (state.data?[index])!,
+                                            );
                                           }
                                         },
                                         child: Icon(
@@ -131,10 +161,16 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
                                         ),
                                       )
                                       .animate()
-                                      .fadeIn(duration: const Duration(milliseconds: 300))
+                                      .fadeIn(
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
+                                      )
                                       .slideX(
                                         begin: 0.1,
-                                        duration: const Duration(milliseconds: 300),
+                                        duration: const Duration(
+                                          milliseconds: 300,
+                                        ),
                                       ),
                                 ],
                               ),
@@ -168,8 +204,11 @@ class _MainDepartmentTableWidgetState extends State<MainDepartmentTableWidget> {
     if (confirm != true) return;
     final controller = serviceLocator<CompanyFormController>();
     final res = await controller.deleteMainDepartment(departmentModel);
-    if (res.response == ResponseEnum.success && departmentModel.companyId != null) {
-      context.read<CompanyDepartmentsIndexCubit>().index(departmentModel.companyId!);
+    if (res.response == ResponseEnum.success &&
+        departmentModel.companyId != null) {
+      context.read<CompanyDepartmentsIndexCubit>().index(
+        departmentModel.companyId!,
+      );
     }
   }
 }

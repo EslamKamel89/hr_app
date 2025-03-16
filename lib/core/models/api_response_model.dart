@@ -6,9 +6,17 @@ class ApiResponseModel<T> {
   T? data;
   String? errorMessage;
   ResponseEnum? response;
-  ApiResponseModel({this.data, this.errorMessage, this.response = ResponseEnum.initial});
+  ApiResponseModel({
+    this.data,
+    this.errorMessage,
+    this.response = ResponseEnum.initial,
+  });
 
-  ApiResponseModel<T> copyWith({T? data, String? errorMessage, ResponseEnum? response}) {
+  ApiResponseModel<T> copyWith({
+    T? data,
+    String? errorMessage,
+    ResponseEnum? response,
+  }) {
     return ApiResponseModel<T>(
       data: data ?? this.data,
       errorMessage: errorMessage ?? this.errorMessage,
@@ -19,7 +27,11 @@ class ApiResponseModel<T> {
   ApiResponseModel.initial() {
     response = ResponseEnum.initial;
   }
-  ApiResponseModel<T> modify({T? data, String? errorMessage, ResponseEnum? response}) {
+  ApiResponseModel<T> modify({
+    T? data,
+    String? errorMessage,
+    ResponseEnum? response,
+  }) {
     return ApiResponseModel<T>(
       data: data ?? this.data,
       errorMessage: errorMessage ?? this.errorMessage,
