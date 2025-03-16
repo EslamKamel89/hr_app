@@ -1,4 +1,4 @@
-class CompanyBank {
+class CompanyBankModel {
   int? id;
   String? bankNickName;
   String? bankName;
@@ -9,7 +9,7 @@ class CompanyBank {
   String? createdAt;
   String? updatedAt;
 
-  CompanyBank({
+  CompanyBankModel({
     this.id,
     this.bankNickName,
     this.bankName,
@@ -23,10 +23,10 @@ class CompanyBank {
 
   @override
   String toString() {
-    return 'CompanyBank(id: $id, bankNickName: $bankNickName, bankName: $bankName, bankAccountNumber: $bankAccountNumber, bankAccountIbanNumber: $bankAccountIbanNumber, swiftCode: $swiftCode, companyBasicId: $companyBasicId, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CompanyBankModel(id: $id, bankNickName: $bankNickName, bankName: $bankName, bankAccountNumber: $bankAccountNumber, bankAccountIbanNumber: $bankAccountIbanNumber, swiftCode: $swiftCode, companyBasicId: $companyBasicId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
-  factory CompanyBank.fromJson(Map<String, dynamic> json) => CompanyBank(
+  factory CompanyBankModel.fromJson(Map<String, dynamic> json) => CompanyBankModel(
     id: json['id'] as int?,
     bankNickName: json['bank_nick_name'] as String?,
     bankName: json['bank_name'] as String?,
@@ -50,7 +50,7 @@ class CompanyBank {
     'updated_at': updatedAt,
   };
 
-  CompanyBank copyWith({
+  CompanyBankModel copyWith({
     int? id,
     String? bankNickName,
     String? bankName,
@@ -61,13 +61,12 @@ class CompanyBank {
     String? createdAt,
     String? updatedAt,
   }) {
-    return CompanyBank(
+    return CompanyBankModel(
       id: id ?? this.id,
       bankNickName: bankNickName ?? this.bankNickName,
       bankName: bankName ?? this.bankName,
       bankAccountNumber: bankAccountNumber ?? this.bankAccountNumber,
-      bankAccountIbanNumber:
-          bankAccountIbanNumber ?? this.bankAccountIbanNumber,
+      bankAccountIbanNumber: bankAccountIbanNumber ?? this.bankAccountIbanNumber,
       swiftCode: swiftCode ?? this.swiftCode,
       companyBasicId: companyBasicId ?? this.companyBasicId,
       createdAt: createdAt ?? this.createdAt,
