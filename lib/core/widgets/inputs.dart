@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -731,15 +732,23 @@ class _UploadFileWidgetState extends State<UploadFileWidget> {
             widget.file.data != null || widget.path != null
                 ? Stack(
                   children: [
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                      clipBehavior: Clip.hardEdge,
-                      child:
-                          widget.file.data != null
-                              ? Image.file(widget.file.data!, fit: BoxFit.cover)
-                              : Image.network(widget.path!),
-                    ),
+                    widget.file.data != null
+                        ? Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                          clipBehavior: Clip.hardEdge,
+                          child: Image.file(widget.file.data!, fit: BoxFit.cover),
+                        )
+                        : CachedNetworkImage(
+                          imageUrl: widget.path!,
+                          errorWidget:
+                              (context, _, child) => Container(
+                                height: 150,
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: txt("Image couldn't be displayed"),
+                              ),
+                        ),
                     Positioned(
                       top: 10,
                       right: 10,
