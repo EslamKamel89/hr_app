@@ -6,6 +6,7 @@ import 'package:hr/core/heleprs/print_helper.dart';
 import 'package:hr/core/heleprs/snackbar.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
+import 'package:hr/features/companies/controllers/params/company_attachments_params.dart';
 import 'package:hr/features/companies/models/company_attachments_model.dart';
 import 'package:hr/features/companies/models/company_bank_model.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
@@ -285,36 +286,32 @@ class CompanyFormController {
     }
   }
 
-  // Future<ApiCrudResponseModel<CompanyLegalModel>> legalUpsert(
-  //   int companyId,
-  //   CompanyLegalModel contact,
-  // ) async {
-  //   final t = prt('legalUpsert - CompanyFormController ');
-  //   try {
-  //     final response = await api.put(
-  //       '${EndPoint.companyLegal}/$companyId',
-  //       data: contact.toJson(),
-  //     );
-  //     CompanyLegalModel companyLegalModel = CompanyLegalModel.fromJson(
-  //       response['legal'],
-  //     );
-  //     showSnackbar('Success', 'Data Saved Successfully', false);
-  //     return pr(
-  //       ApiCrudResponseModel(
-  //         upsertResponse: ResponseEnum.success,
-  //         data: companyLegalModel,
-  //       ),
-  //       t,
-  //     );
-  //   } catch (e) {
-  //     String errorMessage = handeException(e);
-  //     return pr(
-  //       ApiCrudResponseModel(
-  //         errorMessage: errorMessage,
-  //         upsertResponse: ResponseEnum.failed,
-  //       ),
-  //       t,
-  //     );
-  //   }
-  // }
+  Future<ApiCrudResponseModel<CompanyAttachmentsModel>> attachmentUpsert(
+    int companyId,
+    CompanyAttachmentsParams params,
+  ) async {
+    final t = prt('legalUpsert - CompanyFormController ');
+    try {
+      final response = await api.post(
+        '${EndPoint.companyAttachments}?id=$companyId',
+        isFormData: true,
+        data: await params.toJson(),
+      );
+      CompanyAttachmentsModel companyAttachmentsModel = CompanyAttachmentsModel.fromJson(
+        response['attachments'],
+      );
+      companyAttachmentsModel.path = response['path'];
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(upsertResponse: ResponseEnum.success, data: companyAttachmentsModel),
+        t,
+      );
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(errorMessage: errorMessage, upsertResponse: ResponseEnum.failed),
+        t,
+      );
+    }
+  }
 }

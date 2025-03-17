@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/api_service/end_points.dart';
+import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/core/widgets/inputs.dart';
 import 'package:hr/core/widgets/save_button.dart';
+import 'package:hr/features/companies/controllers/params/company_attachments_params.dart';
 import 'package:hr/features/companies/cubits/company_attachments_cubit.dart';
 import 'package:hr/features/companies/models/company_attachments_model.dart';
 import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
@@ -94,7 +96,18 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
                       "${EndPoint.uploadUrl}${state.data?.getPath()}${state.data?.chamberOfCommerceCertificateCopy}",
                 ),
                 SizedBox(height: 30),
-                SaveButton(onTap: () {}),
+                BlocBuilder<CompanyAttachmentsCubit, ApiCrudResponseModel<CompanyAttachmentsModel>>(
+                  builder: (context, state) {
+                    if (state.upsertResponse == ResponseEnum.loading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return SaveButton(
+                      onTap: () {
+                        _sendRequest();
+                      },
+                    );
+                  },
+                ),
                 SizedBox(height: 50),
               ],
             ),
@@ -104,5 +117,17 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
     );
   }
 
-  Future _sendRequest() async {}
+  Future _sendRequest() async {
+    _controller.attachmentUpsert(
+      context,
+      CompanyAttachmentsParams(
+        tradeLicense: _tradeLicense.data,
+        ownerEmirateIdFrontCopy: _ownerEmirateIdFrontCopy.data,
+        ownerEmirateIdBackCopy: _ownerEmirateIdBackCopy.data,
+        ownerPassportCopy: _ownerPassportCopy.data,
+        vatRegisterationCertificateCopy: _vatRegisterationCertificateCopy.data,
+        chamberOfCommerceCertificateCopy: _chamberOfCommerceCertificateCopy.data,
+      ),
+    );
+  }
 }
