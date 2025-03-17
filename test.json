@@ -1,11 +1,13 @@
 {
-    "id": 2,
-    "bank_nick_name": "sdgsdgds",
-    "bank_name": "sdgsdgsd",
-    "bank_account_number": "sdgsdgds",
-    "bank_account_iban_number": "xdfgvbsadfgsadgsadgsd",
-    "swift_code": "sdgdsgsdgsd",
+    "id": 1,
+    "trade_license": "1742197704.png",
+    "owner_emirate_id_front_copy": "1742197705.png",
+    "owner_emirate_id_back_copy": "1742197706.png",
+    "owner_passport_copy": "1742197707.png",
+    "vat_registeration_certificate_copy": "1742197708.png",
+    "chamber_of_commerce_certificate_copy": "1742197709.png",
     "company_basic_id": 8,
-    "created_at": "2025-02-1dfdsfdsf8T09:00:24.000000Z",
-    "updated_at": "2025-02-18Tdfdsf09:00:24.0000fdfdsf00Z"
+    "path": "dfdfdsff",
+    "created_at": "2025-02-1dfdfdf8T11:02:50.000000Z",
+    "updated_at": "2025-03-1fdfdsfds7T07:48:30.000000Z"
 }

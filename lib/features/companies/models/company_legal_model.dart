@@ -27,10 +27,17 @@ class CompanyLegalModel {
       id: json['id'] as int?,
       tradeLicenseExpiryDate: json['trade_license_expiry_date'] as String?,
       vatRegistrationNumber: json['vat_registration_number'] as String?,
-      chamberOfCommerceMembershipNumber: json['chamber_of_commerce_membership_number'] as String?,
+      chamberOfCommerceMembershipNumber:
+          json['chamber_of_commerce_membership_number'] as String?,
       companyBasicId: json['company_basic_id'] as int?,
-      createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at'] as String),
+      createdAt:
+          json['created_at'] == null
+              ? null
+              : DateTime.parse(json['created_at'] as String),
+      updatedAt:
+          json['updated_at'] == null
+              ? null
+              : DateTime.parse(json['updated_at'] as String),
     );
   }
 
@@ -55,10 +62,13 @@ class CompanyLegalModel {
   }) {
     return CompanyLegalModel(
       id: id ?? this.id,
-      tradeLicenseExpiryDate: tradeLicenseExpiryDate ?? this.tradeLicenseExpiryDate,
-      vatRegistrationNumber: vatRegistrationNumber ?? this.vatRegistrationNumber,
+      tradeLicenseExpiryDate:
+          tradeLicenseExpiryDate ?? this.tradeLicenseExpiryDate,
+      vatRegistrationNumber:
+          vatRegistrationNumber ?? this.vatRegistrationNumber,
       chamberOfCommerceMembershipNumber:
-          chamberOfCommerceMembershipNumber ?? this.chamberOfCommerceMembershipNumber,
+          chamberOfCommerceMembershipNumber ??
+          this.chamberOfCommerceMembershipNumber,
       companyBasicId: companyBasicId ?? this.companyBasicId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

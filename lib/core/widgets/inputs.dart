@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/heleprs/pick_image.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
+import 'package:hr/core/widgets/choose_camera_or_gallery.dart';
 import 'package:hr/utils/styles/styles.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AuthTextFormField extends StatefulWidget {
@@ -50,9 +55,7 @@ class _AuthTextFormFieldState extends State<AuthTextFormField> {
                         });
                       },
                       icon: Icon(
-                        showPassword
-                            ? MdiIcons.eyeOffOutline
-                            : MdiIcons.eyeOutline,
+                        showPassword ? MdiIcons.eyeOffOutline : MdiIcons.eyeOutline,
                         color: context.primaryColorDark,
                       ),
                     );
@@ -82,8 +85,7 @@ class CustomTextFormFieldWithSuggestions extends StatefulWidget {
       _CustomTextFormFieldWithSuggestionsState();
 }
 
-class _CustomTextFormFieldWithSuggestionsState
-    extends State<CustomTextFormFieldWithSuggestions> {
+class _CustomTextFormFieldWithSuggestionsState extends State<CustomTextFormFieldWithSuggestions> {
   String selectedValue = '';
   @override
   void initState() {
@@ -102,10 +104,8 @@ class _CustomTextFormFieldWithSuggestionsState
           final result =
               widget.suggestions
                   .where(
-                    (String suggestion) => suggestion
-                        .toLowerCase()
-                        .trim()
-                        .contains(search.trim().toLowerCase()),
+                    (String suggestion) =>
+                        suggestion.toLowerCase().trim().contains(search.trim().toLowerCase()),
                   )
                   .toList();
           return result;
@@ -183,11 +183,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               children: [
                 txt(widget.label!, e: St.bold16),
                 SizedBox(width: 5),
-                txt(
-                  widget.req ? '*' : '(optinal)',
-                  e: St.reg12,
-                  c: widget.req ? Colors.red : null,
-                ),
+                txt(widget.req ? '*' : '(optinal)', e: St.reg12, c: widget.req ? Colors.red : null),
               ],
             ),
           ),
@@ -212,9 +208,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                             });
                           },
                           icon: Icon(
-                            showPassword
-                                ? MdiIcons.eyeOffOutline
-                                : MdiIcons.eyeOutline,
+                            showPassword ? MdiIcons.eyeOffOutline : MdiIcons.eyeOutline,
                             color: context.primaryColor,
                           ),
                         );
@@ -249,8 +243,7 @@ class SearchableDropdownWidget extends StatefulWidget {
   final String hintText;
   final bool isRequired;
   @override
-  State<SearchableDropdownWidget> createState() =>
-      _SearchableDropdownWidgetState();
+  State<SearchableDropdownWidget> createState() => _SearchableDropdownWidgetState();
 }
 
 class _SearchableDropdownWidgetState extends State<SearchableDropdownWidget> {
@@ -335,11 +328,7 @@ class _SearchDialogState extends State<SearchDialog> {
     setState(() {
       filteredOptions =
           widget.options
-              .where(
-                (option) => option.trim().toLowerCase().contains(
-                  query.trim().toLowerCase(),
-                ),
-              )
+              .where((option) => option.trim().toLowerCase().contains(query.trim().toLowerCase()))
               .toList();
     });
   }
@@ -391,10 +380,7 @@ class TextAreaWidget extends StatelessWidget {
       readOnly: true,
       textAlign: TextAlign.right,
       maxLines: null,
-      decoration: InputDecoration(
-        labelText: label,
-        border: const OutlineInputBorder(),
-      ),
+      decoration: InputDecoration(labelText: label, border: const OutlineInputBorder()),
       controller: TextEditingController(text: text),
     );
   }
@@ -442,11 +428,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
             children: [
               txt(widget.label, e: St.bold16),
               SizedBox(width: 5),
-              txt(
-                widget.req ? '*' : '(optinal)',
-                e: St.reg12,
-                c: widget.req ? Colors.red : null,
-              ),
+              txt(widget.req ? '*' : '(optinal)', e: St.reg12, c: widget.req ? Colors.red : null),
             ],
           ),
         ),
@@ -461,9 +443,7 @@ class _CustomDateFieldState extends State<CustomDateField> {
                     widget.initialDate != null
                         ? '${widget.initialDate?.year}-${widget.initialDate?.month.toString().padLeft(2, '0')}-${widget.initialDate?.day.toString().padLeft(2, '0')}'
                         : 'Select a date',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
               ),
               // validator: (_) => widget.selectedDate == null ? '${widget.label} is required' : null,
               validator: widget.validator,
@@ -590,11 +570,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
             children: [
               txt(widget.label, e: St.bold16),
               SizedBox(width: 5),
-              txt(
-                widget.req ? '*' : '(optinal)',
-                e: St.reg12,
-                c: widget.req ? Colors.red : null,
-              ),
+              txt(widget.req ? '*' : '(optinal)', e: St.reg12, c: widget.req ? Colors.red : null),
             ],
           ),
         ),
@@ -603,12 +579,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
           value: selectedValue,
           items:
               widget.options
-                  .map(
-                    (option) => DropdownMenuItem<String>(
-                      value: option,
-                      child: txt(option),
-                    ),
-                  )
+                  .map((option) => DropdownMenuItem<String>(value: option, child: txt(option)))
                   .toList(),
           onChanged: (String? value) {
             widget.onSelect(value);
@@ -652,12 +623,10 @@ class CustomMultipleTextFormField extends StatefulWidget {
   final List<String>? initialValues;
   final PassByReference<String?> valueByReference;
   @override
-  State<CustomMultipleTextFormField> createState() =>
-      _CustomMultipleTextFormFieldState();
+  State<CustomMultipleTextFormField> createState() => _CustomMultipleTextFormFieldState();
 }
 
-class _CustomMultipleTextFormFieldState
-    extends State<CustomMultipleTextFormField> {
+class _CustomMultipleTextFormFieldState extends State<CustomMultipleTextFormField> {
   List<String> inputs = [];
   TextEditingController controller = TextEditingController();
   @override
@@ -708,10 +677,7 @@ class _CustomMultipleTextFormFieldState
                   child: Icon(Icons.remove, color: Colors.red),
                   onTap: () {
                     setState(() {
-                      inputs =
-                          inputs
-                              .where((input) => input != inputs[index])
-                              .toList();
+                      inputs = inputs.where((input) => input != inputs[index]).toList();
                     });
                     widget.valueByReference.data = inputs.join(',');
                   },
@@ -722,5 +688,98 @@ class _CustomMultipleTextFormFieldState
         }),
       ],
     );
+  }
+}
+
+class UploadFileWidget extends StatefulWidget {
+  const UploadFileWidget({
+    super.key,
+    required this.label,
+    required this.file,
+    this.path,
+    this.req = false,
+  });
+  final String label;
+  final PassByReference<File?> file;
+  final String? path;
+  final bool req;
+  @override
+  State<UploadFileWidget> createState() => _UploadFileWidgetState();
+}
+
+class _UploadFileWidgetState extends State<UploadFileWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Row(
+                children: [
+                  Flexible(child: txt(widget.label, e: St.bold18, softwrap: true)),
+                  // SizedBox(width: 5),
+                  // txt(widget.req ? '*' : '(optinal)', e: St.reg12, c: widget.req ? Colors.red : null),
+                ],
+              ),
+            ),
+            widget.file.data != null || widget.path != null
+                ? Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                      clipBehavior: Clip.hardEdge,
+                      child:
+                          widget.file.data != null
+                              ? Image.file(widget.file.data!, fit: BoxFit.cover)
+                              : Image.network(widget.path!),
+                    ),
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: InkWell(
+                        onTap: _pickImage,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                          padding: EdgeInsets.all(10),
+                          child: Icon(Icons.edit, size: 30),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                : InkWell(
+                  onTap: _pickImage,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: context.primaryColor,
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                    child: txt('Upload', e: St.bold18, c: Colors.white),
+                  ),
+                ),
+            SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _pickImage() async {
+    final ImageSource? imageSource = await chooseGalleryOrCameraDialog();
+    if (imageSource == null) return;
+    widget.file.data = await pickImage(imageSource);
+    setState(() {});
   }
 }

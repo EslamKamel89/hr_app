@@ -17,7 +17,10 @@ class CompanyLegalProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => CompanyLegalCubit(), child: const CompanyLegalForm());
+    return BlocProvider(
+      create: (context) => CompanyLegalCubit(),
+      child: const CompanyLegalForm(),
+    );
   }
 }
 
@@ -31,7 +34,8 @@ class CompanyLegalForm extends StatefulWidget {
 class _CompanyLegalFormState extends State<CompanyLegalForm> {
   final TextEditingController _tradeLicenseExpiryDate = TextEditingController();
   final TextEditingController _vatRegistrationNumber = TextEditingController();
-  final TextEditingController _chamberOfCommerceMembershipNumber = TextEditingController();
+  final TextEditingController _chamberOfCommerceMembershipNumber =
+      TextEditingController();
   late final CompanyLegalCubit _controller;
   DateTime? _expiryDatetime;
   final _formKey = GlobalKey<FormState>();
@@ -52,7 +56,10 @@ class _CompanyLegalFormState extends State<CompanyLegalForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 6,
-      child: BlocBuilder<CompanyLegalCubit, ApiCrudResponseModel<CompanyLegalModel>>(
+      child: BlocBuilder<
+        CompanyLegalCubit,
+        ApiCrudResponseModel<CompanyLegalModel>
+      >(
         buildWhen: (previous, current) {
           return (previous.showResponse != ResponseEnum.success &&
               current.showResponse == ResponseEnum.success);
@@ -72,7 +79,9 @@ class _CompanyLegalFormState extends State<CompanyLegalForm> {
                     onDateSubmit: (date) {
                       _expiryDatetime = date;
                     },
-                    initialDate: parseDateTime(_controller.state.data?.tradeLicenseExpiryDate),
+                    initialDate: parseDateTime(
+                      _controller.state.data?.tradeLicenseExpiryDate,
+                    ),
                     textEditingController: _tradeLicenseExpiryDate,
                     validator:
                         (input) => valdiator(
@@ -112,7 +121,10 @@ class _CompanyLegalFormState extends State<CompanyLegalForm> {
                   ),
 
                   SizedBox(height: 30),
-                  BlocBuilder<CompanyLegalCubit, ApiCrudResponseModel<CompanyLegalModel>>(
+                  BlocBuilder<
+                    CompanyLegalCubit,
+                    ApiCrudResponseModel<CompanyLegalModel>
+                  >(
                     builder: (context, state) {
                       if (state.upsertResponse == ResponseEnum.loading) {
                         return Center(child: CircularProgressIndicator());
@@ -136,8 +148,10 @@ class _CompanyLegalFormState extends State<CompanyLegalForm> {
   }
 
   void _initializeFields() {
-    _tradeLicenseExpiryDate.text = _controller.state.data?.tradeLicenseExpiryDate ?? '';
-    _vatRegistrationNumber.text = _controller.state.data?.vatRegistrationNumber ?? '';
+    _tradeLicenseExpiryDate.text =
+        _controller.state.data?.tradeLicenseExpiryDate ?? '';
+    _vatRegistrationNumber.text =
+        _controller.state.data?.vatRegistrationNumber ?? '';
     _chamberOfCommerceMembershipNumber.text =
         _controller.state.data?.chamberOfCommerceMembershipNumber ?? '';
   }
@@ -155,7 +169,8 @@ class _CompanyLegalFormState extends State<CompanyLegalForm> {
         CompanyLegalModel(
           tradeLicenseExpiryDate: _expiryDatetime?.toIso8601String(),
           vatRegistrationNumber: _vatRegistrationNumber.text,
-          chamberOfCommerceMembershipNumber: _chamberOfCommerceMembershipNumber.text,
+          chamberOfCommerceMembershipNumber:
+              _chamberOfCommerceMembershipNumber.text,
           companyBasicId: getCompany(context)?.id,
         ),
       );
