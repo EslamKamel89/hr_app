@@ -82,7 +82,12 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
                   path:
                       "${EndPoint.uploadUrl}${state.data?.getPath()}${state.data?.ownerEmirateIdBackCopy}",
                 ),
-                UploadFileWidget(label: "Owner Passport Copy", file: _ownerPassportCopy),
+                UploadFileWidget(
+                  label: "Owner Passport Copy",
+                  file: _ownerPassportCopy,
+                  path:
+                      "${EndPoint.uploadUrl}${state.data?.getPath()}${state.data?.ownerPassportCopy}",
+                ),
                 UploadFileWidget(
                   label: "VAT Registration Certificate Copy",
                   file: _vatRegisterationCertificateCopy,

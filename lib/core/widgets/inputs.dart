@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
 import 'package:hr/core/heleprs/pick_image.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/core/widgets/choose_camera_or_gallery.dart';
+import 'package:hr/utils/assets/assets.dart';
 import 'package:hr/utils/styles/styles.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -741,6 +743,15 @@ class _UploadFileWidgetState extends State<UploadFileWidget> {
                         )
                         : CachedNetworkImage(
                           imageUrl: widget.path!,
+                          placeholder:
+                              (context, child) => Padding(
+                                    padding: EdgeInsets.all(20),
+                                    child: Image.asset(AssetsData.icon, fit: BoxFit.cover),
+                                  )
+                                  .animate(onPlay: (c) => c.repeat())
+                                  .fade(duration: 500.ms, begin: 0.2, end: 0.7)
+                                  .then()
+                                  .fade(duration: 500.ms, begin: 0.7, end: 0.2),
                           errorWidget:
                               (context, _, child) => Container(
                                 height: 150,
