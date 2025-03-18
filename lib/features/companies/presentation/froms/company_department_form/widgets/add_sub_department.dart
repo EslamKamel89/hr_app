@@ -4,7 +4,8 @@ import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/widgets/collapsible_card.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/custom_dropdown_widget.dart';
+import 'package:hr/core/widgets/inputs/custom_text_form_field.dart';
 import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/company_departments_index_cubit.dart';
 import 'package:hr/features/companies/cubits/upsert_sub_department_cubit.dart';
@@ -41,10 +42,7 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpsertSubDepartmentCubit(),
-      child: BlocBuilder<
-        UpsertSubDepartmentCubit,
-        ApiResponseModel<CompanySubDepartmentModel>
-      >(
+      child: BlocBuilder<UpsertSubDepartmentCubit, ApiResponseModel<CompanySubDepartmentModel>>(
         builder: (context, state) {
           final controller = context.read<UpsertSubDepartmentCubit>();
           return Form(
@@ -63,14 +61,12 @@ class _AddSubDepartmentState extends State<AddSubDepartment> {
                     ApiResponseModel<List<CompanyMainDepartmentModel>>
                   >(
                     builder: (context, state) {
-                      List<String> options =
-                          state.data?.map((e) => e.name ?? '').toList() ?? [];
+                      List<String> options = state.data?.map((e) => e.name ?? '').toList() ?? [];
 
                       return DropDownWidget(
                         label: 'Pick Main Department',
                         // initialValue: options[0],
-                        options:
-                            state.data?.map((e) => e.name ?? '').toList() ?? [],
+                        options: state.data?.map((e) => e.name ?? '').toList() ?? [],
                         onSelect: (value) {
                           state.data?.forEach((mainDepartment) {
                             if (mainDepartment.name == value) {

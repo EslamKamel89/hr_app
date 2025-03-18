@@ -4,7 +4,7 @@ import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/router/app_routes_names.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/auth_text_form_field.dart';
 import 'package:hr/features/auth/controllers/params/register_params.dart';
 import 'package:hr/features/auth/cubits/register_cubit.dart';
 import 'package:hr/features/auth/models/user_model.dart';
@@ -21,8 +21,7 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
@@ -40,10 +39,9 @@ class _SignUpViewState extends State<SignUpView> {
       child: BlocConsumer<RegisterCubit, ApiResponseModel<UserModel?>>(
         listener: (context, state) {
           if (state.response == ResponseEnum.success) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              AppRoutesNames.companiesView,
-              (_) => false,
-            );
+            Navigator.of(
+              context,
+            ).pushNamedAndRemoveUntil(AppRoutesNames.companiesView, (_) => false);
           }
         },
         builder: (context, state) {
@@ -156,17 +154,12 @@ class _SignUpViewState extends State<SignUpView> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 15,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: const Text(
-                                  "Sign Up",
-                                  style: TextStyle(fontSize: 16),
-                                ),
+                                child: const Text("Sign Up", style: TextStyle(fontSize: 16)),
                               ),
                           const SizedBox(height: 20),
                           const Row(
@@ -174,10 +167,7 @@ class _SignUpViewState extends State<SignUpView> {
                               Expanded(child: Divider(thickness: 1)),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  "OR",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
+                                child: Text("OR", style: TextStyle(color: Colors.grey)),
                               ),
                               Expanded(child: Divider(thickness: 1)),
                             ],
@@ -194,10 +184,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: const Text(
-                                  "Sign In",
-                                  style: TextStyle(color: Colors.blue),
-                                ),
+                                child: const Text("Sign In", style: TextStyle(color: Colors.blue)),
                               ),
                             ],
                           ),

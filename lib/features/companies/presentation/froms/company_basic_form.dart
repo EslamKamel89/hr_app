@@ -4,7 +4,10 @@ import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/format_date.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/custom_date_field.dart';
+import 'package:hr/core/widgets/inputs/custom_dropdown_widget.dart';
+import 'package:hr/core/widgets/inputs/custom_multiple_selection_text_field.dart';
+import 'package:hr/core/widgets/inputs/custom_text_form_field.dart';
 import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
@@ -90,9 +93,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
               onDateSubmit: (date) {
                 dateOfIncorporation = date;
               },
-              initialDate: parseDateTime(
-                _controller.state.company?.data?.incoporationDate,
-              ),
+              initialDate: parseDateTime(_controller.state.company?.data?.incoporationDate),
               textEditingController: _dateOfIncorporationStr,
             ),
             FormVerticalGap(),
@@ -105,23 +106,14 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
             FormVerticalGap(),
             Builder(
               builder: (context) {
-                final companies =
-                    context.read<CompaniesIndexCubit>().state.data ?? [];
+                final companies = context.read<CompaniesIndexCubit>().state.data ?? [];
                 return DropDownWidget(
                   label: 'Parent Company',
                   initialValue:
                       _controller.state.company?.data?.parentCompany == null
                           ? null
                           : companies
-                              .where(
-                                (c) =>
-                                    c.id ==
-                                    _controller
-                                        .state
-                                        .company
-                                        ?.data
-                                        ?.parentCompany,
-                              )
+                              .where((c) => c.id == _controller.state.company?.data?.parentCompany)
                               .toList()
                               .firstOrNull
                               ?.companyName,
@@ -184,13 +176,10 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
 
   void _initializeFields() {
     _companyName.text = _controller.state.company?.data?.companyName ?? '';
-    _tradeLicense.text =
-        _controller.state.company?.data?.tradeLicenseNumber ?? '';
+    _tradeLicense.text = _controller.state.company?.data?.tradeLicenseNumber ?? '';
     _abbr.text = _controller.state.company?.data?.abbr ?? '';
     _website.text = _controller.state.company?.data?.websiteUrl ?? '';
-    dateOfIncorporation = parseDateTime(
-      _controller.state.company?.data?.incoporationDate,
-    );
+    dateOfIncorporation = parseDateTime(_controller.state.company?.data?.incoporationDate);
     _activities.data = _controller.state.company?.data?.businessActivities;
   }
 
@@ -203,8 +192,7 @@ class _CompanyBasicFormState extends State<CompanyBasicForm> {
 
   Future _sendRequest() async {
     if (_formKey.currentState!.validate()) {
-      CompanyModel companyInState =
-          _controller.state.company?.data ?? CompanyModel();
+      CompanyModel companyInState = _controller.state.company?.data ?? CompanyModel();
       CompanyModel companyUpdated = companyInState.copyWith(
         companyName: _companyName.text,
         tradeLicenseNumber: _tradeLicense.text,

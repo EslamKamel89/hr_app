@@ -36,6 +36,12 @@ class StateCityCubit extends Cubit<StateCityState> {
 
   Future selectState(String stateName) async {
     const t = 'selectState - StateCityCubit';
+    emit(
+      state.copyWith(
+        selectedCity: null,
+        cities: ApiResponseModel(data: [], response: ResponseEnum.initial),
+      ),
+    );
     if (state.states.data?.isEmpty == true) {
       pr("can't select state because the states list is empty", t);
       emit(

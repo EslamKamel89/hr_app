@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/custom_dropdown_widget.dart';
 import 'package:hr/features/companies/cubits/state_%20city_cubit/state_city_cubit.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
 
@@ -32,6 +32,7 @@ class StateCitySelectorWidget extends StatefulWidget {
 
 class _StateCitySelectorWidgetState extends State<StateCitySelectorWidget> {
   late final StateCityCubit _controller;
+  final PassByReference<String?> cityValue = PassByReference(null);
   @override
   void initState() {
     _controller = context.read<StateCityCubit>();
@@ -49,7 +50,7 @@ class _StateCitySelectorWidgetState extends State<StateCitySelectorWidget> {
       builder: (context, state) {
         return Column(
           children: [
-            DropDownWidget(
+            DropDownWidget2(
               options: (state.cities.data ?? []).map((e) => e.name ?? '').toList(),
               label: 'City',
               onSelect: (value) {
@@ -57,7 +58,8 @@ class _StateCitySelectorWidgetState extends State<StateCitySelectorWidget> {
               },
               hint: state.selectedState == null ? 'please select a State first ' : 'Select city',
               req: true,
-              initialValue: state.selectedCity?.name,
+              // initialValue: state.selectedCity?.name,
+              value: cityValue,
             ),
             FormVerticalGap(),
             DropDownWidget(
@@ -65,6 +67,7 @@ class _StateCitySelectorWidgetState extends State<StateCitySelectorWidget> {
               label: 'Emirate / State',
               hint: 'Select State',
               onSelect: (value) {
+                cityValue.data = null;
                 if (value != null) _controller.selectState(value);
               },
               initialValue: state.selectedState?.name,

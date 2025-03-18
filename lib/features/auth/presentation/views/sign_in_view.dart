@@ -4,7 +4,7 @@ import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/router/app_routes_names.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/auth_text_form_field.dart';
 import 'package:hr/features/auth/controllers/params/login_params.dart';
 import 'package:hr/features/auth/cubits/login_cubit.dart';
 import 'package:hr/features/auth/models/user_model.dart';
@@ -35,10 +35,9 @@ class _SignInViewState extends State<SignInView> {
       child: BlocConsumer<LoginCubit, ApiResponseModel<UserModel?>>(
         listener: (context, state) {
           if (state.response == ResponseEnum.success) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              AppRoutesNames.companiesView,
-              (_) => false,
-            );
+            Navigator.of(
+              context,
+            ).pushNamedAndRemoveUntil(AppRoutesNames.companiesView, (_) => false);
           }
         },
         builder: (context, state) {
@@ -132,17 +131,12 @@ class _SignInViewState extends State<SignInView> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 15,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: const Text(
-                                  "Sign in",
-                                  style: TextStyle(fontSize: 16),
-                                ),
+                                child: const Text("Sign in", style: TextStyle(fontSize: 16)),
                               ),
                           const SizedBox(height: 20),
                           const Row(
@@ -150,10 +144,7 @@ class _SignInViewState extends State<SignInView> {
                               Expanded(child: Divider(thickness: 1)),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  "OR",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
+                                child: Text("OR", style: TextStyle(color: Colors.grey)),
                               ),
                               Expanded(child: Divider(thickness: 1)),
                             ],
@@ -186,14 +177,9 @@ class _SignInViewState extends State<SignInView> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(
-                                    context,
-                                  ).pushNamed(AppRoutesNames.signUpView);
+                                  Navigator.of(context).pushNamed(AppRoutesNames.signUpView);
                                 },
-                                child: const Text(
-                                  "Sign Up",
-                                  style: TextStyle(color: Colors.blue),
-                                ),
+                                child: const Text("Sign Up", style: TextStyle(color: Colors.blue)),
                               ),
                             ],
                           ),

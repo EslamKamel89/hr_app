@@ -4,7 +4,7 @@ import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/widgets/collapsible_card.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/custom_text_form_field.dart';
 import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/upsert_main_department_cubit.dart';
 import 'package:hr/features/companies/helpers/get_company.dart';
@@ -33,10 +33,7 @@ class _AddMainDepartmentState extends State<AddMainDepartment> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UpsertMainDepartmentCubit(),
-      child: BlocBuilder<
-        UpsertMainDepartmentCubit,
-        ApiResponseModel<CompanyMainDepartmentModel>
-      >(
+      child: BlocBuilder<UpsertMainDepartmentCubit, ApiResponseModel<CompanyMainDepartmentModel>>(
         builder: (context, state) {
           final controller = context.read<UpsertMainDepartmentCubit>();
           return Form(

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/api_response_model.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/custom_text_form_field.dart';
 import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/company_contact_cubit.dart';
 import 'package:hr/features/companies/models/company_contact_model.dart';
@@ -59,10 +59,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 1,
-      child: BlocBuilder<
-        CompanyContactCubit,
-        ApiCrudResponseModel<CompanyContactModel>
-      >(
+      child: BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
         buildWhen: (previous, current) {
           return (previous.showResponse != ResponseEnum.success &&
               current.showResponse == ResponseEnum.success);
@@ -214,10 +211,7 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
                         ),
                   ),
                   SizedBox(height: 30),
-                  BlocBuilder<
-                    CompanyContactCubit,
-                    ApiCrudResponseModel<CompanyContactModel>
-                  >(
+                  BlocBuilder<CompanyContactCubit, ApiCrudResponseModel<CompanyContactModel>>(
                     builder: (context, state) {
                       if (state.upsertResponse == ResponseEnum.loading) {
                         return Center(child: CircularProgressIndicator());
@@ -243,10 +237,8 @@ class _CompanyContactFormState extends State<CompanyContactForm> {
   void _initializeFields() {
     _contactName.text = _controller.state.data?.contactName ?? '';
     _companyEmail.text = _controller.state.data?.companyEmail ?? '';
-    _primaryMobileNumber.text =
-        _controller.state.data?.primaryMobileNumber ?? '';
-    _secondaryMobileNumber.text =
-        _controller.state.data?.secondaryMobileNumber ?? '';
+    _primaryMobileNumber.text = _controller.state.data?.primaryMobileNumber ?? '';
+    _secondaryMobileNumber.text = _controller.state.data?.secondaryMobileNumber ?? '';
     _landlineNumber.text = _controller.state.data?.landlineNumber ?? '';
     _faxNumber.text = _controller.state.data?.faxNumber ?? '';
     _hrMobileNumber.text = _controller.state.data?.hrMobileNumber ?? '';

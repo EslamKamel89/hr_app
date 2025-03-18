@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
 import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
-import 'package:hr/core/widgets/inputs.dart';
+import 'package:hr/core/widgets/inputs/custom_text_form_field.dart';
 import 'package:hr/features/companies/cubits/company_address_cubit.dart';
 import 'package:hr/features/companies/presentation/froms/company_address_form/widgets/state_city_selector_widget.dart';
 import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
