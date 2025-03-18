@@ -13,7 +13,7 @@ class StateCityProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => StateCityCubit(),
-      child: StateCitySelectorWidget(selectedState: selectedState, selectedCity: selectedCity),
+      child: StateCitySelectorWidget(selectedStateId: selectedState, selectedCityId: selectedCity),
     );
   }
 }
@@ -21,31 +21,40 @@ class StateCityProvider extends StatelessWidget {
 class StateCitySelectorWidget extends StatefulWidget {
   const StateCitySelectorWidget({
     super.key,
-    required this.selectedState,
-    required this.selectedCity,
+    required this.selectedStateId,
+    required this.selectedCityId,
   });
-  final PassByReference<int?> selectedCity;
-  final PassByReference<int?> selectedState;
+  final PassByReference<int?> selectedCityId;
+  final PassByReference<int?> selectedStateId;
   @override
   State<StateCitySelectorWidget> createState() => _StateCitySelectorWidgetState();
 }
 
 class _StateCitySelectorWidgetState extends State<StateCitySelectorWidget> {
   late final StateCityCubit _controller;
-  final PassByReference<String?> cityValue = PassByReference(null);
   @override
   void initState() {
     _controller = context.read<StateCityCubit>();
-    _controller.fetchStates();
+    _initialize();
     super.initState();
+  }
+
+  Future _initialize() async {
+    await _controller.fetchStates();
+    if (widget.selectedStateId.data == null) return;
+    await _controller.selectState(stateId: widget.selectedStateId.data);
+    if (widget.selectedCityId.data != null) {
+      await _controller.selectCity(cityId: widget.selectedCityId.data);
+    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<StateCityCubit, StateCityState>(
       listener: (context, state) {
-        widget.selectedState.data = state.selectedState?.id;
-        widget.selectedCity.data = state.selectedCity?.id;
+        widget.selectedStateId.data = state.selectedState?.id;
+        widget.selectedCityId.data = state.selectedCity?.id;
       },
       builder: (context, state) {
         return Column(
@@ -54,23 +63,22 @@ class _StateCitySelectorWidgetState extends State<StateCitySelectorWidget> {
               options: (state.cities.data ?? []).map((e) => e.name ?? '').toList(),
               label: 'City',
               onSelect: (value) {
-                if (value != null) _controller.selectCity(value);
+                if (value != null) _controller.selectCity(cityName: value);
               },
               hint: state.selectedState == null ? 'please select a State first ' : 'Select city',
               req: true,
-              // initialValue: state.selectedCity?.name,
-              value: cityValue,
+              value: _controller.selectedCityName,
             ),
             FormVerticalGap(),
-            DropDownWidget(
+            DropDownWidget2(
               options: (state.states.data ?? []).map((e) => e.name ?? '').toList(),
               label: 'Emirate / State',
               hint: 'Select State',
               onSelect: (value) {
-                cityValue.data = null;
-                if (value != null) _controller.selectState(value);
+                _controller.selectedCityName.data = null;
+                if (value != null) _controller.selectState(stateName: value);
               },
-              initialValue: state.selectedState?.name,
+              value: _controller.selectedStateName,
               req: true,
             ),
           ],

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/heleprs/print_helper.dart';
 import 'package:hr/core/heleprs/validator.dart';
+import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/core/widgets/inputs/custom_text_form_field.dart';
+import 'package:hr/core/widgets/save_button.dart';
 import 'package:hr/features/companies/cubits/company_address_cubit.dart';
+import 'package:hr/features/companies/models/company_address_model.dart';
 import 'package:hr/features/companies/presentation/froms/company_address_form/widgets/state_city_selector_widget.dart';
 import 'package:hr/features/companies/presentation/widgets/basic_info_filled_widget.dart';
 import 'package:hr/features/companies/presentation/widgets/form_vertical_gap.dart';
@@ -43,11 +48,10 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
   final PassByReference<int?> selectedOperationalState = PassByReference(null);
   late final CompanyAddressCubit _controller;
   final _formKey = GlobalKey<FormState>();
-  bool isTheSame = false;
   @override
   void initState() {
     _controller = context.read<CompanyAddressCubit>();
-    // _controller.contactShow(context);
+    _controller.addressShow(context);
     super.initState();
   }
 
@@ -61,139 +65,166 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 2,
-      child: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 20),
-              SectionTitle(title: 'Registered Address'),
-              FormVerticalGap(),
-              CustomTextFormField(
-                label: 'Building / Office Name',
-                placeholder: 'Enter Building / Office Name',
-                controller: registeredBuildingOfficeName,
-                validator:
-                    (input) => valdiator(
-                      input: input,
-                      label: 'Building / Office Name',
-                      isRequired: true,
-                      minChars: 5,
-                      maxChars: 50,
-                    ),
-              ),
-              FormVerticalGap(),
-              CustomTextFormField(
-                label: 'Street Address:',
-                placeholder: 'Enter Street Address:',
-                controller: registeredStreetAddress,
-                validator:
-                    (input) => valdiator(
-                      input: input,
-                      label: 'Street Address:',
-                      isRequired: true,
-                      minChars: 5,
-                      maxChars: 50,
-                    ),
-              ),
-              FormVerticalGap(),
-              StateCityProvider(
-                selectedState: selectedRegisteredState,
-                selectedCity: selectedRegisteredCity,
-              ),
-              FormVerticalGap(),
-              CustomTextFormField(
-                label: 'Po Box',
-                placeholder: 'Enter Po Box',
-                controller: registeredPoBox,
-                validator:
-                    (input) => valdiator(
-                      input: input,
-                      label: 'Po Box',
-                      isRequired: true,
-                      minChars: 5,
-                      maxChars: 50,
-                    ),
-              ),
-              FormVerticalGap(),
-              Transform.translate(
-                offset: Offset(-10, 0),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: isTheSame,
-                      onChanged: (value) {
-                        setState(() {
-                          isTheSame = !isTheSame;
-                        });
-                      },
-                      activeColor: context.primaryColor,
-                    ),
-                    Flexible(
-                      child: txt('Operational Address Same as Registered Address', e: St.bold16),
-                    ),
-                  ],
-                ),
-              ),
-              FormVerticalGap(),
-              if (!isTheSame)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SectionTitle(title: 'Operational Address'),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Building / Office Name',
-                      placeholder: 'Enter Building / Office Name',
-                      controller: operationalBuildingOfficeName,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Building / Office Name',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
+      child: BlocBuilder<CompanyAddressCubit, ApiCrudResponseModel<CompanyAddressModel>>(
+        buildWhen: (previous, current) {
+          return (previous.showResponse != ResponseEnum.success &&
+              current.showResponse == ResponseEnum.success);
+        },
+        builder: (context, state) {
+          _initializeFields();
+          return Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  SectionTitle(title: 'Registered Address'),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Building / Office Name',
+                    placeholder: 'Enter Building / Office Name',
+                    controller: registeredBuildingOfficeName,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Building / Office Name',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Street Address:',
+                    placeholder: 'Enter Street Address:',
+                    controller: registeredStreetAddress,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Street Address:',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  StateCityProvider(
+                    selectedState: selectedRegisteredState,
+                    selectedCity: selectedRegisteredCity,
+                  ),
+                  FormVerticalGap(),
+                  CustomTextFormField(
+                    label: 'Po Box',
+                    placeholder: 'Enter Po Box',
+                    controller: registeredPoBox,
+                    validator:
+                        (input) => valdiator(
+                          input: input,
+                          label: 'Po Box',
+                          isRequired: true,
+                          minChars: 5,
+                          maxChars: 50,
+                        ),
+                  ),
+                  FormVerticalGap(),
+                  Transform.translate(
+                    offset: Offset(-10, 0),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: _controller.isTheSame,
+                          onChanged: (value) {
+                            setState(() {
+                              _controller.isTheSame = !_controller.isTheSame;
+                            });
+                          },
+                          activeColor: context.primaryColor,
+                        ),
+                        Flexible(
+                          child: txt(
+                            'Operational Address Same as Registered Address',
+                            e: St.bold16,
                           ),
+                        ),
+                      ],
                     ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Street Address:',
-                      placeholder: 'Enter Street Address:',
-                      controller: operationalStreetAddress,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Street Address:',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
+                  ),
+                  FormVerticalGap(),
+                  if (!_controller.isTheSame)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SectionTitle(title: 'Operational Address'),
+                        FormVerticalGap(),
+                        CustomTextFormField(
+                          label: 'Building / Office Name',
+                          placeholder: 'Enter Building / Office Name',
+                          controller: operationalBuildingOfficeName,
+                          validator:
+                              (input) => valdiator(
+                                input: input,
+                                label: 'Building / Office Name',
+                                isRequired: true,
+                                minChars: 5,
+                                maxChars: 50,
+                              ),
+                        ),
+                        FormVerticalGap(),
+                        CustomTextFormField(
+                          label: 'Street Address:',
+                          placeholder: 'Enter Street Address:',
+                          controller: operationalStreetAddress,
+                          validator:
+                              (input) => valdiator(
+                                input: input,
+                                label: 'Street Address:',
+                                isRequired: true,
+                                minChars: 5,
+                                maxChars: 50,
+                              ),
+                        ),
+                        FormVerticalGap(),
+                        StateCityProvider(
+                          selectedState: selectedOperationalState,
+                          selectedCity: selectedOperationalCity,
+                        ),
+                        FormVerticalGap(),
+                        CustomTextFormField(
+                          label: 'Po Box',
+                          placeholder: 'Enter Po Box',
+                          controller: operationalPoBox,
+                          validator:
+                              (input) => valdiator(
+                                input: input,
+                                label: 'Po Box',
+                                isRequired: true,
+                                minChars: 5,
+                                maxChars: 50,
+                              ),
+                        ),
+                      ],
                     ),
-                    FormVerticalGap(),
-                    StateCityProvider(
-                      selectedState: selectedOperationalState,
-                      selectedCity: selectedOperationalCity,
-                    ),
-                    FormVerticalGap(),
-                    CustomTextFormField(
-                      label: 'Po Box',
-                      placeholder: 'Enter Po Box',
-                      controller: operationalPoBox,
-                      validator:
-                          (input) => valdiator(
-                            input: input,
-                            label: 'Po Box',
-                            isRequired: true,
-                            minChars: 5,
-                            maxChars: 50,
-                          ),
-                    ),
-                  ],
-                ),
-            ],
-          ),
-        ),
+                  SizedBox(height: 30),
+                  BlocBuilder<CompanyAddressCubit, ApiCrudResponseModel<CompanyAddressModel>>(
+                    builder: (context, state) {
+                      if (state.upsertResponse == ResponseEnum.loading) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      return SaveButton(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          _sendRequest();
+                        },
+                      );
+                    },
+                  ),
+                  SizedBox(height: 300),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -206,6 +237,10 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
         _controller.state.data?.operationalBuildingOfficeName ?? '';
     operationalStreetAddress.text = _controller.state.data?.operationalStreetAddress ?? '';
     operationalPoBox.text = _controller.state.data?.operationalPoBox ?? '';
+    selectedRegisteredState.data = _controller.state.data?.registeredEmirateState;
+    selectedRegisteredCity.data = _controller.state.data?.registeredCity;
+    selectedOperationalState.data = _controller.state.data?.operationalEmirateState;
+    selectedOperationalCity.data = _controller.state.data?.operationalCity;
   }
 
   void _disposeControllers() {
@@ -219,20 +254,21 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
 
   Future _sendRequest() async {
     if (_formKey.currentState!.validate()) {
-      // _controller.contactUpsert(
-      //   context,
-      //   CompanyContactModel(
-      //     contactName: _contactName.text,
-      //     companyEmail: _companyEmail.text,
-      //     primaryMobileNumber: _primaryMobileNumber.text,
-      //     secondaryMobileNumber: _secondaryMobileNumber.text,
-      //     landlineNumber: _landlineNumber.text,
-      //     faxNumber: _faxNumber.text,
-      //     hrMobileNumber: _hrMobileNumber.text,
-      //     hrLandlineNumber: _hrLandlineNumber.text,
-      //     hrEmail: _hrEmail.text,
-      //   ),
-      // );
+      final address = CompanyAddressModel(
+        registeredBuildingOfficeName: registeredBuildingOfficeName.text,
+        registeredStreetAddress: registeredStreetAddress.text,
+        registeredCity: selectedRegisteredCity.data,
+        registeredEmirateState: selectedRegisteredState.data,
+        registeredPoBox: registeredPoBox.text,
+        operationalBuildingOfficeName: operationalBuildingOfficeName.text,
+        operationalStreetAddress: operationalStreetAddress.text,
+        operationalCity: selectedOperationalCity.data,
+        operationalEmirateState: selectedOperationalState.data,
+        operationalPoBox: operationalPoBox.text,
+        addressSame: _controller.isTheSame ? 'yes' : 'no',
+      );
+      pr(address, 'address params');
+      _controller.addressUpsert(context, address);
     }
   }
 }

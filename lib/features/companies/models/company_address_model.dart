@@ -41,20 +41,19 @@ class CompanyAddressModel {
   factory CompanyAddressModel.fromJson(Map<String, dynamic> json) {
     return CompanyAddressModel(
       id: json['id'] as int?,
-      registeredBuildingOfficeName:
-          json['registered_building_office_name'] as String?,
+      registeredBuildingOfficeName: json['registered_building_office_name'] as String?,
       registeredStreetAddress: json['registered_street_address'] as String?,
       registeredCity: json['registered_city'] as int?,
       registeredEmirateState: json['registered_emirate_state'] as int?,
       registeredPoBox: json['registered_po_box'] as String?,
-      operationalBuildingOfficeName:
-          json['operational_building_office_name'] as String?,
+      operationalBuildingOfficeName: json['operational_building_office_name'] as String?,
       operationalStreetAddress: json['operational_street_address'] as String?,
       operationalCity: json['operational_city'] as int?,
       operationalEmirateState: json['operational_emirate_state'] as int?,
       operationalPoBox: json['operational_po_box'] as String?,
       addressSame: json['address_same'] as String?,
-      companyBasicId: json['company_basic_id'] as int?,
+      companyBasicId:
+          json['company_basic_id'] == null ? null : int.parse(json['company_basic_id'].toString()),
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
     );
@@ -99,19 +98,15 @@ class CompanyAddressModel {
       id: id ?? this.id,
       registeredBuildingOfficeName:
           registeredBuildingOfficeName ?? this.registeredBuildingOfficeName,
-      registeredStreetAddress:
-          registeredStreetAddress ?? this.registeredStreetAddress,
+      registeredStreetAddress: registeredStreetAddress ?? this.registeredStreetAddress,
       registeredCity: registeredCity ?? this.registeredCity,
-      registeredEmirateState:
-          registeredEmirateState ?? this.registeredEmirateState,
+      registeredEmirateState: registeredEmirateState ?? this.registeredEmirateState,
       registeredPoBox: registeredPoBox ?? this.registeredPoBox,
       operationalBuildingOfficeName:
           operationalBuildingOfficeName ?? this.operationalBuildingOfficeName,
-      operationalStreetAddress:
-          operationalStreetAddress ?? this.operationalStreetAddress,
+      operationalStreetAddress: operationalStreetAddress ?? this.operationalStreetAddress,
       operationalCity: operationalCity ?? this.operationalCity,
-      operationalEmirateState:
-          operationalEmirateState ?? this.operationalEmirateState,
+      operationalEmirateState: operationalEmirateState ?? this.operationalEmirateState,
       operationalPoBox: operationalPoBox ?? this.operationalPoBox,
       addressSame: addressSame ?? this.addressSame,
       companyBasicId: companyBasicId ?? this.companyBasicId,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
+import 'package:hr/core/heleprs/validator.dart';
 import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/utils/styles/styles.dart';
 
@@ -126,6 +127,9 @@ class _DropDownWidget2State extends State<DropDownWidget2> {
           decoration: _decoration(widget.label),
           hint: widget.hint == null ? null : txt(widget.hint!),
           value: widget.value.data,
+          validator:
+              (input) =>
+                  widget.req ? valdiator(input: input, label: 'Field', isRequired: true) : null,
           items:
               widget.options
                   .map((option) => DropdownMenuItem<String>(value: option, child: txt(option)))

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/heleprs/print_helper.dart';
 import 'package:hr/core/models/api_response_model.dart';
+import 'package:hr/core/models/pass_by_reference.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
 import 'package:hr/features/companies/controllers/state_city_controller.dart';
 import 'package:hr/features/companies/models/city_model.dart';
@@ -11,6 +12,9 @@ part 'state_city_state.dart';
 
 class StateCityCubit extends Cubit<StateCityState> {
   final StateCityController controller = serviceLocator();
+  final PassByReference<String?> selectedCityName = PassByReference(null);
+  final PassByReference<String?> selectedStateName = PassByReference(null);
+
   StateCityCubit()
     : super(
         StateCityState(
@@ -34,7 +38,7 @@ class StateCityCubit extends Cubit<StateCityState> {
     emit(state.copyWith(states: states));
   }
 
-  Future selectState(String stateName) async {
+  Future selectState({String? stateName, int? stateId}) async {
     const t = 'selectState - StateCityCubit';
     emit(
       state.copyWith(
@@ -52,9 +56,15 @@ class StateCityCubit extends Cubit<StateCityState> {
       );
       return;
     }
-    final selectedState = state.states.data?.where((e) => e.name == stateName).firstOrNull;
+    final selectedState =
+        state.states.data
+            ?.where((e) => stateName != null ? e.name == stateName : e.id == stateId)
+            .firstOrNull;
+    selectedStateName.data = selectedState?.name;
+    pr(selectedState, '$t - model');
+
     emit(state.copyWith(selectedState: selectedState));
-    _fetchCities();
+    await _fetchCities();
   }
 
   Future _fetchCities() async {
@@ -71,15 +81,21 @@ class StateCityCubit extends Cubit<StateCityState> {
     emit(state.copyWith(cities: cities));
   }
 
-  Future selectCity(String cityName) async {
+  Future selectCity({String? cityName, int? cityId}) async {
     const t = 'selectCity - StateCityCubit';
     if (state.cities.data?.isEmpty == true) {
       pr("can't select city because the cities list is empty", t);
       emit(state.copyWith(selectedCity: null));
       return;
     }
-    final selectedCity = state.cities.data?.where((e) => e.name == cityName).firstOrNull;
+
+    final selectedCity =
+        state.cities.data
+            ?.where((e) => cityName != null ? e.name == cityName : e.id == cityId)
+            .firstOrNull;
+    selectedCityName.data = selectedCity?.name;
+    pr(selectedCity, '$t - model');
     emit(state.copyWith(selectedCity: selectedCity));
-    _fetchCities();
+    await _fetchCities();
   }
 }
