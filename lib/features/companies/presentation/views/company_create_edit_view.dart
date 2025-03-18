@@ -9,7 +9,7 @@ import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
-import 'package:hr/features/companies/presentation/froms/company_address_form.dart';
+import 'package:hr/features/companies/presentation/froms/company_address_form/company_address_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_attachment_form/company_attachment_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_bank_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_basic_form.dart';
@@ -68,10 +68,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
           return MainScaffold(
             appBarTitleWidget: BlocBuilder<CompanyFormCubit, CompanyFormState>(
               builder: (context, state) {
-                return Text(
-                  controller.state.company?.data?.companyName ??
-                      'Create company',
-                );
+                return Text(controller.state.company?.data?.companyName ?? 'Create company');
               },
             ),
             resizeToAvoidBottomInset: false,
@@ -113,10 +110,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
                           )
                           .map((tab) {
                             return Center(
-                              child: Text(
-                                    "Content for $tab",
-                                    style: TextStyle(fontSize: 20),
-                                  )
+                              child: Text("Content for $tab", style: TextStyle(fontSize: 20))
                                   .animate()
                                   .fadeIn(duration: Duration(milliseconds: 500))
                                   .slide(
