@@ -20,8 +20,12 @@ class CompanyAttachmentsParams {
   });
   Future<Map<String, dynamic>> toJson() async => {
     'trade_license': await uploadFileImageToApi(tradeLicense),
-    'owner_emirate_id_front_copy': await uploadFileImageToApi(ownerEmirateIdFrontCopy),
-    'owner_emirate_id_back_copy': await uploadFileImageToApi(ownerEmirateIdBackCopy),
+    'owner_emirate_id_front_copy': await uploadFileImageToApi(
+      ownerEmirateIdFrontCopy,
+    ),
+    'owner_emirate_id_back_copy': await uploadFileImageToApi(
+      ownerEmirateIdBackCopy,
+    ),
     'owner_passport_copy': await uploadFileImageToApi(ownerPassportCopy),
     'vat_registeration_certificate_copy': await uploadFileImageToApi(
       vatRegisterationCertificateCopy,

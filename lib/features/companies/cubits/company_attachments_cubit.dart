@@ -9,7 +9,8 @@ import 'package:hr/features/companies/controllers/params/company_attachments_par
 import 'package:hr/features/companies/helpers/get_company.dart';
 import 'package:hr/features/companies/models/company_attachments_model.dart';
 
-class CompanyAttachmentsCubit extends Cubit<ApiCrudResponseModel<CompanyAttachmentsModel>> {
+class CompanyAttachmentsCubit
+    extends Cubit<ApiCrudResponseModel<CompanyAttachmentsModel>> {
   CompanyFormController controller = serviceLocator();
   CompanyAttachmentsCubit() : super(ApiCrudResponseModel.initial());
   Future attachmentsShow(BuildContext context) async {
@@ -35,7 +36,10 @@ class CompanyAttachmentsCubit extends Cubit<ApiCrudResponseModel<CompanyAttachme
     }
   }
 
-  Future attachmentUpsert(BuildContext context, CompanyAttachmentsParams params) async {
+  Future attachmentUpsert(
+    BuildContext context,
+    CompanyAttachmentsParams params,
+  ) async {
     final t = prt('attachmentUpsert - CompanyAttachmentsCubit');
     final company = getCompany(context);
     if (company == null || company.id == null) {
@@ -51,7 +55,10 @@ class CompanyAttachmentsCubit extends Cubit<ApiCrudResponseModel<CompanyAttachme
       ),
     );
     pr('Loading....', t);
-    final attachmentRes = await controller.attachmentUpsert(company.id!, params);
+    final attachmentRes = await controller.attachmentUpsert(
+      company.id!,
+      params,
+    );
     pr(attachmentRes, t);
     emit(attachmentRes);
   }

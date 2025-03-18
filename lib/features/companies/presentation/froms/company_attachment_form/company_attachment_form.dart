@@ -39,8 +39,10 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
   final PassByReference<File?> _ownerEmirateIdFrontCopy = PassByReference(null);
   final PassByReference<File?> _ownerEmirateIdBackCopy = PassByReference(null);
   final PassByReference<File?> _ownerPassportCopy = PassByReference(null);
-  final PassByReference<File?> _vatRegisterationCertificateCopy = PassByReference(null);
-  final PassByReference<File?> _chamberOfCommerceCertificateCopy = PassByReference(null);
+  final PassByReference<File?> _vatRegisterationCertificateCopy =
+      PassByReference(null);
+  final PassByReference<File?> _chamberOfCommerceCertificateCopy =
+      PassByReference(null);
   @override
   void initState() {
     _controller = context.read<CompanyAttachmentsCubit>();
@@ -57,7 +59,10 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
   Widget build(BuildContext context) {
     return CompanyBasicInfoFilledWidget(
       currentTab: 2,
-      child: BlocBuilder<CompanyAttachmentsCubit, ApiCrudResponseModel<CompanyAttachmentsModel>>(
+      child: BlocBuilder<
+        CompanyAttachmentsCubit,
+        ApiCrudResponseModel<CompanyAttachmentsModel>
+      >(
         builder: (context, state) {
           return SingleChildScrollView(
             child: Column(
@@ -67,7 +72,8 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
                 UploadFileWidget(
                   label: 'Trade License',
                   file: _tradeLicense,
-                  path: "${EndPoint.uploadUrl}${state.data?.getPath()}${state.data?.tradeLicense}",
+                  path:
+                      "${EndPoint.uploadUrl}${state.data?.getPath()}${state.data?.tradeLicense}",
                 ),
                 FormVerticalGap(),
                 UploadFileWidget(
@@ -101,7 +107,10 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
                       "${EndPoint.uploadUrl}${state.data?.getPath()}${state.data?.chamberOfCommerceCertificateCopy}",
                 ),
                 SizedBox(height: 30),
-                BlocBuilder<CompanyAttachmentsCubit, ApiCrudResponseModel<CompanyAttachmentsModel>>(
+                BlocBuilder<
+                  CompanyAttachmentsCubit,
+                  ApiCrudResponseModel<CompanyAttachmentsModel>
+                >(
                   builder: (context, state) {
                     if (state.upsertResponse == ResponseEnum.loading) {
                       return Center(child: CircularProgressIndicator());
@@ -131,7 +140,8 @@ class _CompanyAttachmentsFormState extends State<CompanyAttachmentsForm> {
         ownerEmirateIdBackCopy: _ownerEmirateIdBackCopy.data,
         ownerPassportCopy: _ownerPassportCopy.data,
         vatRegisterationCertificateCopy: _vatRegisterationCertificateCopy.data,
-        chamberOfCommerceCertificateCopy: _chamberOfCommerceCertificateCopy.data,
+        chamberOfCommerceCertificateCopy:
+            _chamberOfCommerceCertificateCopy.data,
       ),
     );
   }
