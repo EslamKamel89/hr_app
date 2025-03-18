@@ -9,8 +9,9 @@ const _doneTodos = [
   "connecting the company bank details with the backedn",
   "crate the ui for the attachment",
   "connect the attachment section with the backend",
+  "create the ui for  address ",
 ];
 const _todo = [
-  "create the ui for  address and additional info page",
-  "fix the ui for the inputs and elevated buttons in production bug",
+  "connect the address to the backend "
+      "fix the ui for the inputs and elevated buttons in production bug",
 ];

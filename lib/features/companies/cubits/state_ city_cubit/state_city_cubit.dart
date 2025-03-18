@@ -34,7 +34,7 @@ class StateCityCubit extends Cubit<StateCityState> {
     emit(state.copyWith(states: states));
   }
 
-  Future selectState(int stateId) async {
+  Future selectState(String stateName) async {
     const t = 'selectState - StateCityCubit';
     if (state.states.data?.isEmpty == true) {
       pr("can't select state because the states list is empty", t);
@@ -46,7 +46,7 @@ class StateCityCubit extends Cubit<StateCityState> {
       );
       return;
     }
-    final selectedState = state.states.data?.where((e) => e.id == stateId).firstOrNull;
+    final selectedState = state.states.data?.where((e) => e.name == stateName).firstOrNull;
     emit(state.copyWith(selectedState: selectedState));
     _fetchCities();
   }
@@ -65,14 +65,14 @@ class StateCityCubit extends Cubit<StateCityState> {
     emit(state.copyWith(cities: cities));
   }
 
-  Future selectCity(int cityId) async {
+  Future selectCity(String cityName) async {
     const t = 'selectCity - StateCityCubit';
     if (state.cities.data?.isEmpty == true) {
       pr("can't select city because the cities list is empty", t);
       emit(state.copyWith(selectedCity: null));
       return;
     }
-    final selectedCity = state.cities.data?.where((e) => e.id == cityId).firstOrNull;
+    final selectedCity = state.cities.data?.where((e) => e.name == cityName).firstOrNull;
     emit(state.copyWith(selectedCity: selectedCity));
     _fetchCities();
   }

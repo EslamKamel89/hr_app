@@ -98,7 +98,10 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
                     ),
               ),
               FormVerticalGap(),
-              StateCitySelectorWidget(selectedRegisteredState, selectedRegisteredCity),
+              StateCityProvider(
+                selectedState: selectedRegisteredState,
+                selectedCity: selectedRegisteredCity,
+              ),
               FormVerticalGap(),
               CustomTextFormField(
                 label: 'Po Box',
@@ -168,7 +171,10 @@ class _CompanyAddressFormState extends State<CompanyAddressForm> {
                           ),
                     ),
                     FormVerticalGap(),
-                    StateCitySelectorWidget(selectedOperationalState, selectedOperationalCity),
+                    StateCityProvider(
+                      selectedState: selectedOperationalState,
+                      selectedCity: selectedOperationalCity,
+                    ),
                     FormVerticalGap(),
                     CustomTextFormField(
                       label: 'Po Box',
