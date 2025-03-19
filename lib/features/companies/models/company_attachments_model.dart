@@ -1,3 +1,5 @@
+import 'package:hr/core/api_service/end_points.dart';
+
 class CompanyAttachmentsModel {
   int? id;
   String? tradeLicense;
@@ -37,10 +39,8 @@ class CompanyAttachmentsModel {
       ownerEmirateIdFrontCopy: json['owner_emirate_id_front_copy'] as String?,
       ownerEmirateIdBackCopy: json['owner_emirate_id_back_copy'] as String?,
       ownerPassportCopy: json['owner_passport_copy'] as String?,
-      vatRegisterationCertificateCopy:
-          json['vat_registeration_certificate_copy'] as String?,
-      chamberOfCommerceCertificateCopy:
-          json['chamber_of_commerce_certificate_copy'] as String?,
+      vatRegisterationCertificateCopy: json['vat_registeration_certificate_copy'] as String?,
+      chamberOfCommerceCertificateCopy: json['chamber_of_commerce_certificate_copy'] as String?,
       companyBasicId: json['company_basic_id'] as int?,
       path: json['path'] as String?,
       createdAt: json['created_at'] as String?,
@@ -78,17 +78,13 @@ class CompanyAttachmentsModel {
     return CompanyAttachmentsModel(
       id: id ?? this.id,
       tradeLicense: tradeLicense ?? this.tradeLicense,
-      ownerEmirateIdFrontCopy:
-          ownerEmirateIdFrontCopy ?? this.ownerEmirateIdFrontCopy,
-      ownerEmirateIdBackCopy:
-          ownerEmirateIdBackCopy ?? this.ownerEmirateIdBackCopy,
+      ownerEmirateIdFrontCopy: ownerEmirateIdFrontCopy ?? this.ownerEmirateIdFrontCopy,
+      ownerEmirateIdBackCopy: ownerEmirateIdBackCopy ?? this.ownerEmirateIdBackCopy,
       ownerPassportCopy: ownerPassportCopy ?? this.ownerPassportCopy,
       vatRegisterationCertificateCopy:
-          vatRegisterationCertificateCopy ??
-          this.vatRegisterationCertificateCopy,
+          vatRegisterationCertificateCopy ?? this.vatRegisterationCertificateCopy,
       chamberOfCommerceCertificateCopy:
-          chamberOfCommerceCertificateCopy ??
-          this.chamberOfCommerceCertificateCopy,
+          chamberOfCommerceCertificateCopy ?? this.chamberOfCommerceCertificateCopy,
       companyBasicId: companyBasicId ?? this.companyBasicId,
       path: path ?? this.path,
       createdAt: createdAt ?? this.createdAt,
@@ -97,6 +93,6 @@ class CompanyAttachmentsModel {
   }
 
   String? getPath() {
-    return path?.split('public/').last;
+    return "${EndPoint.uploadUrl}${path?.split('public/').last}$tradeLicense";
   }
 }
