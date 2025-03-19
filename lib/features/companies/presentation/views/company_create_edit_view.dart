@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hr/core/enums/response_type.dart';
 import 'package:hr/core/extensions/context-extensions.dart';
@@ -9,6 +8,7 @@ import 'package:hr/core/widgets/main_scaffold.dart';
 import 'package:hr/features/companies/cubits/companies_index_cubit.dart';
 import 'package:hr/features/companies/cubits/company_form/company_form_cubit.dart';
 import 'package:hr/features/companies/models/company_model.dart';
+import 'package:hr/features/companies/presentation/froms/company_additional_info_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_address_form/company_address_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_attachment_form/company_attachment_form.dart';
 import 'package:hr/features/companies/presentation/froms/company_bank_form.dart';
@@ -95,30 +95,7 @@ class _ComapanyCreateEditViewState extends State<ComapanyCreateEditView>
                       CompanyBankProvider(),
                       CompanyLegalProvider(),
                       CompanyAttachmentProvider(),
-                      ...tabs
-                          .where(
-                            (tab) =>
-                                ![
-                                  'Basic',
-                                  'Contact',
-                                  'Address',
-                                  "Departments",
-                                  "Bank Details",
-                                  "Legal Details",
-                                  "Attachments",
-                                ].contains(tab),
-                          )
-                          .map((tab) {
-                            return Center(
-                              child: Text("Content for $tab", style: TextStyle(fontSize: 20))
-                                  .animate()
-                                  .fadeIn(duration: Duration(milliseconds: 500))
-                                  .slide(
-                                    begin: Offset(0, 0.1),
-                                    duration: Duration(milliseconds: 500),
-                                  ),
-                            );
-                          }),
+                      CompanyAdditionalProvider(),
                     ],
                   ),
                 ),

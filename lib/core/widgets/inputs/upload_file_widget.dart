@@ -94,16 +94,19 @@ class _UploadFileWidgetState extends State<UploadFileWidget> {
                     ),
                   ],
                 )
-                : InkWell(
-                  onTap: _pickImage,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: context.primaryColor,
+                : Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: _pickImage,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: context.primaryColor,
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      child: txt('Upload', e: St.bold18, c: Colors.white),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                    child: txt('Upload', e: St.bold18, c: Colors.white),
                   ),
                 ),
             SizedBox(height: 20),

@@ -13,4 +13,5 @@ class EndPoint {
   static const String states = "$baseUrl/states-api";
   static const String cities = "$baseUrl/cities-api";
   static const String companyAddress = "$baseUrl/apicompany-address";
+  static const String companyAdditionalInfo = "$baseUrl/apicompanies-additional";
 }

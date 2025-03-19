@@ -6,7 +6,9 @@ import 'package:hr/core/heleprs/print_helper.dart';
 import 'package:hr/core/heleprs/snackbar.dart';
 import 'package:hr/core/models/api_response_model.dart';
 import 'package:hr/core/service_locator/service_locator.dart';
+import 'package:hr/features/companies/controllers/params/company_additional_info_params.dart';
 import 'package:hr/features/companies/controllers/params/company_attachments_params.dart';
+import 'package:hr/features/companies/models/company_additional_info_model.dart';
 import 'package:hr/features/companies/models/company_address_model.dart';
 import 'package:hr/features/companies/models/company_attachments_model.dart';
 import 'package:hr/features/companies/models/company_bank_model.dart';
@@ -342,22 +344,76 @@ class CompanyFormController {
     CompanyAddressModel address,
   ) async {
     final t = prt('addressUpsert - CompanyFormController ');
-    // try {
-    final response = await api.put('${EndPoint.companyAddress}/$companyId', data: address.toJson());
-    CompanyAddressModel companyAddressModel = CompanyAddressModel.fromJson(
-      response['company_addresses'],
-    );
-    showSnackbar('Success', 'Data Saved Successfully', false);
-    return pr(
-      ApiCrudResponseModel(upsertResponse: ResponseEnum.success, data: companyAddressModel),
-      t,
-    );
-    // } catch (e) {
-    //   String errorMessage = handeException(e);
-    //   return pr(
-    //     ApiCrudResponseModel(errorMessage: errorMessage, upsertResponse: ResponseEnum.failed),
-    //     t,
-    //   );
-    // }
+    try {
+      final response = await api.put(
+        '${EndPoint.companyAddress}/$companyId',
+        data: address.toJson(),
+      );
+      CompanyAddressModel companyAddressModel = CompanyAddressModel.fromJson(
+        response['company_addresses'],
+      );
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(upsertResponse: ResponseEnum.success, data: companyAddressModel),
+        t,
+      );
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(errorMessage: errorMessage, upsertResponse: ResponseEnum.failed),
+        t,
+      );
+    }
+  }
+
+  Future<ApiCrudResponseModel<CompanyAdditionalInfoModel>> additionalInfoShow(int companyId) async {
+    final t = prt('additionalInfoShow - CompanyFormController ');
+    try {
+      final response = await api.get('${EndPoint.companyAdditionalInfo}/$companyId');
+      CompanyAdditionalInfoModel companyAdditinalInfoModel = CompanyAdditionalInfoModel.fromJson(
+        response['companyAdditionalInfo'],
+      );
+      // showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(showResponse: ResponseEnum.success, data: companyAdditinalInfoModel),
+        t,
+      );
+    } catch (e) {
+      // String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(errorMessage: 'No data found', showResponse: ResponseEnum.failed),
+        t,
+      );
+    }
+  }
+
+  Future<ApiCrudResponseModel<CompanyAdditionalInfoModel>> additionalInfoUpsert(
+    CompanyAdditionalInfoParams params,
+  ) async {
+    final t = prt('additionalInfoUpsert - CompanyFormController ');
+    try {
+      final response = await api.post(
+        EndPoint.companyAdditionalInfo,
+        isFormData: true,
+        data: await params.toJson(),
+      );
+      CompanyAdditionalInfoModel companyAdditionalInfoModel = CompanyAdditionalInfoModel.fromJson(
+        response['companyAdditionalInfo'],
+      );
+      showSnackbar('Success', 'Data Saved Successfully', false);
+      return pr(
+        ApiCrudResponseModel(
+          upsertResponse: ResponseEnum.success,
+          data: companyAdditionalInfoModel,
+        ),
+        t,
+      );
+    } catch (e) {
+      String errorMessage = handeException(e);
+      return pr(
+        ApiCrudResponseModel(errorMessage: errorMessage, upsertResponse: ResponseEnum.failed),
+        t,
+      );
+    }
   }
 }
