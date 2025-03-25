@@ -24,7 +24,7 @@ class StateCityController {
     }
   }
 
-  Future<ApiResponseModel<List<CityModel>>> cities(int stateId) async {
+  Future<ApiResponseModel<List<CityModel>>> cities(int? stateId) async {
     final t = prt('cities - StateCityController');
     try {
       final response = await api.get('${EndPoint.cities}/$stateId');
